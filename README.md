@@ -1,0 +1,1 @@
+TThe purpose of this app is test new capabilities of Grails 2.4 and the javascript framework AngularJS
