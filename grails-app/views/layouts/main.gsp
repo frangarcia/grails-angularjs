@@ -31,9 +31,9 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li ng-class="{active: routeIs('/todo')}"><a href="#/todo">Todos</a></li>
-                        <li ng-class="{active: routeIs('/tag')}"><a href="#/tag">Tags</a></li>
-                        <li ng-class="{active: routeIs('/todolist')}"><a href="#/todolist">Todo Lists</a></li>
+                        <li ng-class="{active: routeIs('/todo/')}"><a href="#/todo/">Todos</a></li>
+                        <li ng-class="{active: routeIs('/tag/')}"><a href="#/tag/">Tags</a></li>
+                        <li ng-class="{active: routeIs('/todoList/')}"><a href="#/todoList/">Todo Lists</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>

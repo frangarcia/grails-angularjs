@@ -10,7 +10,7 @@ grailsAngularApp.controller('TodoDetailsController',
 
         $scope.updateTodo = function(todo) {
             $http.put('todo/'+todo.id, todo).success(function(data) {
-                $scope.todo = data;
+                $location.path('todo');
             });
         }
     });

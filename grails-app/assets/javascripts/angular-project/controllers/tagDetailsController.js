@@ -10,7 +10,7 @@ grailsAngularApp.controller('TagDetailsController',
 
         $scope.updateTag = function(tag) {
             $http.put('tag/'+tag.id, tag).success(function(data) {
-                $scope.tag = data;
+                $location.path('tag');
             });
         }
     });

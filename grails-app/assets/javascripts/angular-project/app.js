@@ -4,7 +4,7 @@ var grailsAngularApp = angular.module('grailsAngularApp', ['ngRoute']);
 
 grailsAngularApp.config(function($routeProvider) {
     $routeProvider.
-        when('/todo', {
+        when('/todo/', {
             templateUrl: 'assets/angular-project/partials/todo/list.html',
             controller: 'TodoController'
         }).
@@ -12,7 +12,7 @@ grailsAngularApp.config(function($routeProvider) {
             templateUrl: 'assets/angular-project/partials/todo/edit.html',
             controller: 'TodoDetailsController'
         }).
-        when('/tag', {
+        when('/tag/', {
             templateUrl: 'assets/angular-project/partials/tag/list.html',
             controller: 'TagController'
         }).
@@ -20,7 +20,7 @@ grailsAngularApp.config(function($routeProvider) {
             templateUrl: 'assets/angular-project/partials/tag/edit.html',
             controller: 'TagDetailsController'
         }).
-        when('/todoList', {
+        when('/todoList/', {
             templateUrl: 'assets/angular-project/partials/todoList/list.html',
             controller: 'TodoListController'
         }).
@@ -28,5 +28,5 @@ grailsAngularApp.config(function($routeProvider) {
             templateUrl: 'assets/angular-project/partials/todoList/edit.html',
             controller: 'TodoListDetailsController'
         }).
-        otherwise({redirectTo:'/todo'});
+        otherwise({redirectTo:'/todo/'});
 });

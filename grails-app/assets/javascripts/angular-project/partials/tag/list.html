@@ -6,5 +6,6 @@
     <tr ng-repeat="tag in tags | filter:{name:query}">
         <td>{{tag.id}}</td>
         <td>{{tag.name}}</td>
+        <td><a ng-click="editTag(tag.id)" class="btn btn-small btn-primary">Edit</a></td>
     </tr>
 </table>
