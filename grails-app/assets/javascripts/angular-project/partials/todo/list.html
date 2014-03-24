@@ -8,6 +8,9 @@
         <td>{{todo.title}}</td>
         <td>{{todo.content}}</td>
         <td>{{todo.url}}</td>
-        <td><a ng-click="editTodo(todo.id)" class="btn btn-small btn-primary">Edit</a></td>
+        <td>
+            <a ng-click="editTodo(todo.id)" class="btn btn-small btn-primary">Edit</a>&nbsp;
+            <a ng-click="deleteTodo(todo.id)" class="btn btn-small btn-danger">Delete</a>
+        </td>
     </tr>
 </table>

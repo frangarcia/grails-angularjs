@@ -11,4 +11,9 @@ grailsAngularApp.controller('TodoController',
         $scope.editTodo = function(todoId) {
             $location.path('todo/'+todoId);
         }
+        $scope.deleteTodo = function(todoId) {
+            $http.delete('todo/'+todoId).success(function(data) {
+                $location.path('todo');
+            });
+        }
     });

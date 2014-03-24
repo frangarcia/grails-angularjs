@@ -11,4 +11,10 @@ grailsAngularApp.controller('TagController',
         $scope.editTag = function(tagId) {
             $location.path('tag/'+tagId);
         }
+
+        $scope.deleteTag = function(tagId) {
+            $http.delete('tag/'+tagId).success(function(data) {
+                $location.path('tag');
+            });
+        }
     });

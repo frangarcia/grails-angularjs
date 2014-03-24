@@ -11,4 +11,10 @@ grailsAngularApp.controller('TodoListController',
         $scope.editTodoList = function(todoListId) {
             $location.path('todoList/'+todoListId);
         }
+
+        $scope.deleteTodoList = function(todoListId) {
+            $http.delete('todoList/'+todoListId).success(function(data) {
+                $location.path('todoList');
+            });
+        }
     });

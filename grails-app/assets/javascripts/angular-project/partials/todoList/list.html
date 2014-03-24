@@ -6,6 +6,9 @@
     <tr ng-repeat="todoList in todoLists | filter:{name:query}">
         <td>{{todoList.id}}</td>
         <td>{{todoList.name}}</td>
-        <td><a ng-click="editTodoList(todoList.id)" class="btn btn-small btn-primary">Edit</a></td>
+        <td>
+            <a ng-click="editTodoList(todoList.id)" class="btn btn-small btn-primary">Edit</a>&nbsp;
+            <a ng-click="deleteTodoList(todoList.id)" class="btn btn-small btn-danger">Delete</a>
+        </td>
     </tr>
 </table>
