@@ -1,5 +1,8 @@
 package net.frangarcia.todo
 
+import grails.rest.Resource
+
+@Resource(uri='/todo', formats=['json','xml'])
 class Todo {
 
     String title

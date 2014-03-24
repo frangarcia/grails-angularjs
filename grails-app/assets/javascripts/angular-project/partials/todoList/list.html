@@ -1,0 +1,10 @@
+<form name="search">
+    <input type="text" placeholder="Search todo list..." ng-model="query"/>
+</form>
+<h1>Todos lists</h1>
+<table class="table table-striped">
+    <tr ng-repeat="todoList in todoLists | filter:{name:query}">
+        <td>{{todoList.id}}</td>
+        <td>{{todoList.name}}</td>
+    </tr>
+</table>

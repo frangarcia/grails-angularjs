@@ -18,7 +18,7 @@
 	<body>
 
         <!-- Static navbar -->
-        <div class="navbar navbar-default navbar-static-top" role="navigation">
+        <div class="navbar navbar-default navbar-static-top" role="navigation" ng-controller="NavBarController">
             <div class="container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -31,9 +31,9 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#/todo">Todos</a></li>
-                        <li><a href="#/tag">Tags</a></li>
-                        <li><a href="#/todolist">Todo Lists</a></li>
+                        <li ng-class="{active: routeIs('/todo')}"><a href="#/todo">Todos</a></li>
+                        <li ng-class="{active: routeIs('/tag')}"><a href="#/tag">Tags</a></li>
+                        <li ng-class="{active: routeIs('/todolist')}"><a href="#/todolist">Todo Lists</a></li>
                     </ul>
                 </div><!--/.nav-collapse -->
             </div>
@@ -41,7 +41,7 @@
 
 
         <div class="container">
-            <div ng-view></div>
+            <g:layoutBody/>
         </div> <!-- /container -->
         <asset:javascript src="application.js"/>
 	</body>

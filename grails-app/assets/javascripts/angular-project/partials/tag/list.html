@@ -1,0 +1,10 @@
+<form name="search">
+    <input type="text" placeholder="Search tag..." ng-model="query"/>
+</form>
+<h1>Tags</h1>
+<table class="table table-striped">
+    <tr ng-repeat="tag in tags | filter:{name:query}">
+        <td>{{tag.id}}</td>
+        <td>{{tag.name}}</td>
+    </tr>
+</table>

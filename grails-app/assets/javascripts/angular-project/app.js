@@ -1,17 +1,32 @@
 'use strict';
 
+var grailsAngularApp = angular.module('grailsAngularApp', ['ngRoute']);
 
-// Declare app level module which depends on filters, and services
-angular.module('grailsAngularApp', [
-    'ngRoute',
-//    'grailsAngularApp.filters',
-//    'grailsAngularApp.services',
-//    'grailsAngularApp.directives',
-    'grailsAngularApp.controllers'
-]).
-    config(['$routeProvider', function($routeProvider) {
-        $routeProvider.when('/todo', {templateUrl: 'todo/list', controller: 'TodoController'});
-        $routeProvider.when('/tag', {templateUrl: 'tag/list', controller: 'TagController'});
-        $routeProvider.when('/todolist', {templateUrl: 'todoList/list', controller: 'TodoListController'});
-        $routeProvider.otherwise({redirectTo: '/todo'});
-    }]);
+grailsAngularApp.config(function($routeProvider) {
+    $routeProvider.
+        when('/todo', {
+            templateUrl: 'assets/angular-project/partials/todo/list.html',
+            controller: 'TodoController'
+        }).
+        when('/todo/:todoId', {
+            templateUrl: 'assets/angular-project/partials/todo/edit.html',
+            controller: 'TodoDetailsController'
+        }).
+        when('/tag', {
+            templateUrl: 'assets/angular-project/partials/tag/list.html',
+            controller: 'TagController'
+        }).
+        when('/tag/:tagId', {
+            templateUrl: 'assets/angular-project/partials/tag/edit.html',
+            controller: 'TagDetailsController'
+        }).
+        when('/todoList', {
+            templateUrl: 'assets/angular-project/partials/todoList/list.html',
+            controller: 'TodoListController'
+        }).
+        when('/todoList/:todoListId', {
+            templateUrl: 'assets/angular-project/partials/todoList/edit.html',
+            controller: 'TodoListDetailsController'
+        }).
+        otherwise({redirectTo:'/todo'});
+});
