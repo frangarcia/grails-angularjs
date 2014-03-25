@@ -2,15 +2,13 @@
 
 /* Controllers */
 
-grailsAngularApp.controller('TagDetailsController',
-    function TagDetailsController($scope, $http, $location, $routeParams) {
-        $http.get('tag/'+$routeParams['tagId']).success(function(data) {
-            $scope.tag = data;
-        });
+grailsAngularApp.controller('TagDetailsController', ['$scope', '$http', '$location', '$routeParams', 'TagDetailsService',
+    function ($scope, $http, $location, $routeParams, TagDetailsService) {
+        $scope.tag = TagDetailsService.query({tagId:$routeParams['tagId']});
 
         $scope.updateTag = function(tag) {
             $http.put('tag/'+tag.id, tag).success(function(data) {
                 $location.path('tag');
             });
         }
-    });
+    }]);

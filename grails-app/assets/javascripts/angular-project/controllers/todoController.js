@@ -2,9 +2,9 @@
 
 /* Controllers */
 
-grailsAngularApp.controller('TodoController', ['$scope', '$location', 'Todo',
-    function ($scope, $location, Todo) {
-        $scope.todos = Todo.query();
+grailsAngularApp.controller('TodoController', ['$scope', '$location', 'TodoService',
+    function ($scope, $location, TodoService) {
+        $scope.todos = TodoService.query();
 
         $scope.editTodo = function(todoId) {
             $location.path('todo/'+todoId);

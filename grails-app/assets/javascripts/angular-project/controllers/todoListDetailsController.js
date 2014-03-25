@@ -2,15 +2,13 @@
 
 /* Controllers */
 
-grailsAngularApp.controller('TodoListDetailsController',
-    function TodoListDetailsController($scope, $http, $location, $routeParams) {
-        $http.get('todoList/'+$routeParams['todoListId']).success(function(data) {
-            $scope.todoList = data;
-        });
+grailsAngularApp.controller('TodoListDetailsController', ['$scope', '$http', '$location', '$routeParams', 'TodoListDetailsService',
+    function ($scope, $http, $location, $routeParams, TodoListDetailsService) {
+        $scope.todoList = TodoListDetailsService.query({todoListId:$routeParams['todoListId']});
 
         $scope.updateTodoList = function(todoList) {
             $http.put('todoList/'+todoList.id, todoList).success(function(data) {
                 $location.path('todoList');
             });
         }
-    });
+    }]);

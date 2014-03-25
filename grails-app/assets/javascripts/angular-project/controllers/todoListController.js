@@ -2,9 +2,9 @@
 
 /* Controllers */
 
-grailsAngularApp.controller('TodoListController', ['$scope', '$location', 'TodoList',
-    function ($scope, $location, TodoList) {
-        $scope.todoLists = TodoList.query();
+grailsAngularApp.controller('TodoListController', ['$scope', '$location', 'TodoListService',
+    function ($scope, $location, TodoListService) {
+        $scope.todoLists = TodoListService.query();
 
         $scope.editTodoList = function(todoListId) {
             $location.path('todoList/'+todoListId);

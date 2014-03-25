@@ -2,9 +2,9 @@
 
 /* Controllers */
 
-grailsAngularApp.controller('TagController', ['$scope', '$location', 'Tag',
-    function ($scope, $location, Tag) {
-        $scope.tags = Tag.query();
+grailsAngularApp.controller('TagController', ['$scope', '$location', 'TagService',
+    function ($scope, $location, TagService) {
+        $scope.tags = TagService.query();
 
         $scope.editTag = function(tagId) {
             $location.path('tag/'+tagId);
