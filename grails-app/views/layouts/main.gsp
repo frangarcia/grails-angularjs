@@ -44,5 +44,6 @@
             <g:layoutBody/>
         </div> <!-- /container -->
         <asset:javascript src="application.js"/>
-	</body>
+        <asset:javascript src="spring-websocket" />
+    </body>
 </html>

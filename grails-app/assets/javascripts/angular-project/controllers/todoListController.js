@@ -2,11 +2,9 @@
 
 /* Controllers */
 
-grailsAngularApp.controller('TodoListController',
-    function TodoListController($scope, $http, $location) {
-        $http.get('todoList').success(function(data) {
-            $scope.todoLists = data;
-        });
+grailsAngularApp.controller('TodoListController', ['$scope', '$location', 'TodoList',
+    function ($scope, $location, TodoList) {
+        $scope.todoLists = TodoList.query();
 
         $scope.editTodoList = function(todoListId) {
             $location.path('todoList/'+todoListId);
@@ -17,4 +15,4 @@ grailsAngularApp.controller('TodoListController',
                 $location.path('todoList');
             });
         }
-    });
+    }]);

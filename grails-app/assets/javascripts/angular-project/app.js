@@ -1,6 +1,6 @@
 'use strict';
 
-var grailsAngularApp = angular.module('grailsAngularApp', ['ngRoute']);
+var grailsAngularApp = angular.module('grailsAngularApp', ['ngRoute', 'todoServices']);
 
 grailsAngularApp.config(function($routeProvider) {
     $routeProvider.

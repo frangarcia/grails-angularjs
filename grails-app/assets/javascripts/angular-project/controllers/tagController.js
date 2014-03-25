@@ -2,11 +2,9 @@
 
 /* Controllers */
 
-grailsAngularApp.controller('TagController',
-    function TagController($scope, $http, $location) {
-        $http.get('tag').success(function(data) {
-            $scope.tags = data;
-        });
+grailsAngularApp.controller('TagController', ['$scope', '$location', 'Tag',
+    function ($scope, $location, Tag) {
+        $scope.tags = Tag.query();
 
         $scope.editTag = function(tagId) {
             $location.path('tag/'+tagId);
@@ -17,4 +15,4 @@ grailsAngularApp.controller('TagController',
                 $location.path('tag');
             });
         }
-    });
+    }]);

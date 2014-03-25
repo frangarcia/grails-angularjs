@@ -21,6 +21,9 @@ grails.project.fork = [
     console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
 ]
 
+grails.tomcat.nio = true
+grails.tomcat.scan.enabled = true
+
 grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
     // inherit Grails' default dependencies
@@ -60,6 +63,7 @@ grails.project.dependency.resolution = {
         compile ":scaffolding:2.0.2"
         compile ':cache:1.1.1'
         compile ":asset-pipeline:1.6.1"
+        compile ":spring-websocket:1.0.0.M1"
 
         // Uncomment these to enable additional asset-pipeline capabilities
         //compile ":sass-asset-pipeline:1.5.5"
