@@ -7,7 +7,7 @@ grailsAngularApp.controller('TagDetailsController', ['$scope', '$http', '$locati
         $scope.tag = TagDetailsService.query({tagId:$routeParams['tagId']});
 
         $scope.updateTag = function(tag) {
-            $http.put('tag/'+tag.id, tag).success(function(data) {
+            TagDetailsService.update(tag, function (data) {
                 $location.path('tag');
             });
         }

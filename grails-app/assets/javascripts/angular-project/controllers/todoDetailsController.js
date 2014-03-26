@@ -7,7 +7,7 @@ grailsAngularApp.controller('TodoDetailsController', ['$scope', '$http', '$locat
         $scope.todo = TodoDetailsService.query({todoId:$routeParams['todoId']});
 
         $scope.updateTodo = function(todo) {
-            $http.put('todo/'+todo.id, todo).success(function(data) {
+            TodoDetailsService.update(todo, function (data) {
                 $location.path('todo');
             });
         }

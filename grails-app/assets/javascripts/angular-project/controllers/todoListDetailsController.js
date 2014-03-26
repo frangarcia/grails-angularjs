@@ -7,7 +7,7 @@ grailsAngularApp.controller('TodoListDetailsController', ['$scope', '$http', '$l
         $scope.todoList = TodoListDetailsService.query({todoListId:$routeParams['todoListId']});
 
         $scope.updateTodoList = function(todoList) {
-            $http.put('todoList/'+todoList.id, todoList).success(function(data) {
+            TodoListDetailsService.update(todoList, function(data) {
                 $location.path('todoList');
             });
         }
