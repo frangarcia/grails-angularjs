@@ -6,7 +6,7 @@ todoServices.factory('TodoService', ['$resource',
     function ($resource) {
         return $resource('todo', {}, {
             query: {method:'GET', params:{}, isArray:true},
-            update: {method:'PUT'}
+            create: {method:'POST'}
         });
     }]);
 
@@ -21,7 +21,8 @@ todoServices.factory('TodoDetailsService', ['$resource',
 todoServices.factory('TagService', ['$resource',
     function ($resource) {
         return $resource('tag', {}, {
-            query: {method:'GET', params:{}, isArray:true}
+            query: {method:'GET', params:{}, isArray:true},
+            create: {method:'POST'}
         });
     }]);
 
@@ -36,7 +37,8 @@ todoServices.factory('TagDetailsService', ['$resource',
 todoServices.factory('TodoListService', ['$resource',
     function ($resource) {
         return $resource('todoList', {}, {
-            query: {method:'GET', params:{}, isArray:true}
+            query: {method:'GET', params:{}, isArray:true},
+            create: {method:'POST'}
         });
     }]);
 

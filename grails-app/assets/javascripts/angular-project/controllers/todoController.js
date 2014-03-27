@@ -6,6 +6,10 @@ grailsAngularApp.controller('TodoController', ['$scope', '$location', 'TodoServi
     function ($scope, $location, TodoService) {
         $scope.todos = TodoService.query();
 
+        $scope.createTodo = function() {
+            $location.path('todo/create');
+        }
+
         $scope.editTodo = function(todoId) {
             $location.path('todo/'+todoId);
         }
