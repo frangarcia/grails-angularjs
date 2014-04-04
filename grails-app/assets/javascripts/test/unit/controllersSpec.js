@@ -34,6 +34,18 @@ describe('Todo app controllers', function() {
             expect(scope.todos).toEqualData(
                 [{name: 'First todo'}, {name: 'Second todo'}, {name: 'Third todo'}]);
         });
+
+        it('testing location when creating a todo', function() {
+            scope.createTodo();
+
+            expect(scope.path.$$path).toBe('/todo/create');
+        });
+
+        it('testing location when editing a todo', function() {
+            scope.editTodo(1);
+
+            expect(scope.path.$$path).toBe('/todo/1');
+        });
     });
 
     describe('Tag controller', function(){
@@ -57,6 +69,18 @@ describe('Todo app controllers', function() {
             expect(scope.tags).toEqualData(
                 [{name: 'First tag'}, {name: 'Second tag'}, {name: 'Third tag'}]);
         });
+
+        it('testing location when creating a tag', function() {
+            scope.createTag();
+
+            expect(scope.path.$$path).toBe('/tag/create');
+        });
+
+        it('testing location when editing a tag', function() {
+            scope.editTag(1);
+
+            expect(scope.path.$$path).toBe('/tag/1');
+        });
     });
 
     describe('Todo list controller', function(){
@@ -79,6 +103,18 @@ describe('Todo app controllers', function() {
 
             expect(scope.todoLists).toEqualData(
                 [{name: 'First todo list'}, {name: 'Second todo list'}, {name: 'Third todo list'}]);
+        });
+
+        it('testing location when creating a todo list', function() {
+            scope.createTodoList();
+
+            expect(scope.path.$$path).toBe('/todoList/create');
+        });
+
+        it('testing location when editing a todo list', function() {
+            scope.editTodoList(1);
+
+            expect(scope.path.$$path).toBe('/todoList/1');
         });
     });
 });

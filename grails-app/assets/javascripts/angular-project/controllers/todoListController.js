@@ -7,16 +7,16 @@ grailsAngularApp.controller('TodoListController', ['$scope', '$location', 'TodoL
         $scope.todoLists = TodoListService.query();
 
         $scope.createTodoList = function() {
-            $location.path('todoList/create');
+            $scope.path = $location.path('todoList/create');
         }
         
         $scope.editTodoList = function(todoListId) {
-            $location.path('todoList/'+todoListId);
+            $scope.path = $location.path('todoList/'+todoListId);
         }
 
         $scope.deleteTodoList = function(todoListId) {
             $http.delete('todoList/'+todoListId).success(function(data) {
-                $location.path('todoList');
+                $scope.path = $location.path('todoList');
             });
         }
     }]);
