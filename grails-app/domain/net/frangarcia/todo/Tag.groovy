@@ -1,9 +1,6 @@
 package net.frangarcia.todo
 
-import grails.rest.Resource
-
-@Resource(uri='/tag', formats=['json','xml'])
-class Tag extends RestAPI {
+class Tag {
 
     String name
     Date dateCreated

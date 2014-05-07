@@ -63,7 +63,8 @@ grails.project.dependency.resolution = {
         compile ":scaffolding:2.0.2"
         compile ':cache:1.1.1'
         compile ":asset-pipeline:1.6.1"
-        compile ":spring-websocket:1.0.0.M1"
+        compile ":spring-websocket:1.0.0.M2"
+        compile ":console:1.3"
 
         // Uncomment these to enable additional asset-pipeline capabilities
         //compile ":sass-asset-pipeline:1.5.5"
@@ -76,5 +77,6 @@ grails.project.dependency.resolution = {
         runtime ":database-migration:1.3.8"
         runtime ":jquery:1.11.0.2"
         runtime ':twitter-bootstrap:3.1.1'
+
     }
 }

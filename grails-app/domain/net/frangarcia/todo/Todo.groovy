@@ -1,9 +1,6 @@
 package net.frangarcia.todo
 
-import grails.rest.Resource
-
-@Resource(uri='/todo', formats=['json','xml'])
-class Todo extends RestAPI {
+class Todo {
 
     String title
     String content

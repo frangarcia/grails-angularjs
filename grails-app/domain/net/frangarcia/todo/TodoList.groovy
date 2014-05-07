@@ -1,9 +1,6 @@
 package net.frangarcia.todo
 
-import grails.rest.Resource
-
-@Resource(uri='/todoList', formats=['json','xml'])
-class TodoList extends RestAPI {
+class TodoList {
 
     String name
     Date dateCreated
