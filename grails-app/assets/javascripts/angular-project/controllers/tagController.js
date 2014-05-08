@@ -2,8 +2,8 @@
 
 /* Controllers */
 
-grailsAngularApp.controller('TagController', ['$scope', '$location', 'TagService',
-    function ($scope, $location, TagService) {
+grailsAngularApp.controller('TagController', ['$scope', '$location', '$http', 'TagService',
+    function ($scope, $location, $http, TagService) {
         $scope.tags = TagService.query();
 
         $scope.createTag = function() {
@@ -15,7 +15,7 @@ grailsAngularApp.controller('TagController', ['$scope', '$location', 'TagService
         }
 
         $scope.deleteTag = function(tagId) {
-            $http.delete('tag/'+tagId).success(function(data) {
+            $http.delete('api/tag/'+tagId).success(function(data) {
                 $scope.path = $location.path('tag');
             });
         }

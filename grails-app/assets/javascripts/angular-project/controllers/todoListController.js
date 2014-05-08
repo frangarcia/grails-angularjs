@@ -2,8 +2,8 @@
 
 /* Controllers */
 
-grailsAngularApp.controller('TodoListController', ['$scope', '$location', 'TodoListService',
-    function ($scope, $location, TodoListService) {
+grailsAngularApp.controller('TodoListController', ['$scope', '$location', '$http', 'TodoListService',
+    function ($scope, $location, $http, TodoListService) {
         $scope.todoLists = TodoListService.query();
 
         $scope.createTodoList = function() {
@@ -15,7 +15,7 @@ grailsAngularApp.controller('TodoListController', ['$scope', '$location', 'TodoL
         }
 
         $scope.deleteTodoList = function(todoListId) {
-            $http.delete('todoList/'+todoListId).success(function(data) {
+            $http.delete('api/todoList/'+todoListId).success(function(data) {
                 $scope.path = $location.path('todoList');
             });
         }

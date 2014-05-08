@@ -8,8 +8,7 @@ class Todo {
     Date dateCreated
     Date lastUpdated
 
-    static hasMany = [tags:Tag]
-    static belongsTo = [Tag]
+    static hasMany = [tags:Tag, todoLists:TodoList]
 
     static constraints = {
         title(nullable:false, blank:false)
