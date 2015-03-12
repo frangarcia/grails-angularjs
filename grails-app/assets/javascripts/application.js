@@ -19,3 +19,14 @@ if (typeof jQuery !== 'undefined') {
 		});
 	})(jQuery);
 }
+
+$(function() {
+    var socket = new SockJS("/grails-angularjs/stomp");
+    var client = Stomp.over(socket);
+
+    client.connect({}, function() {
+        client.subscribe("/topic/*Api", function(message) {
+            $("#helloDiv").append(message.body);
+        });
+    });
+});

@@ -61,6 +61,7 @@ grails {
 
 
 grails.converters.encoding = "UTF-8"
+grails.converters.default.circular.reference.behaviour="INSERT_NULL"
 // scaffolding templates configuration
 grails.scaffolding.templates.domainSuffix = 'Instance'
 

@@ -4,23 +4,23 @@ import net.frangarcia.todo.*
 
 beans = {
     jsonTodoRendered(JsonRenderer, Todo){
-        excludes = ['class']
+        excludes = ['class', 'tags', 'todoLists']
     }
     xmlTodoRendered(XmlRenderer, Todo){
-        excludes = ['class']
+        excludes = ['class', 'tags', 'todoLists']
     }
 
     jsonTagRendered(JsonRenderer, Tag){
-        excludes = ['class']
+        excludes = ['class', 'todos']
     }
     xmlTagRendered(XmlRenderer, Tag){
-        excludes = ['class']
+        excludes = ['class', 'todos']
     }
 
     jsonTodoListRendered(JsonRenderer, TodoList){
-        excludes = ['class']
+        excludes = ['class', 'todos']
     }
     xmlTodoListRendered(XmlRenderer, TodoList){
-        excludes = ['class']
+        excludes = ['class', 'todos']
     }
 }

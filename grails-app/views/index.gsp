@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta name="layout" content="main"/>
-		<title>Welcome to Grails</title>
+		<title>Grails-AngularJS TODO Application</title>
 	</head>
 	<body>
         <div class="container">

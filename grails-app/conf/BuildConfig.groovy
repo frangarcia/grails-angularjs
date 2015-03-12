@@ -20,6 +20,7 @@ grails.project.fork = [
     // configure settings for the Console UI JVM
     console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
 ]
+grails.server.port.http = 8081
 
 grails.tomcat.nio = true
 grails.tomcat.scan.enabled = true
@@ -60,11 +61,11 @@ grails.project.dependency.resolution = {
         build ":tomcat:7.0.52"
 
         // plugins for the compile step
-        compile ":scaffolding:2.0.2"
+        compile ":scaffolding:2.1.2"
         compile ':cache:1.1.1'
-        compile ":asset-pipeline:1.6.1"
-        compile ":spring-websocket:1.0.0.M2"
-        compile ":console:1.3"
+        compile ":asset-pipeline:2.1.4"
+        compile ":spring-websocket:1.2.0"
+        compile ":console:1.5.4"
 
         // Uncomment these to enable additional asset-pipeline capabilities
         //compile ":sass-asset-pipeline:1.5.5"
@@ -73,10 +74,10 @@ grails.project.dependency.resolution = {
         //compile ":handlebars-asset-pipeline:1.3.0.1"
 
         // plugins needed at runtime but not for compilation
-        runtime ":hibernate:3.6.10.8" // or ":hibernate4:4.3.1.2"
+        runtime ":hibernate4:4.3.1.2" // or ":hibernate:3.6.10.8"
         runtime ":database-migration:1.3.8"
-        runtime ":jquery:1.11.0.2"
-        runtime ':twitter-bootstrap:3.1.1'
+        runtime ":jquery:1.11.1"
+        runtime ':twitter-bootstrap:3.3.2.1'
 
     }
 }
