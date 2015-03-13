@@ -122,11 +122,11 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>grails</servlet-name>
-		<url-pattern>*.dispatch</url-pattern>
+		<url-pattern>/stomp/*</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>grails</servlet-name>
-		<url-pattern>/stomp/*</url-pattern>
+		<url-pattern>*.dispatch</url-pattern>
 	</servlet-mapping>
 	<session-config>
 		<session-timeout>30</session-timeout>
