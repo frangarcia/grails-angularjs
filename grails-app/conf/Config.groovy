@@ -112,3 +112,4 @@ log4j.main = {
 }
 
 grails.assets.minifyJs = false
+grails.assets.bundle=false
