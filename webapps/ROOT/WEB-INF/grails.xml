@@ -48,5 +48,6 @@
     <plugin>DatabaseMigrationGrailsPlugin</plugin>
     <plugin>JqueryGrailsPlugin</plugin>
     <plugin>TwitterBootstrapGrailsPlugin</plugin>
+    <plugin>AngularAnnotateAssetPipelineGrailsPlugin</plugin>
   </plugins>
 </grails>

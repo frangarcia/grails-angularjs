@@ -1,5 +1,162 @@
-+function(d){function f(a){a&&3===a.which||(d(".dropdown-backdrop").remove(),d('[data-toggle="dropdown"]').each(function(){var b=d(this),c=g(b),e={relatedTarget:this};c.hasClass("open")&&(c.trigger(a=d.Event("hide.bs.dropdown",e)),a.isDefaultPrevented()||(b.attr("aria-expanded","false"),c.removeClass("open").trigger("hidden.bs.dropdown",e)))}))}function g(a){var b=a.attr("data-target");b||(b=(b=a.attr("href"))&&/#[A-Za-z]/.test(b)&&b.replace(/.*(?=#[^\s]*$)/,""));return(b=b&&d(b))&&b.length?b:a.parent()}
-var e=function(a){d(a).on("click.bs.dropdown",this.toggle)};e.VERSION="3.3.2";e.prototype.toggle=function(a){var b=d(this);if(!b.is(".disabled, :disabled")){var c=g(b);a=c.hasClass("open");f();if(!a){if("ontouchstart"in document.documentElement&&!c.closest(".navbar-nav").length)d('<div class="dropdown-backdrop"/>').insertAfter(d(this)).on("click",f);var e={relatedTarget:this};c.trigger(a=d.Event("show.bs.dropdown",e));if(a.isDefaultPrevented())return;b.trigger("focus").attr("aria-expanded","true");
-c.toggleClass("open").trigger("shown.bs.dropdown",e)}return!1}};e.prototype.keydown=function(a){if(/(38|40|27|32)/.test(a.which)&&!/input|textarea/i.test(a.target.tagName)){var b=d(this);a.preventDefault();a.stopPropagation();if(!b.is(".disabled, :disabled")){var c=g(b),e=c.hasClass("open");if(!e&&27!=a.which||e&&27==a.which)return 27==a.which&&c.find('[data-toggle="dropdown"]').trigger("focus"),b.trigger("click");b=c.find('[role="menu"] li:not(.divider):visible a, [role="listbox"] li:not(.divider):visible a');
-b.length&&(c=b.index(a.target),38==a.which&&0<c&&c--,40==a.which&&c<b.length-1&&c++,~c||(c=0),b.eq(c).trigger("focus"))}}};var h=d.fn.dropdown;d.fn.dropdown=function(a){return this.each(function(){var b=d(this),c=b.data("bs.dropdown");c||b.data("bs.dropdown",c=new e(this));"string"==typeof a&&c[a].call(b)})};d.fn.dropdown.Constructor=e;d.fn.dropdown.noConflict=function(){d.fn.dropdown=h;return this};d(document).on("click.bs.dropdown.data-api",f).on("click.bs.dropdown.data-api",".dropdown form",function(a){a.stopPropagation()}).on("click.bs.dropdown.data-api",
-'[data-toggle="dropdown"]',e.prototype.toggle).on("keydown.bs.dropdown.data-api",'[data-toggle="dropdown"]',e.prototype.keydown).on("keydown.bs.dropdown.data-api",'[role="menu"]',e.prototype.keydown).on("keydown.bs.dropdown.data-api",'[role="listbox"]',e.prototype.keydown)}(jQuery);
+/* ========================================================================
+ * Bootstrap: dropdown.js v3.3.2
+ * http://getbootstrap.com/javascript/#dropdowns
+ * ========================================================================
+ * Copyright 2011-2015 Twitter, Inc.
+ * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+ * ======================================================================== */
+
+
++function ($) {
+  'use strict';
+
+  // DROPDOWN CLASS DEFINITION
+  // =========================
+
+  var backdrop = '.dropdown-backdrop'
+  var toggle   = '[data-toggle="dropdown"]'
+  var Dropdown = function (element) {
+    $(element).on('click.bs.dropdown', this.toggle)
+  }
+
+  Dropdown.VERSION = '3.3.2'
+
+  Dropdown.prototype.toggle = function (e) {
+    var $this = $(this)
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    clearMenus()
+
+    if (!isActive) {
+      if ('ontouchstart' in document.documentElement && !$parent.closest('.navbar-nav').length) {
+        // if mobile we use a backdrop because click events don't delegate
+        $('<div class="dropdown-backdrop"/>').insertAfter($(this)).on('click', clearMenus)
+      }
+
+      var relatedTarget = { relatedTarget: this }
+      $parent.trigger(e = $.Event('show.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this
+        .trigger('focus')
+        .attr('aria-expanded', 'true')
+
+      $parent
+        .toggleClass('open')
+        .trigger('shown.bs.dropdown', relatedTarget)
+    }
+
+    return false
+  }
+
+  Dropdown.prototype.keydown = function (e) {
+    if (!/(38|40|27|32)/.test(e.which) || /input|textarea/i.test(e.target.tagName)) return
+
+    var $this = $(this)
+
+    e.preventDefault()
+    e.stopPropagation()
+
+    if ($this.is('.disabled, :disabled')) return
+
+    var $parent  = getParent($this)
+    var isActive = $parent.hasClass('open')
+
+    if ((!isActive && e.which != 27) || (isActive && e.which == 27)) {
+      if (e.which == 27) $parent.find(toggle).trigger('focus')
+      return $this.trigger('click')
+    }
+
+    var desc = ' li:not(.divider):visible a'
+    var $items = $parent.find('[role="menu"]' + desc + ', [role="listbox"]' + desc)
+
+    if (!$items.length) return
+
+    var index = $items.index(e.target)
+
+    if (e.which == 38 && index > 0)                 index--                        // up
+    if (e.which == 40 && index < $items.length - 1) index++                        // down
+    if (!~index)                                      index = 0
+
+    $items.eq(index).trigger('focus')
+  }
+
+  function clearMenus(e) {
+    if (e && e.which === 3) return
+    $(backdrop).remove()
+    $(toggle).each(function () {
+      var $this         = $(this)
+      var $parent       = getParent($this)
+      var relatedTarget = { relatedTarget: this }
+
+      if (!$parent.hasClass('open')) return
+
+      $parent.trigger(e = $.Event('hide.bs.dropdown', relatedTarget))
+
+      if (e.isDefaultPrevented()) return
+
+      $this.attr('aria-expanded', 'false')
+      $parent.removeClass('open').trigger('hidden.bs.dropdown', relatedTarget)
+    })
+  }
+
+  function getParent($this) {
+    var selector = $this.attr('data-target')
+
+    if (!selector) {
+      selector = $this.attr('href')
+      selector = selector && /#[A-Za-z]/.test(selector) && selector.replace(/.*(?=#[^\s]*$)/, '') // strip for ie7
+    }
+
+    var $parent = selector && $(selector)
+
+    return $parent && $parent.length ? $parent : $this.parent()
+  }
+
+
+  // DROPDOWN PLUGIN DEFINITION
+  // ==========================
+
+  function Plugin(option) {
+    return this.each(function () {
+      var $this = $(this)
+      var data  = $this.data('bs.dropdown')
+
+      if (!data) $this.data('bs.dropdown', (data = new Dropdown(this)))
+      if (typeof option == 'string') data[option].call($this)
+    })
+  }
+
+  var old = $.fn.dropdown
+
+  $.fn.dropdown             = Plugin
+  $.fn.dropdown.Constructor = Dropdown
+
+
+  // DROPDOWN NO CONFLICT
+  // ====================
+
+  $.fn.dropdown.noConflict = function () {
+    $.fn.dropdown = old
+    return this
+  }
+
+
+  // APPLY TO STANDARD DROPDOWN ELEMENTS
+  // ===================================
+
+  $(document)
+    .on('click.bs.dropdown.data-api', clearMenus)
+    .on('click.bs.dropdown.data-api', '.dropdown form', function (e) { e.stopPropagation() })
+    .on('click.bs.dropdown.data-api', toggle, Dropdown.prototype.toggle)
+    .on('keydown.bs.dropdown.data-api', toggle, Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', '[role="menu"]', Dropdown.prototype.keydown)
+    .on('keydown.bs.dropdown.data-api', '[role="listbox"]', Dropdown.prototype.keydown)
+
+}(jQuery);
+

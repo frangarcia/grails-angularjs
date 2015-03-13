@@ -1,1 +1,14 @@
-grailsAngularApp.controller("TodoListDetailsController",["$scope","$http","$location","$routeParams","TodoListDetailsService",function(a,e,c,d,b){a.todoList=b.query({todoListId:d.todoListId});a.updateTodoList=function(a){b.update(a,function(a){c.path("todoList")})}}]);
+'use strict';
+
+/* Controllers */
+
+grailsAngularApp.controller('TodoListDetailsController', ['$scope', '$http', '$location', '$routeParams', 'TodoListDetailsService',
+    function ($scope, $http, $location, $routeParams, TodoListDetailsService) {
+        $scope.todoList = TodoListDetailsService.query({todoListId:$routeParams['todoListId']});
+
+        $scope.updateTodoList = function(todoList) {
+            TodoListDetailsService.update(todoList, function(data) {
+                $location.path('todoList');
+            });
+        }
+    }]);

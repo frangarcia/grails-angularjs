@@ -1,1 +1,23 @@
-grailsAngularApp.controller("TodoController",["$scope","$location","$http","TodoService",function(a,c,d,e){a.query="";a.todos=e.query();a.createTodo=function(){a.path=c.path("todo/create")};a.editTodo=function(b){a.path=c.path("todo/"+b)};a.deleteTodo=function(b){d.delete("api/todo/"+b).success(function(b){a.path=c.path("todo")})}}]);
+'use strict';
+
+/* Controllers */
+
+grailsAngularApp.controller('TodoController', ['$scope', '$location', '$http', 'TodoService',
+    function ($scope, $location, $http, TodoService) {
+        $scope.query = '';
+        $scope.todos = TodoService.query();
+
+        $scope.createTodo = function() {
+            $scope.path = $location.path('todo/create');
+        }
+
+        $scope.editTodo = function(todoId) {
+            $scope.path = $location.path('todo/'+todoId);
+        }
+
+        $scope.deleteTodo = function(todoId) {
+            $http.delete('api/todo/'+todoId).success(function(data) {
+                $scope.path = $location.path('todo');
+            });
+        }
+    }]);

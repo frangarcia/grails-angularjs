@@ -1,1 +1,14 @@
-grailsAngularApp.controller("TagDetailsController",["$scope","$http","$location","$routeParams","TagDetailsService",function(a,e,c,d,b){a.tag=b.query({tagId:d.tagId});a.updateTag=function(a){b.update(a,function(a){c.path("tag")})}}]);
+'use strict';
+
+/* Controllers */
+
+grailsAngularApp.controller('TagDetailsController', ['$scope', '$http', '$location', '$routeParams', 'TagDetailsService',
+    function ($scope, $http, $location, $routeParams, TagDetailsService) {
+        $scope.tag = TagDetailsService.query({tagId:$routeParams['tagId']});
+
+        $scope.updateTag = function(tag) {
+            TagDetailsService.update(tag, function (data) {
+                $location.path('tag');
+            });
+        }
+    }]);

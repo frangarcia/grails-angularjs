@@ -1,78 +1,2884 @@
-var JSON;JSON||(JSON={});
-(function(){function p(b,d){var n,v,r,C,D=k,m,f=d[b];f&&"object"==typeof f&&"function"==typeof f.toJSON&&(f=f.toJSON(b));"function"==typeof g&&(f=g.call(d,b,f));switch(typeof f){case "string":return l(f);case "number":return isFinite(f)?String(f):"null";case "boolean":case "null":return String(f);case "object":if(!f)return"null";k+=A;m=[];if("[object Array]"===Object.prototype.toString.apply(f)){C=f.length;for(n=0;n<C;n+=1)m[n]=p(n,f)||"null";r=0===m.length?"[]":k?"[\n"+k+m.join(",\n"+k)+"\n"+D+"]":
-"["+m.join(",")+"]";k=D;return r}if(g&&"object"==typeof g)for(C=g.length,n=0;n<C;n+=1)"string"==typeof g[n]&&(v=g[n],r=p(v,f),r&&m.push(l(v)+(k?": ":":")+r));else for(v in f)Object.prototype.hasOwnProperty.call(f,v)&&(r=p(v,f),r&&m.push(l(v)+(k?": ":":")+r));r=0===m.length?"{}":k?"{\n"+k+m.join(",\n"+k)+"\n"+D+"}":"{"+m.join(",")+"}";k=D;return r}}function l(b){s.lastIndex=0;return s.test(b)?'"'+b.replace(s,function(b){var h=d[b];return"string"==typeof h?h:"\\u"+("0000"+b.charCodeAt(0).toString(16)).slice(-4)})+
-'"':'"'+b+'"'}function b(b){return 10>b?"0"+b:b}"use strict";"function"!=typeof Date.prototype.toJSON&&(Date.prototype.toJSON=function(d){return isFinite(this.valueOf())?this.getUTCFullYear()+"-"+b(this.getUTCMonth()+1)+"-"+b(this.getUTCDate())+"T"+b(this.getUTCHours())+":"+b(this.getUTCMinutes())+":"+b(this.getUTCSeconds())+"Z":null},String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(b){return this.valueOf()});var t=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-s=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,k,A,d={"\b":"\\b","\t":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},g;"function"!=typeof JSON.stringify&&(JSON.stringify=function(b,d,n){var v;A=k="";if("number"==typeof n)for(v=0;v<n;v+=1)A+=" ";else"string"==typeof n&&(A=n);g=d;if(!d||"function"==typeof d||"object"==typeof d&&"number"==typeof d.length)return p("",{"":b});throw Error("JSON.stringify");});"function"!=
-typeof JSON.parse&&(JSON.parse=function(b,d){function g(b,h){var k,m,f=b[h];if(f&&"object"==typeof f)for(k in f)Object.prototype.hasOwnProperty.call(f,k)&&(m=g(f,k),void 0!==m?f[k]=m:delete f[k]);return d.call(b,h,f)}var k;b=String(b);t.lastIndex=0;t.test(b)&&(b=b.replace(t,function(b){return"\\u"+("0000"+b.charCodeAt(0).toString(16)).slice(-4)}));if(/^[\],:{}\s]*$/.test(b.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,
-"]").replace(/(?:^|:|,)(?:\s*\[)+/g,"")))return k=eval("("+b+")"),"function"==typeof d?g({"":k},""):k;throw new SyntaxError("JSON.parse");})})();
-SockJS=function(){var p=document,l=window,b={},t=function(){};t.prototype.addEventListener=function(a,c){this._listeners||(this._listeners={});a in this._listeners||(this._listeners[a]=[]);var q=this._listeners[a];-1===b.arrIndexOf(q,c)&&q.push(c)};t.prototype.removeEventListener=function(a,c){if(this._listeners&&a in this._listeners){var q=this._listeners[a],e=b.arrIndexOf(q,c);-1!==e&&(1<q.length?this._listeners[a]=q.slice(0,e).concat(q.slice(e+1)):delete this._listeners[a])}};t.prototype.dispatchEvent=
-function(a){var c=a.type,b=Array.prototype.slice.call(arguments,0);this["on"+c]&&this["on"+c].apply(this,b);if(this._listeners&&c in this._listeners)for(var e=0;e<this._listeners[c].length;e++)this._listeners[c][e].apply(this,b)};var s=function(a,c){this.type=a;if("undefined"!==typeof c)for(var b in c)c.hasOwnProperty(b)&&(this[b]=c[b])};s.prototype.toString=function(){var a=[],c;for(c in this)if(this.hasOwnProperty(c)){var b=this[c];"function"===typeof b&&(b="[function]");a.push(c+"="+b)}return"SimpleEvent("+
-a.join(", ")+")"};var k=function(a){this._events=a||[];this._listeners={}};k.prototype.emit=function(a){this._verifyType(a);if(!this._nuked){var c=Array.prototype.slice.call(arguments,1);this["on"+a]&&this["on"+a].apply(this,c);if(a in this._listeners)for(var b=0;b<this._listeners[a].length;b++)this._listeners[a][b].apply(this,c)}};k.prototype.on=function(a,c){this._verifyType(a);this._nuked||(a in this._listeners||(this._listeners[a]=[]),this._listeners[a].push(c))};k.prototype._verifyType=function(a){-1===
-b.arrIndexOf(this._events,a)&&b.log("Event "+JSON.stringify(a)+" not listed "+JSON.stringify(this._events)+" in "+this)};k.prototype.nuke=function(){this._nuked=!0;for(var a=0;a<this._events.length;a++)delete this[this._events[a]];this._listeners={}};b.random_string=function(a,c){c=c||37;var b,e=[];for(b=0;b<a;b++)e.push("abcdefghijklmnopqrstuvwxyz0123456789_".substr(Math.floor(Math.random()*c),1));return e.join("")};b.random_number=function(a){return Math.floor(Math.random()*a)};b.random_number_string=
-function(a){var c=(""+(a-1)).length;return(Array(c+1).join("0")+b.random_number(a)).slice(-c)};b.getOrigin=function(a){return(a+"/").split("/").slice(0,3).join("/")};b.isSameOriginUrl=function(a,c){c||(c=l.location.href);return a.split("/").slice(0,3).join("/")===c.split("/").slice(0,3).join("/")};b.getParentDomain=function(a){return/^[0-9.]*$/.test(a)||/^\[/.test(a)||!/[.]/.test(a)?a:a.split(".").slice(1).join(".")};b.objectExtend=function(a,c){for(var b in c)c.hasOwnProperty(b)&&(a[b]=c[b]);return a};
-b.polluteGlobalNamespace=function(){"_jp"in l||(l._jp={})};b.closeFrame=function(a,c){return"c"+JSON.stringify([a,c])};b.userSetCode=function(a){return 1E3===a||3E3<=a&&4999>=a};b.countRTO=function(a){return 100<a?3*a:a+200};b.log=function(){l.console&&console.log&&console.log.apply&&console.log.apply(console,arguments)};b.bind=function(a,c){return a.bind?a.bind(c):function(){return a.apply(c,arguments)}};b.flatUrl=function(a){return-1===a.indexOf("?")&&-1===a.indexOf("#")};b.amendUrl=function(a){var c=
-p.location;if(!a)throw Error("Wrong url for SockJS");if(!b.flatUrl(a))throw Error("Only basic urls are supported in SockJS");0===a.indexOf("//")&&(a=c.protocol+a);0===a.indexOf("/")&&(a=c.protocol+"//"+c.host+a);return a=a.replace(/[/]+$/,"")};b.arrIndexOf=function(a,c){for(var b=0;b<a.length;b++)if(a[b]===c)return b;return-1};b.arrSkip=function(a,c){var q=b.arrIndexOf(a,c);return-1===q?a.slice():a.slice(0,q).concat(a.slice(q+1))};b.isArray=Array.isArray||function(a){return 0<={}.toString.call(a).indexOf("Array")};
-b.delay=function(a,c){"function"===typeof a&&(c=a,a=0);return setTimeout(c,a)};var A=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,d={"\x00":"\\u0000","\u0001":"\\u0001","\u0002":"\\u0002","\u0003":"\\u0003","\u0004":"\\u0004","\u0005":"\\u0005","\u0006":"\\u0006","\u0007":"\\u0007","\b":"\\b","\t":"\\t","\n":"\\n","\x0B":"\\u000b","\f":"\\f","\r":"\\r","\u000e":"\\u000e","\u000f":"\\u000f","\u0010":"\\u0010","\u0011":"\\u0011",
-"\u0012":"\\u0012","\u0013":"\\u0013","\u0014":"\\u0014","\u0015":"\\u0015","\u0016":"\\u0016","\u0017":"\\u0017","\u0018":"\\u0018","\u0019":"\\u0019","\u001a":"\\u001a","\u001b":"\\u001b","\u001c":"\\u001c","\u001d":"\\u001d","\u001e":"\\u001e","\u001f":"\\u001f",'"':'\\"',"\\":"\\\\","\u007f":"\\u007f","\u0080":"\\u0080","\u0081":"\\u0081","\u0082":"\\u0082","\u0083":"\\u0083","\u0084":"\\u0084","\u0085":"\\u0085","\u0086":"\\u0086","\u0087":"\\u0087","\u0088":"\\u0088","\u0089":"\\u0089","\u008a":"\\u008a",
-"\u008b":"\\u008b","\u008c":"\\u008c","\u008d":"\\u008d","\u008e":"\\u008e","\u008f":"\\u008f","\u0090":"\\u0090","\u0091":"\\u0091","\u0092":"\\u0092","\u0093":"\\u0093","\u0094":"\\u0094","\u0095":"\\u0095","\u0096":"\\u0096","\u0097":"\\u0097","\u0098":"\\u0098","\u0099":"\\u0099","\u009a":"\\u009a","\u009b":"\\u009b","\u009c":"\\u009c","\u009d":"\\u009d","\u009e":"\\u009e","\u009f":"\\u009f","\u00ad":"\\u00ad","\u0600":"\\u0600","\u0601":"\\u0601","\u0602":"\\u0602","\u0603":"\\u0603","\u0604":"\\u0604",
-"\u070f":"\\u070f","\u17b4":"\\u17b4","\u17b5":"\\u17b5","\u200c":"\\u200c","\u200d":"\\u200d","\u200e":"\\u200e","\u200f":"\\u200f","\u2028":"\\u2028","\u2029":"\\u2029","\u202a":"\\u202a","\u202b":"\\u202b","\u202c":"\\u202c","\u202d":"\\u202d","\u202e":"\\u202e","\u202f":"\\u202f","\u2060":"\\u2060","\u2061":"\\u2061","\u2062":"\\u2062","\u2063":"\\u2063","\u2064":"\\u2064","\u2065":"\\u2065","\u2066":"\\u2066","\u2067":"\\u2067","\u2068":"\\u2068","\u2069":"\\u2069","\u206a":"\\u206a","\u206b":"\\u206b",
-"\u206c":"\\u206c","\u206d":"\\u206d","\u206e":"\\u206e","\u206f":"\\u206f","\ufeff":"\\ufeff","\ufff0":"\\ufff0","\ufff1":"\\ufff1","\ufff2":"\\ufff2","\ufff3":"\\ufff3","\ufff4":"\\ufff4","\ufff5":"\\ufff5","\ufff6":"\\ufff6","\ufff7":"\\ufff7","\ufff8":"\\ufff8","\ufff9":"\\ufff9","\ufffa":"\\ufffa","\ufffb":"\\ufffb","\ufffc":"\\ufffc","\ufffd":"\\ufffd","\ufffe":"\\ufffe","\uffff":"\\uffff"},g=/[\x00-\x1f\ud800-\udfff\ufffe\uffff\u0300-\u0333\u033d-\u0346\u034a-\u034c\u0350-\u0352\u0357-\u0358\u035c-\u0362\u0374\u037e\u0387\u0591-\u05af\u05c4\u0610-\u0617\u0653-\u0654\u0657-\u065b\u065d-\u065e\u06df-\u06e2\u06eb-\u06ec\u0730\u0732-\u0733\u0735-\u0736\u073a\u073d\u073f-\u0741\u0743\u0745\u0747\u07eb-\u07f1\u0951\u0958-\u095f\u09dc-\u09dd\u09df\u0a33\u0a36\u0a59-\u0a5b\u0a5e\u0b5c-\u0b5d\u0e38-\u0e39\u0f43\u0f4d\u0f52\u0f57\u0f5c\u0f69\u0f72-\u0f76\u0f78\u0f80-\u0f83\u0f93\u0f9d\u0fa2\u0fa7\u0fac\u0fb9\u1939-\u193a\u1a17\u1b6b\u1cda-\u1cdb\u1dc0-\u1dcf\u1dfc\u1dfe\u1f71\u1f73\u1f75\u1f77\u1f79\u1f7b\u1f7d\u1fbb\u1fbe\u1fc9\u1fcb\u1fd3\u1fdb\u1fe3\u1feb\u1fee-\u1fef\u1ff9\u1ffb\u1ffd\u2000-\u2001\u20d0-\u20d1\u20d4-\u20d7\u20e7-\u20e9\u2126\u212a-\u212b\u2329-\u232a\u2adc\u302b-\u302c\uaab2-\uaab3\uf900-\ufa0d\ufa10\ufa12\ufa15-\ufa1e\ufa20\ufa22\ufa25-\ufa26\ufa2a-\ufa2d\ufa30-\ufa6d\ufa70-\ufad9\ufb1d\ufb1f\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufb4e\ufff0-\uffff]/g,
-h,x=JSON&&JSON.stringify||function(a){A.lastIndex=0;A.test(a)&&(a=a.replace(A,function(a){return d[a]}));return'"'+a+'"'},n=function(a){var c,b={},e=[];for(c=0;65536>c;c++)e.push(String.fromCharCode(c));a.lastIndex=0;e.join("").replace(a,function(a){b[a]="\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4);return""});a.lastIndex=0;return b};b.quote=function(a){a=x(a);g.lastIndex=0;if(!g.test(a))return a;h||(h=n(g));return a.replace(g,function(a){return h[a]})};var v="websocket xdr-streaming xhr-streaming iframe-eventsource iframe-htmlfile xdr-polling xhr-polling iframe-xhr-polling jsonp-polling".split(" ");
-b.probeProtocols=function(){for(var a={},c=0;c<v.length;c++){var b=v[c];a[b]=f[b]&&f[b].enabled()}return a};b.detectProtocols=function(a,c,b){var e={},F=[];c||(c=v);for(var d=0;d<c.length;d++){var f=c[d];e[f]=a[f]}var g=function(a){var c=a.shift();e[c]?F.push(c):0<a.length&&g(a)};!1!==b.websocket&&g(["websocket"]);e["xhr-streaming"]&&!b.null_origin?F.push("xhr-streaming"):!e["xdr-streaming"]||b.cookie_needed||b.null_origin?g(["iframe-eventsource","iframe-htmlfile"]):F.push("xdr-streaming");e["xhr-polling"]&&
-!b.null_origin?F.push("xhr-polling"):!e["xdr-polling"]||b.cookie_needed||b.null_origin?g(["iframe-xhr-polling","jsonp-polling"]):F.push("xdr-polling");return F};b.createHook=function(){var a="a"+b.random_string(8);if(!("_sockjs_global"in l)){var c={};l._sockjs_global=function(a){a in c||(c[a]={id:a,del:function(){delete c[a]}});return c[a]}}return l._sockjs_global(a)};b.attachMessage=function(a){b.attachEvent("message",a)};b.attachEvent=function(a,c){"undefined"!==typeof l.addEventListener?l.addEventListener(a,
-c,!1):(p.attachEvent("on"+a,c),l.attachEvent("on"+a,c))};b.detachMessage=function(a){b.detachEvent("message",a)};b.detachEvent=function(a,c){"undefined"!==typeof l.addEventListener?l.removeEventListener(a,c,!1):(p.detachEvent("on"+a,c),l.detachEvent("on"+a,c))};var r={},C=!1,D=function(){for(var a in r)r[a](),delete r[a]};b.attachEvent("unload",function(){C||(C=!0,D())});b.unload_add=function(a){var c=b.random_string(8);r[c]=a;C&&b.delay(D);return c};b.unload_del=function(a){a in r&&delete r[a]};
-b.createIframe=function(a,c){var q=p.createElement("iframe"),e,d,f=function(){clearTimeout(e);try{q.onload=null}catch(a){}q.onerror=null},g=function(){q&&(f(),setTimeout(function(){q&&q.parentNode.removeChild(q);q=null},0),b.unload_del(d))},h=function(a){q&&(g(),c(a))};q.src=a;q.style.display="none";q.style.position="absolute";q.onerror=function(){h("onerror")};q.onload=function(){clearTimeout(e);e=setTimeout(function(){h("onload timeout")},2E3)};p.body.appendChild(q);e=setTimeout(function(){h("timeout")},
-15E3);d=b.unload_add(g);return{post:function(a,c){try{q&&q.contentWindow&&q.contentWindow.postMessage(a,c)}catch(b){}},cleanup:g,loaded:f}};b.createHtmlfile=function(a,c){var q=new ActiveXObject("htmlfile"),e,d,f,g=function(){clearTimeout(e)},h=function(){q&&(g(),b.unload_del(d),f.parentNode.removeChild(f),f=q=null,CollectGarbage())};q.open();q.write('<html><script>document.domain="'+document.domain+'";\x3c/script></html>');q.close();q.parentWindow._jp=l._jp;var k=q.createElement("div");q.body.appendChild(k);
-f=q.createElement("iframe");k.appendChild(f);f.src=a;e=setTimeout(function(){q&&(h(),c("timeout"))},15E3);d=b.unload_add(h);return{post:function(a,c){try{f&&f.contentWindow&&f.contentWindow.postMessage(a,c)}catch(b){}},cleanup:h,loaded:g}};var m=function(){};m.prototype=new k(["chunk","finish"]);m.prototype._start=function(a,c,q,e){var d=this;try{d.xhr=new XMLHttpRequest}catch(f){}if(!d.xhr)try{d.xhr=new l.ActiveXObject("Microsoft.XMLHTTP")}catch(g){}if(l.ActiveXObject||l.XDomainRequest)c+=(-1===
-c.indexOf("?")?"?":"&")+"t="+ +new Date;d.unload_ref=b.unload_add(function(){d._cleanup(!0)});try{d.xhr.open(a,c,!0)}catch(h){d.emit("finish",0,"");d._cleanup();return}e&&e.no_credentials||(d.xhr.withCredentials="true");if(e&&e.headers)for(var k in e.headers)d.xhr.setRequestHeader(k,e.headers[k]);d.xhr.onreadystatechange=function(){if(d.xhr){var a=d.xhr;switch(a.readyState){case 3:try{var c=a.status,b=a.responseText}catch(e){}1223===c&&(c=204);b&&0<b.length&&d.emit("chunk",c,b);break;case 4:c=a.status,
-1223===c&&(c=204),d.emit("finish",c,a.responseText),d._cleanup(!1)}}};d.xhr.send(q)};m.prototype._cleanup=function(a){if(this.xhr){b.unload_del(this.unload_ref);this.xhr.onreadystatechange=function(){};if(a)try{this.xhr.abort()}catch(c){}this.unload_ref=this.xhr=null}};m.prototype.close=function(){this.nuke();this._cleanup(!0)};(b.XHRCorsObject=function(){var a=this,c=arguments;b.delay(function(){a._start.apply(a,c)})}).prototype=new m;(b.XHRLocalObject=function(a,c,d){var e=this;b.delay(function(){e._start(a,
-c,d,{no_credentials:!0})})}).prototype=new m;m=b.XDRObject=function(a,c,d){var e=this;b.delay(function(){e._start(a,c,d)})};m.prototype=new k(["chunk","finish"]);m.prototype._start=function(a,c,d){var e=this,f=new XDomainRequest;c+=(-1===c.indexOf("?")?"?":"&")+"t="+ +new Date;var g=f.ontimeout=f.onerror=function(){e.emit("finish",0,"");e._cleanup(!1)};f.onprogress=function(){e.emit("chunk",200,f.responseText)};f.onload=function(){e.emit("finish",200,f.responseText);e._cleanup(!1)};e.xdr=f;e.unload_ref=
-b.unload_add(function(){e._cleanup(!0)});try{e.xdr.open(a,c),e.xdr.send(d)}catch(h){g()}};m.prototype._cleanup=function(a){if(this.xdr){b.unload_del(this.unload_ref);this.xdr.ontimeout=this.xdr.onerror=this.xdr.onprogress=this.xdr.onload=null;if(a)try{this.xdr.abort()}catch(c){}this.unload_ref=this.xdr=null}};m.prototype.close=function(){this.nuke();this._cleanup(!0)};b.isXHRCorsCapable=function(){return l.XMLHttpRequest&&"withCredentials"in new XMLHttpRequest?1:l.XDomainRequest&&p.domain?2:w.enabled()?
-3:4};var f=function(a,c,d){if(this===l)return new f(a,c,d);var e=this,g;e._options={devel:!1,debug:!1,protocols_whitelist:[],info:void 0,rtt:void 0};d&&b.objectExtend(e._options,d);e._base_url=b.amendUrl(a);e._server=e._options.server||b.random_number_string(1E3);e._options.protocols_whitelist&&e._options.protocols_whitelist.length?g=e._options.protocols_whitelist:(g="string"===typeof c&&0<c.length?[c]:b.isArray(c)?c:null)&&e._debug('Deprecated API: Use "protocols_whitelist" option instead of supplying protocol list as a second parameter to SockJS constructor.');
-e._protocols=[];e.protocol=null;e.readyState=f.CONNECTING;e._ir=S(e._base_url);e._ir.onfinish=function(a,c){e._ir=null;a?(e._options.info&&(a=b.objectExtend(a,e._options.info)),e._options.rtt&&(c=e._options.rtt),e._applyInfo(a,c,g),e._didClose()):e._didClose(1002,"Can't connect to server",!0)}};f.prototype=new t;f.version="0.3.4";f.CONNECTING=0;f.OPEN=1;f.CLOSING=2;f.CLOSED=3;f.prototype._debug=function(){this._options.debug&&b.log.apply(b,arguments)};f.prototype._dispatchOpen=function(){this.readyState===
-f.CONNECTING?(this._transport_tref&&(clearTimeout(this._transport_tref),this._transport_tref=null),this.readyState=f.OPEN,this.dispatchEvent(new s("open"))):this._didClose(1006,"Server lost session")};f.prototype._dispatchMessage=function(a){this.readyState===f.OPEN&&this.dispatchEvent(new s("message",{data:a}))};f.prototype._dispatchHeartbeat=function(a){this.readyState===f.OPEN&&this.dispatchEvent(new s("heartbeat",{}))};f.prototype._didClose=function(a,c,d){var e=this;if(e.readyState!==f.CONNECTING&&
-e.readyState!==f.OPEN&&e.readyState!==f.CLOSING)throw Error("INVALID_STATE_ERR");e._ir&&(e._ir.nuke(),e._ir=null);e._transport&&(e._transport.doCleanup(),e._transport=null);var g=new s("close",{code:a,reason:c,wasClean:b.userSetCode(a)});if(!b.userSetCode(a)&&e.readyState===f.CONNECTING&&!d){if(e._try_next_protocol(g))return;g=new s("close",{code:2E3,reason:"All transports failed",wasClean:!1,last_event:g})}e.readyState=f.CLOSED;b.delay(function(){e.dispatchEvent(g)})};f.prototype._didMessage=function(a){switch(a.slice(0,
-1)){case "o":this._dispatchOpen();break;case "a":a=JSON.parse(a.slice(1)||"[]");for(var c=0;c<a.length;c++)this._dispatchMessage(a[c]);break;case "m":a=JSON.parse(a.slice(1)||"null");this._dispatchMessage(a);break;case "c":a=JSON.parse(a.slice(1)||"[]");this._didClose(a[0],a[1]);break;case "h":this._dispatchHeartbeat()}};f.prototype._try_next_protocol=function(a){var c=this;c.protocol&&(c._debug("Closed transport:",c.protocol,""+a),c.protocol=null);c._transport_tref&&(clearTimeout(c._transport_tref),
-c._transport_tref=null);for(;;){a=c.protocol=c._protocols.shift();if(!a)return!1;if(f[a]&&!0===f[a].need_body&&(!p.body||"undefined"!==typeof p.readyState&&"complete"!==p.readyState))return c._protocols.unshift(a),c.protocol="waiting-for-load",b.attachEvent("load",function(){c._try_next_protocol()}),!0;if(f[a]&&f[a].enabled(c._options)){c._transport_tref=b.delay((c._options.rto||0)*(f[a].roundTrips||1)||5E3,function(){c.readyState===f.CONNECTING&&c._didClose(2007,"Transport timeouted")});var d=b.random_string(8),
-d=c._base_url+"/"+c._server+"/"+d;c._debug("Opening transport:",a," url:"+d," RTO:"+c._options.rto);c._transport=new f[a](c,d,c._base_url);return!0}c._debug("Skipping transport:",a)}};f.prototype.close=function(a,c){if(a&&!b.userSetCode(a))throw Error("INVALID_ACCESS_ERR");if(this.readyState!==f.CONNECTING&&this.readyState!==f.OPEN)return!1;this.readyState=f.CLOSING;this._didClose(a||1E3,c||"Normal closure");return!0};f.prototype.send=function(a){if(this.readyState===f.CONNECTING)throw Error("INVALID_STATE_ERR");
-this.readyState===f.OPEN&&this._transport.doSend(b.quote(""+a));return!0};f.prototype._applyInfo=function(a,c,d){this._options.info=a;this._options.rtt=c;this._options.rto=b.countRTO(c);this._options.info.null_origin=!p.domain;c=b.probeProtocols();this._protocols=b.detectProtocols(c,d,a)};m=f.websocket=function(a,c){var d=this,e=c+"/websocket",e="https"===e.slice(0,5)?"wss"+e.slice(5):"ws"+e.slice(4);d.ri=a;d.url=e;d.ws=new (l.WebSocket||l.MozWebSocket)(d.url);d.ws.onmessage=function(a){d.ri._didMessage(a.data)};
-d.unload_ref=b.unload_add(function(){d.ws.close()});d.ws.onclose=function(){d.ri._didMessage(b.closeFrame(1006,"WebSocket connection broken"))}};m.prototype.doSend=function(a){this.ws.send("["+a+"]")};m.prototype.doCleanup=function(){var a=this.ws;a&&(a.onmessage=a.onclose=null,a.close(),b.unload_del(this.unload_ref),this.unload_ref=this.ri=this.ws=null)};m.enabled=function(){return!(!l.WebSocket&&!l.MozWebSocket)};m.roundTrips=2;var u=function(){};u.prototype.send_constructor=function(a){this.send_buffer=
-[];this.sender=a};u.prototype.doSend=function(a){this.send_buffer.push(a);this.send_stop||this.send_schedule()};u.prototype.send_schedule_wait=function(){var a=this,c;a.send_stop=function(){a.send_stop=null;clearTimeout(c)};c=b.delay(25,function(){a.send_stop=null;a.send_schedule()})};u.prototype.send_schedule=function(){var a=this;if(0<a.send_buffer.length){var c="["+a.send_buffer.join(",")+"]";a.send_stop=a.sender(a.trans_url,c,function(c,b){a.send_stop=null;!1===c?a.ri._didClose(1006,"Sending error "+
-b):a.send_schedule_wait()});a.send_buffer=[]}};u.prototype.send_destructor=function(){this._send_stop&&this._send_stop();this._send_stop=null};var I=function(a,c,d){if(!("_send_form"in this)){var e=this._send_form=p.createElement("form"),f=this._send_area=p.createElement("textarea");f.name="d";e.style.display="none";e.style.position="absolute";e.method="POST";e.enctype="application/x-www-form-urlencoded";e.acceptCharset="UTF-8";e.appendChild(f);p.body.appendChild(e)}var e=this._send_form,f=this._send_area,
-g="a"+b.random_string(8);e.target=g;e.action=a+"/jsonp_send?i="+g;var h;try{h=p.createElement('<iframe name="'+g+'">')}catch(k){h=p.createElement("iframe"),h.name=g}h.id=g;e.appendChild(h);h.style.display="none";try{f.value=c}catch(x){b.log("Your browser is seriously broken. Go home! "+x.message)}e.submit();var n=function(a){h.onerror&&(h.onreadystatechange=h.onerror=h.onload=null,b.delay(500,function(){h.parentNode.removeChild(h);h=null}),f.value="",d(!0))};h.onerror=h.onload=n;h.onreadystatechange=
-function(a){"complete"==h.readyState&&n()};return n},H=function(a){return function(c,b,e){(new a("POST",c+"/xhr_send",b)).onfinish=function(a,c){e(200===a||204===a,"http status "+a)};return function(a){e(!1,a)}}},y=function(a,c){var d,e=p.createElement("script"),f,g=function(a){f&&(f.parentNode.removeChild(f),f=null);e&&(clearTimeout(d),e.parentNode.removeChild(e),e=e.onreadystatechange=e.onerror=e.onload=e.onclick=null,c(a),c=null)},h=!1,k=null;e.id="a"+b.random_string(8);e.src=a;e.type="text/javascript";
-e.charset="UTF-8";e.onerror=function(a){k||(k=setTimeout(function(){h||g(b.closeFrame(1006,"JSONP script loaded abnormally (onerror)"))},1E3))};e.onload=function(a){g(b.closeFrame(1006,"JSONP script loaded abnormally (onload)"))};e.onreadystatechange=function(a){if(/loaded|closed/.test(e.readyState)){if(e&&e.htmlFor&&e.onclick){h=!0;try{e.onclick()}catch(c){}}e&&g(b.closeFrame(1006,"JSONP script loaded abnormally (onreadystatechange)"))}};if("undefined"===typeof e.async&&p.attachEvent)if(/opera/i.test(navigator.userAgent))f=
-p.createElement("script"),f.text="try{var a = document.getElementById('"+e.id+"'); if(a)a.onerror();}catch(x){};",e.async=f.async=!1;else{try{e.htmlFor=e.id,e.event="onclick"}catch(x){}e.async=!0}"undefined"!==typeof e.async&&(e.async=!0);d=setTimeout(function(){g(b.closeFrame(1006,"JSONP script loaded abnormally (timeout)"))},35E3);var n=p.getElementsByTagName("head")[0];n.insertBefore(e,n.firstChild);f&&n.insertBefore(f,n.firstChild);return g},m=f["jsonp-polling"]=function(a,c){b.polluteGlobalNamespace();
-this.ri=a;this.trans_url=c;this.send_constructor(I);this._schedule_recv()};m.prototype=new u;m.prototype._schedule_recv=function(){var a=this;a._recv_stop=T(a.trans_url+"/jsonp",y,function(c){a._recv_stop=null;c&&(a._is_closing||a.ri._didMessage(c));a._is_closing||a._schedule_recv()})};m.enabled=function(){return!0};m.need_body=!0;m.prototype.doCleanup=function(){this._is_closing=!0;this._recv_stop&&this._recv_stop();this.ri=this._recv_stop=null;this.send_destructor()};var T=function(a,c,d){var e=
-"a"+b.random_string(6);a=a+"?c="+escape("_jp."+e);var f=0;c=c(a,function(a){switch(f){case 0:delete l._jp[e];d(a);break;case 1:d(a);f=2;break;case 2:delete l._jp[e]}});l._jp[e]=c;return function(){l._jp[e]&&(f=1,l._jp[e](b.closeFrame(1E3,"JSONP user aborted read")))}},m=function(){};m.prototype=new u;m.prototype.run=function(a,c,b,e,d){this.ri=a;this.trans_url=c;this.send_constructor(H(d));this.poll=new K(a,e,c+b,d)};m.prototype.doCleanup=function(){this.poll&&(this.poll.abort(),this.poll=null)};
-var B=f["xhr-streaming"]=function(a,c){this.run(a,c,"/xhr_streaming",E,b.XHRCorsObject)};B.prototype=new m;B.enabled=function(){return l.XMLHttpRequest&&"withCredentials"in new XMLHttpRequest&&!/opera/i.test(navigator.userAgent)};B.roundTrips=2;B.need_body=!0;u=f["xdr-streaming"]=function(a,c){this.run(a,c,"/xhr_streaming",E,b.XDRObject)};u.prototype=new m;u.enabled=function(){return!!l.XDomainRequest};u.roundTrips=2;var L=f["xhr-polling"]=function(a,c){this.run(a,c,"/xhr",E,b.XHRCorsObject)};L.prototype=
-new m;L.enabled=B.enabled;L.roundTrips=2;B=f["xdr-polling"]=function(a,c){this.run(a,c,"/xhr",E,b.XDRObject)};B.prototype=new m;B.enabled=u.enabled;B.roundTrips=2;var w=function(){};w.prototype.i_constructor=function(a,c,d){var e=this;e.ri=a;e.origin=b.getOrigin(d);e.base_url=d;e.trans_url=c;a=d+"/iframe.html";e.ri._options.devel&&(a+="?t="+ +new Date);e.window_id=b.random_string(8);a+="#"+e.window_id;e.iframeObj=b.createIframe(a,function(a){e.ri._didClose(1006,"Unable to load an iframe ("+a+")")});
-e.onmessage_cb=b.bind(e.onmessage,e);b.attachMessage(e.onmessage_cb)};w.prototype.doCleanup=function(){if(this.iframeObj){b.detachMessage(this.onmessage_cb);try{this.iframeObj.iframe.contentWindow&&this.postMessage("c")}catch(a){}this.iframeObj.cleanup();this.onmessage_cb=this.iframeObj=this.iframeObj=null}};w.prototype.onmessage=function(a){if(a.origin===this.origin){var c=a.data.slice(0,8),b=a.data.slice(8,9);a=a.data.slice(9);if(c===this.window_id)switch(b){case "s":this.iframeObj.loaded();this.postMessage("s",
-JSON.stringify([f.version,this.protocol,this.trans_url,this.base_url]));break;case "t":this.ri._didMessage(a)}}};w.prototype.postMessage=function(a,c){this.iframeObj.post(this.window_id+a+(c||""),this.origin)};w.prototype.doSend=function(a){this.postMessage("m",a)};w.enabled=function(){var a=navigator&&navigator.userAgent&&-1!==navigator.userAgent.indexOf("Konqueror");return("function"===typeof l.postMessage||"object"===typeof l.postMessage)&&!a};var M,N=function(a,c){parent!==l?parent.postMessage(M+
-a+(c||""),"*"):b.log("Can't postMessage, no parent window.",a,c)},z=function(){};z.prototype._didClose=function(a,c){N("t",b.closeFrame(a,c))};z.prototype._didMessage=function(a){N("t",a)};z.prototype._doSend=function(a){this._transport.doSend(a)};z.prototype._doCleanup=function(){this._transport.doCleanup()};b.parent_origin=void 0;f.bootstrap_iframe=function(){var a;M=p.location.hash.slice(1);b.attachMessage(function(c){if(c.source===parent&&("undefined"===typeof b.parent_origin&&(b.parent_origin=
-c.origin),c.origin===b.parent_origin)){var d=c.data.slice(0,8),e=c.data.slice(8,9);c=c.data.slice(9);if(d===M)switch(e){case "s":var g=JSON.parse(c),d=g[0],e=g[1];c=g[2];g=g[3];d!==f.version&&b.log('Incompatibile SockJS! Main site uses: "'+d+'", the iframe: "'+f.version+'".');if(!b.flatUrl(c)||!b.flatUrl(g)){b.log("Only basic urls are supported in SockJS");break}if(!b.isSameOriginUrl(c)||!b.isSameOriginUrl(g)){b.log("Can't connect to different domain from within an iframe. ("+JSON.stringify([l.location.href,
-c,g])+")");break}a=new z;a._transport=new z[e](a,c,g);break;case "m":a._doSend(c);break;case "c":a&&a._doCleanup(),a=null}}});N("s")};var G=function(a,c){var d=this;b.delay(function(){d.doXhr(a,c)})};G.prototype=new k(["finish"]);G.prototype.doXhr=function(a,c){var d=this,e=(new Date).getTime(),f=new c("GET",a+"/info"),g=b.delay(8E3,function(){f.ontimeout()});f.onfinish=function(a,c){clearTimeout(g);g=null;if(200===a){var b=(new Date).getTime()-e,f=JSON.parse(c);"object"!==typeof f&&(f={});d.emit("finish",
-f,b)}else d.emit("finish")};f.ontimeout=function(){f.close();d.emit("finish")}};var Q=function(a){var c=this,d=function(){var b=new w;b.protocol="w-iframe-info-receiver";var d=function(a){"string"===typeof a&&"m"===a.substr(0,1)?(a=JSON.parse(a.substr(1)),c.emit("finish",a[0],a[1])):c.emit("finish");b.doCleanup();b=null};b.i_constructor({_options:{},_didClose:d,_didMessage:d},a,a)};p.body?d():b.attachEvent("load",d)};Q.prototype=new k(["finish"]);var R=function(){var a=this;b.delay(function(){a.emit("finish",
-{},2E3)})};R.prototype=new k(["finish"]);var S=function(a){if(b.isSameOriginUrl(a))return new G(a,b.XHRLocalObject);switch(b.isXHRCorsCapable()){case 1:return new G(a,b.XHRLocalObject);case 2:return new G(a,b.XDRObject);case 3:return new Q(a);default:return new R}};(z["w-iframe-info-receiver"]=function(a,c,d){(new G(d,b.XHRLocalObject)).onfinish=function(c,b){a._didMessage("m"+JSON.stringify([c,b]));a._didClose()}}).prototype.doCleanup=function(){};k=f["iframe-eventsource"]=function(){this.protocol=
-"w-iframe-eventsource";this.i_constructor.apply(this,arguments)};k.prototype=new w;k.enabled=function(){return"EventSource"in l&&w.enabled()};k.need_body=!0;k.roundTrips=3;(z["w-iframe-eventsource"]=function(a,c){this.run(a,c,"/eventsource",O,b.XHRLocalObject)}).prototype=new m;k=f["iframe-xhr-polling"]=function(){this.protocol="w-iframe-xhr-polling";this.i_constructor.apply(this,arguments)};k.prototype=new w;k.enabled=function(){return l.XMLHttpRequest&&w.enabled()};k.need_body=!0;k.roundTrips=3;
-(z["w-iframe-xhr-polling"]=function(a,c){this.run(a,c,"/xhr",E,b.XHRLocalObject)}).prototype=new m;k=f["iframe-htmlfile"]=function(){this.protocol="w-iframe-htmlfile";this.i_constructor.apply(this,arguments)};k.prototype=new w;k.enabled=function(){return w.enabled()};k.need_body=!0;k.roundTrips=3;(z["w-iframe-htmlfile"]=function(a,c){this.run(a,c,"/htmlfile",P,b.XHRLocalObject)}).prototype=new m;var K=function(a,c,b,d){this.ri=a;this.Receiver=c;this.recv_url=b;this.AjaxObject=d;this._scheduleRecv()};
-K.prototype._scheduleRecv=function(){var a=this,c=a.poll=new a.Receiver(a.recv_url,a.AjaxObject);c.onmessage=function(c){a.ri._didMessage(c.data)};c.onclose=function(b){a.poll=c=c.onmessage=c.onclose=null;a.poll_is_closing||("permanent"===b.reason?a.ri._didClose(1006,"Polling error ("+b.reason+")"):a._scheduleRecv())}};K.prototype.abort=function(){this.poll_is_closing=!0;this.poll&&this.poll.abort()};var O=function(a){var c=this,d=new EventSource(a);d.onmessage=function(a){c.dispatchEvent(new s("message",
-{data:unescape(a.data)}))};c.es_close=d.onerror=function(a,f){var g=f?"user":2!==d.readyState?"network":"permanent";c.es_close=d.onmessage=d.onerror=null;d.close();d=null;b.delay(200,function(){c.dispatchEvent(new s("close",{reason:g}))})}};O.prototype=new t;O.prototype.abort=function(){this.es_close&&this.es_close({},!0)};var J,P=function(a){var c=this;b.polluteGlobalNamespace();c.id="a"+b.random_string(6,26);a+=(-1===a.indexOf("?")?"?":"&")+"c="+escape("_jp."+c.id);if(void 0===J)if("ActiveXObject"in
-l)try{J=!!new ActiveXObject("htmlfile")}catch(d){}else J=!1;var e=J?b.createHtmlfile:b.createIframe,f;l._jp[c.id]={start:function(){f.loaded()},message:function(a){c.dispatchEvent(new s("message",{data:a}))},stop:function(){c.iframe_close({},"network")}};c.iframe_close=function(a,b){f.cleanup();c.iframe_close=f=null;delete l._jp[c.id];c.dispatchEvent(new s("close",{reason:b}))};f=e(a,function(a){c.iframe_close({},"permanent")})};P.prototype=new t;P.prototype.abort=function(){this.iframe_close&&this.iframe_close({},
-"user")};var E=function(a,c){var b=this,d=0;b.xo=new c("POST",a,null);b.xo.onchunk=function(a,c){if(200===a)for(;;){var f=c.slice(d),g=f.indexOf("\n");if(-1===g)break;d+=g+1;f=f.slice(0,g);b.dispatchEvent(new s("message",{data:f}))}};b.xo.onfinish=function(a,c){b.xo.onchunk(a,c);b.xo=null;b.dispatchEvent(new s("close",{reason:200===a?"network":"permanent"}))}};E.prototype=new t;E.prototype.abort=function(){this.xo&&(this.xo.close(),this.dispatchEvent(new s("close",{reason:"user"})),this.xo=null)};
-f.getUtils=function(){return b};f.getIframeTransport=function(){return w};return f}();"_sockjs_onload"in window&&setTimeout(_sockjs_onload,1);"function"===typeof define&&define.amd&&define("sockjs",[],function(){return SockJS});
-(function(){var p,l,b,t={}.hasOwnProperty,s=[].slice;l=function(){function b(d,g,h){this.command=d;this.headers=null!=g?g:{};this.body=null!=h?h:""}var l;b.prototype.toString=function(){var d,g,h,x,n;d=[this.command];(h=!1===this.headers["content-length"]?!0:!1)&&delete this.headers["content-length"];n=this.headers;for(g in n)t.call(n,g)&&(x=n[g],d.push(""+g+":"+x));this.body&&!h&&d.push("content-length:"+b.sizeOfUTF8(this.body));d.push("\n"+this.body);return d.join("\n")};b.sizeOfUTF8=function(b){return b?
-encodeURI(b).match(/%..|./g).length:0};l=function(d){var g,h,x,n,l,r,p,s,m;n=d.search(/\n\n/);l=d.substring(0,n).split("\n");x=l.shift();r={};g=function(b){return b.replace(/^\s+|\s+$/g,"")};m=l.reverse();h=0;for(s=m.length;h<s;h++)p=m[h],l=p.indexOf(":"),r[g(p.substring(0,l))]=g(p.substring(l+1));g="";n+=2;if(r["content-length"])g=parseInt(r["content-length"]),g=(""+d).substring(n,n+g);else for(h=null,h=l=n,p=d.length;n<=p?l<p:l>p;h=n<=p?++l:--l){h=d.charAt(h);if("\x00"===h)break;g+=h}return new b(x,
-r,g)};b.unmarshall=function(b){var g,h;h=b.split(/\x00\n*/);b={frames:[],partial:""};var k,n,p,r;p=h.slice(0,-1);r=[];k=0;for(n=p.length;k<n;k++)g=p[k],r.push(l(g));b.frames=r;g=h.slice(-1)[0];"\n"===g||-1!==g.search(/\x00\n*$/)?b.frames.push(l(g)):b.partial=g;return b};b.marshall=function(d,g,h){return(new b(d,g,h)).toString()+"\x00"};return b}();p=function(){function k(b){this.ws=b;this.ws.binaryType="arraybuffer";this.counter=0;this.connected=!1;this.heartbeat={outgoing:1E4,incoming:1E4};this.maxWebSocketFrameSize=
-16384;this.subscriptions={};this.partialData=""}var p;k.prototype.debug=function(b){var g;return"undefined"!==typeof window&&null!==window?null!=(g=window.console)?g.log(b):void 0:void 0};p=function(){return Date.now?Date.now():(new Date).valueOf};k.prototype._transmit=function(b,g,h){b=l.marshall(b,g,h);for("function"===typeof this.debug&&this.debug(">>> "+b);;)if(b.length>this.maxWebSocketFrameSize)this.ws.send(b.substring(0,this.maxWebSocketFrameSize)),b=b.substring(this.maxWebSocketFrameSize),
-"function"===typeof this.debug&&this.debug("remaining = "+b.length);else return this.ws.send(b)};k.prototype._setupHeartbeat=function(d){var g,h,k,n;if((h=d.version)===b.VERSIONS.V1_1||h===b.VERSIONS.V1_2)if(g=function(){var b,g,h,k;h=d["heart-beat"].split(",");k=[];b=0;for(g=h.length;b<g;b++)n=h[b],k.push(parseInt(n));return k}(),h=g[0],g=g[1],0!==this.heartbeat.outgoing&&0!==g&&(k=Math.max(this.heartbeat.outgoing,g),"function"===typeof this.debug&&this.debug("send PING every "+k+"ms"),this.pinger=
-b.setInterval(k,function(b){return function(){b.ws.send("\n");return"function"===typeof b.debug?b.debug(">>> PING"):void 0}}(this))),0!==this.heartbeat.incoming&&0!==h)return k=Math.max(this.heartbeat.incoming,h),"function"===typeof this.debug&&this.debug("check PONG every "+k+"ms"),this.ponger=b.setInterval(k,function(b){return function(){var d;d=p()-b.serverActivity;if(d>2*k)return"function"===typeof b.debug&&b.debug("did not receive server activity for the last "+d+"ms"),b.ws.close()}}(this))};
-k.prototype._parseConnect=function(){var b,g,h,k;b=1<=arguments.length?s.call(arguments,0):[];k={};switch(b.length){case 2:k=b[0];g=b[1];break;case 3:b[1]instanceof Function?(k=b[0],g=b[1],h=b[2]):(k.login=b[0],k.passcode=b[1],g=b[2]);break;case 4:k.login=b[0];k.passcode=b[1];g=b[2];h=b[3];break;default:k.login=b[0],k.passcode=b[1],g=b[2],h=b[3],k.host=b[4]}return[k,g,h]};k.prototype.connect=function(){var d,g,h;d=1<=arguments.length?s.call(arguments,0):[];d=this._parseConnect.apply(this,d);h=d[0];
-this.connectCallback=d[1];g=d[2];"function"===typeof this.debug&&this.debug("Opening Web Socket...");this.ws.onmessage=function(b){return function(d){var h,k,s,t,m,f,u,I,H,y;d="undefined"!==typeof ArrayBuffer&&d.data instanceof ArrayBuffer?(h=new Uint8Array(d.data),"function"===typeof b.debug?b.debug("--- got data length: "+h.length):void 0,function(){var b,d,f;f=[];b=0;for(d=h.length;b<d;b++)k=h[b],f.push(String.fromCharCode(k));return f}().join("")):d.data;b.serverActivity=p();if("\n"===d)"function"===
-typeof b.debug&&b.debug("<<< PONG");else{"function"===typeof b.debug&&b.debug("<<< "+d);d=l.unmarshall(b.partialData+d);b.partialData=d.partial;H=d.frames;y=[];u=0;for(I=H.length;u<I;u++)switch(d=H[u],d.command){case "CONNECTED":"function"===typeof b.debug&&b.debug("connected to server "+d.headers.server);b.connected=!0;b._setupHeartbeat(d.headers);y.push("function"===typeof b.connectCallback?b.connectCallback(d):void 0);break;case "MESSAGE":f=d.headers.subscription;(m=b.subscriptions[f]||b.onreceive)?
-(s=b,t=d.headers["message-id"],d.ack=function(b){null==b&&(b={});return s.ack(t,f,b)},d.nack=function(b){null==b&&(b={});return s.nack(t,f,b)},y.push(m(d))):y.push("function"===typeof b.debug?b.debug("Unhandled received MESSAGE: "+d):void 0);break;case "RECEIPT":y.push("function"===typeof b.onreceipt?b.onreceipt(d):void 0);break;case "ERROR":y.push("function"===typeof g?g(d):void 0);break;default:y.push("function"===typeof b.debug?b.debug("Unhandled frame: "+d):void 0)}return y}}}(this);this.ws.onclose=
-function(b){return function(){var d;d="Whoops! Lost connection to "+b.ws.url;"function"===typeof b.debug&&b.debug(d);b._cleanUp();return"function"===typeof g?g(d):void 0}}(this);return this.ws.onopen=function(d){return function(){"function"===typeof d.debug&&d.debug("Web Socket Opened...");h["accept-version"]=b.VERSIONS.supportedVersions();h["heart-beat"]=[d.heartbeat.outgoing,d.heartbeat.incoming].join();return d._transmit("CONNECT",h)}}(this)};k.prototype.disconnect=function(b,g){null==g&&(g={});
-this._transmit("DISCONNECT",g);this.ws.onclose=null;this.ws.close();this._cleanUp();return"function"===typeof b?b():void 0};k.prototype._cleanUp=function(){this.connected=!1;this.pinger&&b.clearInterval(this.pinger);if(this.ponger)return b.clearInterval(this.ponger)};k.prototype.send=function(b,g,h){null==g&&(g={});null==h&&(h="");g.destination=b;return this._transmit("SEND",g,h)};k.prototype.subscribe=function(b,g,h){var k;null==h&&(h={});h.id||(h.id="sub-"+this.counter++);h.destination=b;this.subscriptions[h.id]=
-g;this._transmit("SUBSCRIBE",h);k=this;return{id:h.id,unsubscribe:function(){return k.unsubscribe(h.id)}}};k.prototype.unsubscribe=function(b){delete this.subscriptions[b];return this._transmit("UNSUBSCRIBE",{id:b})};k.prototype.begin=function(b){var g,h;h=b||"tx-"+this.counter++;this._transmit("BEGIN",{transaction:h});g=this;return{id:h,commit:function(){return g.commit(h)},abort:function(){return g.abort(h)}}};k.prototype.commit=function(b){return this._transmit("COMMIT",{transaction:b})};k.prototype.abort=
-function(b){return this._transmit("ABORT",{transaction:b})};k.prototype.ack=function(b,g,h){null==h&&(h={});h["message-id"]=b;h.subscription=g;return this._transmit("ACK",h)};k.prototype.nack=function(b,g,h){null==h&&(h={});h["message-id"]=b;h.subscription=g;return this._transmit("NACK",h)};return k}();b={VERSIONS:{V1_0:"1.0",V1_1:"1.1",V1_2:"1.2",supportedVersions:function(){return"1.1,1.0"}},client:function(k,l){var d;null==l&&(l=["v10.stomp","v11.stomp"]);d=new (b.WebSocketClass||WebSocket)(k,
-l);return new p(d)},over:function(b){return new p(b)},Frame:l};"undefined"!==typeof exports&&null!==exports&&(exports.Stomp=b);"undefined"!==typeof window&&null!==window?(b.setInterval=function(b,l){return window.setInterval(l,b)},b.clearInterval=function(b){return window.clearInterval(b)},window.Stomp=b):exports||(self.Stomp=b)}).call(this);
+/* SockJS client, version 0.3.4, http://sockjs.org, MIT License
+
+Copyright (c) 2011-2012 VMware, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+*/
+
+// JSON2 by Douglas Crockford (minified).
+var JSON;JSON||(JSON={}),function(){function str(a,b){var c,d,e,f,g=gap,h,i=b[a];i&&typeof i=="object"&&typeof i.toJSON=="function"&&(i=i.toJSON(a)),typeof rep=="function"&&(i=rep.call(b,a,i));switch(typeof i){case"string":return quote(i);case"number":return isFinite(i)?String(i):"null";case"boolean":case"null":return String(i);case"object":if(!i)return"null";gap+=indent,h=[];if(Object.prototype.toString.apply(i)==="[object Array]"){f=i.length;for(c=0;c<f;c+=1)h[c]=str(c,i)||"null";e=h.length===0?"[]":gap?"[\n"+gap+h.join(",\n"+gap)+"\n"+g+"]":"["+h.join(",")+"]",gap=g;return e}if(rep&&typeof rep=="object"){f=rep.length;for(c=0;c<f;c+=1)typeof rep[c]=="string"&&(d=rep[c],e=str(d,i),e&&h.push(quote(d)+(gap?": ":":")+e))}else for(d in i)Object.prototype.hasOwnProperty.call(i,d)&&(e=str(d,i),e&&h.push(quote(d)+(gap?": ":":")+e));e=h.length===0?"{}":gap?"{\n"+gap+h.join(",\n"+gap)+"\n"+g+"}":"{"+h.join(",")+"}",gap=g;return e}}function quote(a){escapable.lastIndex=0;return escapable.test(a)?'"'+a.replace(escapable,function(a){var b=meta[a];return typeof b=="string"?b:"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+a+'"'}function f(a){return a<10?"0"+a:a}"use strict",typeof Date.prototype.toJSON!="function"&&(Date.prototype.toJSON=function(a){return isFinite(this.valueOf())?this.getUTCFullYear()+"-"+f(this.getUTCMonth()+1)+"-"+f(this.getUTCDate())+"T"+f(this.getUTCHours())+":"+f(this.getUTCMinutes())+":"+f(this.getUTCSeconds())+"Z":null},String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(a){return this.valueOf()});var cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,gap,indent,meta={"\b":"\\b","\t":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},rep;typeof JSON.stringify!="function"&&(JSON.stringify=function(a,b,c){var d;gap="",indent="";if(typeof c=="number")for(d=0;d<c;d+=1)indent+=" ";else typeof c=="string"&&(indent=c);rep=b;if(!b||typeof b=="function"||typeof b=="object"&&typeof b.length=="number")return str("",{"":a});throw new Error("JSON.stringify")}),typeof JSON.parse!="function"&&(JSON.parse=function(text,reviver){function walk(a,b){var c,d,e=a[b];if(e&&typeof e=="object")for(c in e)Object.prototype.hasOwnProperty.call(e,c)&&(d=walk(e,c),d!==undefined?e[c]=d:delete e[c]);return reviver.call(a,b,e)}var j;text=String(text),cx.lastIndex=0,cx.test(text)&&(text=text.replace(cx,function(a){return"\\u"+("0000"+a.charCodeAt(0).toString(16)).slice(-4)}));if(/^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@").replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]").replace(/(?:^|:|,)(?:\s*\[)+/g,""))){j=eval("("+text+")");return typeof reviver=="function"?walk({"":j},""):j}throw new SyntaxError("JSON.parse")})}()
+
+
+//     [*] Including lib/index.js
+// Public object
+SockJS = (function(){
+              var _document = document;
+              var _window = window;
+              var utils = {};
+
+
+//         [*] Including lib/reventtarget.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+/* Simplified implementation of DOM2 EventTarget.
+ *   http://www.w3.org/TR/DOM-Level-2-Events/events.html#Events-EventTarget
+ */
+var REventTarget = function() {};
+REventTarget.prototype.addEventListener = function (eventType, listener) {
+    if(!this._listeners) {
+         this._listeners = {};
+    }
+    if(!(eventType in this._listeners)) {
+        this._listeners[eventType] = [];
+    }
+    var arr = this._listeners[eventType];
+    if(utils.arrIndexOf(arr, listener) === -1) {
+        arr.push(listener);
+    }
+    return;
+};
+
+REventTarget.prototype.removeEventListener = function (eventType, listener) {
+    if(!(this._listeners && (eventType in this._listeners))) {
+        return;
+    }
+    var arr = this._listeners[eventType];
+    var idx = utils.arrIndexOf(arr, listener);
+    if (idx !== -1) {
+        if(arr.length > 1) {
+            this._listeners[eventType] = arr.slice(0, idx).concat( arr.slice(idx+1) );
+        } else {
+            delete this._listeners[eventType];
+        }
+        return;
+    }
+    return;
+};
+
+REventTarget.prototype.dispatchEvent = function (event) {
+    var t = event.type;
+    var args = Array.prototype.slice.call(arguments, 0);
+    if (this['on'+t]) {
+        this['on'+t].apply(this, args);
+    }
+    if (this._listeners && t in this._listeners) {
+        for(var i=0; i < this._listeners[t].length; i++) {
+            this._listeners[t][i].apply(this, args);
+        }
+    }
+};
+//         [*] End of lib/reventtarget.js
+
+
+//         [*] Including lib/simpleevent.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var SimpleEvent = function(type, obj) {
+    this.type = type;
+    if (typeof obj !== 'undefined') {
+        for(var k in obj) {
+            if (!obj.hasOwnProperty(k)) continue;
+            this[k] = obj[k];
+        }
+    }
+};
+
+SimpleEvent.prototype.toString = function() {
+    var r = [];
+    for(var k in this) {
+        if (!this.hasOwnProperty(k)) continue;
+        var v = this[k];
+        if (typeof v === 'function') v = '[function]';
+        r.push(k + '=' + v);
+    }
+    return 'SimpleEvent(' + r.join(', ') + ')';
+};
+//         [*] End of lib/simpleevent.js
+
+
+//         [*] Including lib/eventemitter.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var EventEmitter = function(events) {
+    var that = this;
+    that._events = events || [];
+    that._listeners = {};
+};
+EventEmitter.prototype.emit = function(type) {
+    var that = this;
+    that._verifyType(type);
+    if (that._nuked) return;
+
+    var args = Array.prototype.slice.call(arguments, 1);
+    if (that['on'+type]) {
+        that['on'+type].apply(that, args);
+    }
+    if (type in that._listeners) {
+        for(var i = 0; i < that._listeners[type].length; i++) {
+            that._listeners[type][i].apply(that, args);
+        }
+    }
+};
+
+EventEmitter.prototype.on = function(type, callback) {
+    var that = this;
+    that._verifyType(type);
+    if (that._nuked) return;
+
+    if (!(type in that._listeners)) {
+        that._listeners[type] = [];
+    }
+    that._listeners[type].push(callback);
+};
+
+EventEmitter.prototype._verifyType = function(type) {
+    var that = this;
+    if (utils.arrIndexOf(that._events, type) === -1) {
+        utils.log('Event ' + JSON.stringify(type) +
+                  ' not listed ' + JSON.stringify(that._events) +
+                  ' in ' + that);
+    }
+};
+
+EventEmitter.prototype.nuke = function() {
+    var that = this;
+    that._nuked = true;
+    for(var i=0; i<that._events.length; i++) {
+        delete that[that._events[i]];
+    }
+    that._listeners = {};
+};
+//         [*] End of lib/eventemitter.js
+
+
+//         [*] Including lib/utils.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var random_string_chars = 'abcdefghijklmnopqrstuvwxyz0123456789_';
+utils.random_string = function(length, max) {
+    max = max || random_string_chars.length;
+    var i, ret = [];
+    for(i=0; i < length; i++) {
+        ret.push( random_string_chars.substr(Math.floor(Math.random() * max),1) );
+    }
+    return ret.join('');
+};
+utils.random_number = function(max) {
+    return Math.floor(Math.random() * max);
+};
+utils.random_number_string = function(max) {
+    var t = (''+(max - 1)).length;
+    var p = Array(t+1).join('0');
+    return (p + utils.random_number(max)).slice(-t);
+};
+
+// Assuming that url looks like: http://asdasd:111/asd
+utils.getOrigin = function(url) {
+    url += '/';
+    var parts = url.split('/').slice(0, 3);
+    return parts.join('/');
+};
+
+utils.isSameOriginUrl = function(url_a, url_b) {
+    // location.origin would do, but it's not always available.
+    if (!url_b) url_b = _window.location.href;
+
+    return (url_a.split('/').slice(0,3).join('/')
+                ===
+            url_b.split('/').slice(0,3).join('/'));
+};
+
+utils.getParentDomain = function(url) {
+    // ipv4 ip address
+    if (/^[0-9.]*$/.test(url)) return url;
+    // ipv6 ip address
+    if (/^\[/.test(url)) return url;
+    // no dots
+    if (!(/[.]/.test(url))) return url;
+
+    var parts = url.split('.').slice(1);
+    return parts.join('.');
+};
+
+utils.objectExtend = function(dst, src) {
+    for(var k in src) {
+        if (src.hasOwnProperty(k)) {
+            dst[k] = src[k];
+        }
+    }
+    return dst;
+};
+
+var WPrefix = '_jp';
+
+utils.polluteGlobalNamespace = function() {
+    if (!(WPrefix in _window)) {
+        _window[WPrefix] = {};
+    }
+};
+
+utils.closeFrame = function (code, reason) {
+    return 'c'+JSON.stringify([code, reason]);
+};
+
+utils.userSetCode = function (code) {
+    return code === 1000 || (code >= 3000 && code <= 4999);
+};
+
+// See: http://www.erg.abdn.ac.uk/~gerrit/dccp/notes/ccid2/rto_estimator/
+// and RFC 2988.
+utils.countRTO = function (rtt) {
+    var rto;
+    if (rtt > 100) {
+        rto = 3 * rtt; // rto > 300msec
+    } else {
+        rto = rtt + 200; // 200msec < rto <= 300msec
+    }
+    return rto;
+}
+
+utils.log = function() {
+    if (_window.console && console.log && console.log.apply) {
+        console.log.apply(console, arguments);
+    }
+};
+
+utils.bind = function(fun, that) {
+    if (fun.bind) {
+        return fun.bind(that);
+    } else {
+        return function() {
+            return fun.apply(that, arguments);
+        };
+    }
+};
+
+utils.flatUrl = function(url) {
+    return url.indexOf('?') === -1 && url.indexOf('#') === -1;
+};
+
+utils.amendUrl = function(url) {
+    var dl = _document.location;
+    if (!url) {
+        throw new Error('Wrong url for SockJS');
+    }
+    if (!utils.flatUrl(url)) {
+        throw new Error('Only basic urls are supported in SockJS');
+    }
+
+    //  '//abc' --> 'http://abc'
+    if (url.indexOf('//') === 0) {
+        url = dl.protocol + url;
+    }
+    // '/abc' --> 'http://localhost:80/abc'
+    if (url.indexOf('/') === 0) {
+        url = dl.protocol + '//' + dl.host + url;
+    }
+    // strip trailing slashes
+    url = url.replace(/[/]+$/,'');
+    return url;
+};
+
+// IE doesn't support [].indexOf.
+utils.arrIndexOf = function(arr, obj){
+    for(var i=0; i < arr.length; i++){
+        if(arr[i] === obj){
+            return i;
+        }
+    }
+    return -1;
+};
+
+utils.arrSkip = function(arr, obj) {
+    var idx = utils.arrIndexOf(arr, obj);
+    if (idx === -1) {
+        return arr.slice();
+    } else {
+        var dst = arr.slice(0, idx);
+        return dst.concat(arr.slice(idx+1));
+    }
+};
+
+// Via: https://gist.github.com/1133122/2121c601c5549155483f50be3da5305e83b8c5df
+utils.isArray = Array.isArray || function(value) {
+    return {}.toString.call(value).indexOf('Array') >= 0
+};
+
+utils.delay = function(t, fun) {
+    if(typeof t === 'function') {
+        fun = t;
+        t = 0;
+    }
+    return setTimeout(fun, t);
+};
+
+
+// Chars worth escaping, as defined by Douglas Crockford:
+//   https://github.com/douglascrockford/JSON-js/blob/47a9882cddeb1e8529e07af9736218075372b8ac/json2.js#L196
+var json_escapable = /[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
+    json_lookup = {
+"\u0000":"\\u0000","\u0001":"\\u0001","\u0002":"\\u0002","\u0003":"\\u0003",
+"\u0004":"\\u0004","\u0005":"\\u0005","\u0006":"\\u0006","\u0007":"\\u0007",
+"\b":"\\b","\t":"\\t","\n":"\\n","\u000b":"\\u000b","\f":"\\f","\r":"\\r",
+"\u000e":"\\u000e","\u000f":"\\u000f","\u0010":"\\u0010","\u0011":"\\u0011",
+"\u0012":"\\u0012","\u0013":"\\u0013","\u0014":"\\u0014","\u0015":"\\u0015",
+"\u0016":"\\u0016","\u0017":"\\u0017","\u0018":"\\u0018","\u0019":"\\u0019",
+"\u001a":"\\u001a","\u001b":"\\u001b","\u001c":"\\u001c","\u001d":"\\u001d",
+"\u001e":"\\u001e","\u001f":"\\u001f","\"":"\\\"","\\":"\\\\",
+"\u007f":"\\u007f","\u0080":"\\u0080","\u0081":"\\u0081","\u0082":"\\u0082",
+"\u0083":"\\u0083","\u0084":"\\u0084","\u0085":"\\u0085","\u0086":"\\u0086",
+"\u0087":"\\u0087","\u0088":"\\u0088","\u0089":"\\u0089","\u008a":"\\u008a",
+"\u008b":"\\u008b","\u008c":"\\u008c","\u008d":"\\u008d","\u008e":"\\u008e",
+"\u008f":"\\u008f","\u0090":"\\u0090","\u0091":"\\u0091","\u0092":"\\u0092",
+"\u0093":"\\u0093","\u0094":"\\u0094","\u0095":"\\u0095","\u0096":"\\u0096",
+"\u0097":"\\u0097","\u0098":"\\u0098","\u0099":"\\u0099","\u009a":"\\u009a",
+"\u009b":"\\u009b","\u009c":"\\u009c","\u009d":"\\u009d","\u009e":"\\u009e",
+"\u009f":"\\u009f","\u00ad":"\\u00ad","\u0600":"\\u0600","\u0601":"\\u0601",
+"\u0602":"\\u0602","\u0603":"\\u0603","\u0604":"\\u0604","\u070f":"\\u070f",
+"\u17b4":"\\u17b4","\u17b5":"\\u17b5","\u200c":"\\u200c","\u200d":"\\u200d",
+"\u200e":"\\u200e","\u200f":"\\u200f","\u2028":"\\u2028","\u2029":"\\u2029",
+"\u202a":"\\u202a","\u202b":"\\u202b","\u202c":"\\u202c","\u202d":"\\u202d",
+"\u202e":"\\u202e","\u202f":"\\u202f","\u2060":"\\u2060","\u2061":"\\u2061",
+"\u2062":"\\u2062","\u2063":"\\u2063","\u2064":"\\u2064","\u2065":"\\u2065",
+"\u2066":"\\u2066","\u2067":"\\u2067","\u2068":"\\u2068","\u2069":"\\u2069",
+"\u206a":"\\u206a","\u206b":"\\u206b","\u206c":"\\u206c","\u206d":"\\u206d",
+"\u206e":"\\u206e","\u206f":"\\u206f","\ufeff":"\\ufeff","\ufff0":"\\ufff0",
+"\ufff1":"\\ufff1","\ufff2":"\\ufff2","\ufff3":"\\ufff3","\ufff4":"\\ufff4",
+"\ufff5":"\\ufff5","\ufff6":"\\ufff6","\ufff7":"\\ufff7","\ufff8":"\\ufff8",
+"\ufff9":"\\ufff9","\ufffa":"\\ufffa","\ufffb":"\\ufffb","\ufffc":"\\ufffc",
+"\ufffd":"\\ufffd","\ufffe":"\\ufffe","\uffff":"\\uffff"};
+
+// Some extra characters that Chrome gets wrong, and substitutes with
+// something else on the wire.
+var extra_escapable = /[\x00-\x1f\ud800-\udfff\ufffe\uffff\u0300-\u0333\u033d-\u0346\u034a-\u034c\u0350-\u0352\u0357-\u0358\u035c-\u0362\u0374\u037e\u0387\u0591-\u05af\u05c4\u0610-\u0617\u0653-\u0654\u0657-\u065b\u065d-\u065e\u06df-\u06e2\u06eb-\u06ec\u0730\u0732-\u0733\u0735-\u0736\u073a\u073d\u073f-\u0741\u0743\u0745\u0747\u07eb-\u07f1\u0951\u0958-\u095f\u09dc-\u09dd\u09df\u0a33\u0a36\u0a59-\u0a5b\u0a5e\u0b5c-\u0b5d\u0e38-\u0e39\u0f43\u0f4d\u0f52\u0f57\u0f5c\u0f69\u0f72-\u0f76\u0f78\u0f80-\u0f83\u0f93\u0f9d\u0fa2\u0fa7\u0fac\u0fb9\u1939-\u193a\u1a17\u1b6b\u1cda-\u1cdb\u1dc0-\u1dcf\u1dfc\u1dfe\u1f71\u1f73\u1f75\u1f77\u1f79\u1f7b\u1f7d\u1fbb\u1fbe\u1fc9\u1fcb\u1fd3\u1fdb\u1fe3\u1feb\u1fee-\u1fef\u1ff9\u1ffb\u1ffd\u2000-\u2001\u20d0-\u20d1\u20d4-\u20d7\u20e7-\u20e9\u2126\u212a-\u212b\u2329-\u232a\u2adc\u302b-\u302c\uaab2-\uaab3\uf900-\ufa0d\ufa10\ufa12\ufa15-\ufa1e\ufa20\ufa22\ufa25-\ufa26\ufa2a-\ufa2d\ufa30-\ufa6d\ufa70-\ufad9\ufb1d\ufb1f\ufb2a-\ufb36\ufb38-\ufb3c\ufb3e\ufb40-\ufb41\ufb43-\ufb44\ufb46-\ufb4e\ufff0-\uffff]/g,
+    extra_lookup;
+
+// JSON Quote string. Use native implementation when possible.
+var JSONQuote = (JSON && JSON.stringify) || function(string) {
+    json_escapable.lastIndex = 0;
+    if (json_escapable.test(string)) {
+        string = string.replace(json_escapable, function(a) {
+            return json_lookup[a];
+        });
+    }
+    return '"' + string + '"';
+};
+
+// This may be quite slow, so let's delay until user actually uses bad
+// characters.
+var unroll_lookup = function(escapable) {
+    var i;
+    var unrolled = {}
+    var c = []
+    for(i=0; i<65536; i++) {
+        c.push( String.fromCharCode(i) );
+    }
+    escapable.lastIndex = 0;
+    c.join('').replace(escapable, function (a) {
+        unrolled[ a ] = '\\u' + ('0000' + a.charCodeAt(0).toString(16)).slice(-4);
+        return '';
+    });
+    escapable.lastIndex = 0;
+    return unrolled;
+};
+
+// Quote string, also taking care of unicode characters that browsers
+// often break. Especially, take care of unicode surrogates:
+//    http://en.wikipedia.org/wiki/Mapping_of_Unicode_characters#Surrogates
+utils.quote = function(string) {
+    var quoted = JSONQuote(string);
+
+    // In most cases this should be very fast and good enough.
+    extra_escapable.lastIndex = 0;
+    if(!extra_escapable.test(quoted)) {
+        return quoted;
+    }
+
+    if(!extra_lookup) extra_lookup = unroll_lookup(extra_escapable);
+
+    return quoted.replace(extra_escapable, function(a) {
+        return extra_lookup[a];
+    });
+}
+
+var _all_protocols = ['websocket',
+                      'xdr-streaming',
+                      'xhr-streaming',
+                      'iframe-eventsource',
+                      'iframe-htmlfile',
+                      'xdr-polling',
+                      'xhr-polling',
+                      'iframe-xhr-polling',
+                      'jsonp-polling'];
+
+utils.probeProtocols = function() {
+    var probed = {};
+    for(var i=0; i<_all_protocols.length; i++) {
+        var protocol = _all_protocols[i];
+        // User can have a typo in protocol name.
+        probed[protocol] = SockJS[protocol] &&
+                           SockJS[protocol].enabled();
+    }
+    return probed;
+};
+
+utils.detectProtocols = function(probed, protocols_whitelist, info) {
+    var pe = {},
+        protocols = [];
+    if (!protocols_whitelist) protocols_whitelist = _all_protocols;
+    for(var i=0; i<protocols_whitelist.length; i++) {
+        var protocol = protocols_whitelist[i];
+        pe[protocol] = probed[protocol];
+    }
+    var maybe_push = function(protos) {
+        var proto = protos.shift();
+        if (pe[proto]) {
+            protocols.push(proto);
+        } else {
+            if (protos.length > 0) {
+                maybe_push(protos);
+            }
+        }
+    }
+
+    // 1. Websocket
+    if (info.websocket !== false) {
+        maybe_push(['websocket']);
+    }
+
+    // 2. Streaming
+    if (pe['xhr-streaming'] && !info.null_origin) {
+        protocols.push('xhr-streaming');
+    } else {
+        if (pe['xdr-streaming'] && !info.cookie_needed && !info.null_origin) {
+            protocols.push('xdr-streaming');
+        } else {
+            maybe_push(['iframe-eventsource',
+                        'iframe-htmlfile']);
+        }
+    }
+
+    // 3. Polling
+    if (pe['xhr-polling'] && !info.null_origin) {
+        protocols.push('xhr-polling');
+    } else {
+        if (pe['xdr-polling'] && !info.cookie_needed && !info.null_origin) {
+            protocols.push('xdr-polling');
+        } else {
+            maybe_push(['iframe-xhr-polling',
+                        'jsonp-polling']);
+        }
+    }
+    return protocols;
+}
+//         [*] End of lib/utils.js
+
+
+//         [*] Including lib/dom.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+// May be used by htmlfile jsonp and transports.
+var MPrefix = '_sockjs_global';
+utils.createHook = function() {
+    var window_id = 'a' + utils.random_string(8);
+    if (!(MPrefix in _window)) {
+        var map = {};
+        _window[MPrefix] = function(window_id) {
+            if (!(window_id in map)) {
+                map[window_id] = {
+                    id: window_id,
+                    del: function() {delete map[window_id];}
+                };
+            }
+            return map[window_id];
+        }
+    }
+    return _window[MPrefix](window_id);
+};
+
+
+
+utils.attachMessage = function(listener) {
+    utils.attachEvent('message', listener);
+};
+utils.attachEvent = function(event, listener) {
+    if (typeof _window.addEventListener !== 'undefined') {
+        _window.addEventListener(event, listener, false);
+    } else {
+        // IE quirks.
+        // According to: http://stevesouders.com/misc/test-postmessage.php
+        // the message gets delivered only to 'document', not 'window'.
+        _document.attachEvent("on" + event, listener);
+        // I get 'window' for ie8.
+        _window.attachEvent("on" + event, listener);
+    }
+};
+
+utils.detachMessage = function(listener) {
+    utils.detachEvent('message', listener);
+};
+utils.detachEvent = function(event, listener) {
+    if (typeof _window.addEventListener !== 'undefined') {
+        _window.removeEventListener(event, listener, false);
+    } else {
+        _document.detachEvent("on" + event, listener);
+        _window.detachEvent("on" + event, listener);
+    }
+};
+
+
+var on_unload = {};
+// Things registered after beforeunload are to be called immediately.
+var after_unload = false;
+
+var trigger_unload_callbacks = function() {
+    for(var ref in on_unload) {
+        on_unload[ref]();
+        delete on_unload[ref];
+    };
+};
+
+var unload_triggered = function() {
+    if(after_unload) return;
+    after_unload = true;
+    trigger_unload_callbacks();
+};
+
+// 'unload' alone is not reliable in opera within an iframe, but we
+// can't use `beforeunload` as IE fires it on javascript: links.
+utils.attachEvent('unload', unload_triggered);
+
+utils.unload_add = function(listener) {
+    var ref = utils.random_string(8);
+    on_unload[ref] = listener;
+    if (after_unload) {
+        utils.delay(trigger_unload_callbacks);
+    }
+    return ref;
+};
+utils.unload_del = function(ref) {
+    if (ref in on_unload)
+        delete on_unload[ref];
+};
+
+
+utils.createIframe = function (iframe_url, error_callback) {
+    var iframe = _document.createElement('iframe');
+    var tref, unload_ref;
+    var unattach = function() {
+        clearTimeout(tref);
+        // Explorer had problems with that.
+        try {iframe.onload = null;} catch (x) {}
+        iframe.onerror = null;
+    };
+    var cleanup = function() {
+        if (iframe) {
+            unattach();
+            // This timeout makes chrome fire onbeforeunload event
+            // within iframe. Without the timeout it goes straight to
+            // onunload.
+            setTimeout(function() {
+                if(iframe) {
+                    iframe.parentNode.removeChild(iframe);
+                }
+                iframe = null;
+            }, 0);
+            utils.unload_del(unload_ref);
+        }
+    };
+    var onerror = function(r) {
+        if (iframe) {
+            cleanup();
+            error_callback(r);
+        }
+    };
+    var post = function(msg, origin) {
+        try {
+            // When the iframe is not loaded, IE raises an exception
+            // on 'contentWindow'.
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage(msg, origin);
+            }
+        } catch (x) {};
+    };
+
+    iframe.src = iframe_url;
+    iframe.style.display = 'none';
+    iframe.style.position = 'absolute';
+    iframe.onerror = function(){onerror('onerror');};
+    iframe.onload = function() {
+        // `onload` is triggered before scripts on the iframe are
+        // executed. Give it few seconds to actually load stuff.
+        clearTimeout(tref);
+        tref = setTimeout(function(){onerror('onload timeout');}, 2000);
+    };
+    _document.body.appendChild(iframe);
+    tref = setTimeout(function(){onerror('timeout');}, 15000);
+    unload_ref = utils.unload_add(cleanup);
+    return {
+        post: post,
+        cleanup: cleanup,
+        loaded: unattach
+    };
+};
+
+utils.createHtmlfile = function (iframe_url, error_callback) {
+    var doc = new ActiveXObject('htmlfile');
+    var tref, unload_ref;
+    var iframe;
+    var unattach = function() {
+        clearTimeout(tref);
+    };
+    var cleanup = function() {
+        if (doc) {
+            unattach();
+            utils.unload_del(unload_ref);
+            iframe.parentNode.removeChild(iframe);
+            iframe = doc = null;
+            CollectGarbage();
+        }
+    };
+    var onerror = function(r)  {
+        if (doc) {
+            cleanup();
+            error_callback(r);
+        }
+    };
+    var post = function(msg, origin) {
+        try {
+            // When the iframe is not loaded, IE raises an exception
+            // on 'contentWindow'.
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage(msg, origin);
+            }
+        } catch (x) {};
+    };
+
+    doc.open();
+    doc.write('<html><s' + 'cript>' +
+              'document.domain="' + document.domain + '";' +
+              '</s' + 'cript></html>');
+    doc.close();
+    doc.parentWindow[WPrefix] = _window[WPrefix];
+    var c = doc.createElement('div');
+    doc.body.appendChild(c);
+    iframe = doc.createElement('iframe');
+    c.appendChild(iframe);
+    iframe.src = iframe_url;
+    tref = setTimeout(function(){onerror('timeout');}, 15000);
+    unload_ref = utils.unload_add(cleanup);
+    return {
+        post: post,
+        cleanup: cleanup,
+        loaded: unattach
+    };
+};
+//         [*] End of lib/dom.js
+
+
+//         [*] Including lib/dom2.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var AbstractXHRObject = function(){};
+AbstractXHRObject.prototype = new EventEmitter(['chunk', 'finish']);
+
+AbstractXHRObject.prototype._start = function(method, url, payload, opts) {
+    var that = this;
+
+    try {
+        that.xhr = new XMLHttpRequest();
+    } catch(x) {};
+
+    if (!that.xhr) {
+        try {
+            that.xhr = new _window.ActiveXObject('Microsoft.XMLHTTP');
+        } catch(x) {};
+    }
+    if (_window.ActiveXObject || _window.XDomainRequest) {
+        // IE8 caches even POSTs
+        url += ((url.indexOf('?') === -1) ? '?' : '&') + 't='+(+new Date);
+    }
+
+    // Explorer tends to keep connection open, even after the
+    // tab gets closed: http://bugs.jquery.com/ticket/5280
+    that.unload_ref = utils.unload_add(function(){that._cleanup(true);});
+    try {
+        that.xhr.open(method, url, true);
+    } catch(e) {
+        // IE raises an exception on wrong port.
+        that.emit('finish', 0, '');
+        that._cleanup();
+        return;
+    };
+
+    if (!opts || !opts.no_credentials) {
+        // Mozilla docs says https://developer.mozilla.org/en/XMLHttpRequest :
+        // "This never affects same-site requests."
+        that.xhr.withCredentials = 'true';
+    }
+    if (opts && opts.headers) {
+        for(var key in opts.headers) {
+            that.xhr.setRequestHeader(key, opts.headers[key]);
+        }
+    }
+
+    that.xhr.onreadystatechange = function() {
+        if (that.xhr) {
+            var x = that.xhr;
+            switch (x.readyState) {
+            case 3:
+                // IE doesn't like peeking into responseText or status
+                // on Microsoft.XMLHTTP and readystate=3
+                try {
+                    var status = x.status;
+                    var text = x.responseText;
+                } catch (x) {};
+                // IE returns 1223 for 204: http://bugs.jquery.com/ticket/1450
+                if (status === 1223) status = 204;
+
+                // IE does return readystate == 3 for 404 answers.
+                if (text && text.length > 0) {
+                    that.emit('chunk', status, text);
+                }
+                break;
+            case 4:
+                var status = x.status;
+                // IE returns 1223 for 204: http://bugs.jquery.com/ticket/1450
+                if (status === 1223) status = 204;
+
+                that.emit('finish', status, x.responseText);
+                that._cleanup(false);
+                break;
+            }
+        }
+    };
+    that.xhr.send(payload);
+};
+
+AbstractXHRObject.prototype._cleanup = function(abort) {
+    var that = this;
+    if (!that.xhr) return;
+    utils.unload_del(that.unload_ref);
+
+    // IE needs this field to be a function
+    that.xhr.onreadystatechange = function(){};
+
+    if (abort) {
+        try {
+            that.xhr.abort();
+        } catch(x) {};
+    }
+    that.unload_ref = that.xhr = null;
+};
+
+AbstractXHRObject.prototype.close = function() {
+    var that = this;
+    that.nuke();
+    that._cleanup(true);
+};
+
+var XHRCorsObject = utils.XHRCorsObject = function() {
+    var that = this, args = arguments;
+    utils.delay(function(){that._start.apply(that, args);});
+};
+XHRCorsObject.prototype = new AbstractXHRObject();
+
+var XHRLocalObject = utils.XHRLocalObject = function(method, url, payload) {
+    var that = this;
+    utils.delay(function(){
+        that._start(method, url, payload, {
+            no_credentials: true
+        });
+    });
+};
+XHRLocalObject.prototype = new AbstractXHRObject();
+
+
+
+// References:
+//   http://ajaxian.com/archives/100-line-ajax-wrapper
+//   http://msdn.microsoft.com/en-us/library/cc288060(v=VS.85).aspx
+var XDRObject = utils.XDRObject = function(method, url, payload) {
+    var that = this;
+    utils.delay(function(){that._start(method, url, payload);});
+};
+XDRObject.prototype = new EventEmitter(['chunk', 'finish']);
+XDRObject.prototype._start = function(method, url, payload) {
+    var that = this;
+    var xdr = new XDomainRequest();
+    // IE caches even POSTs
+    url += ((url.indexOf('?') === -1) ? '?' : '&') + 't='+(+new Date);
+
+    var onerror = xdr.ontimeout = xdr.onerror = function() {
+        that.emit('finish', 0, '');
+        that._cleanup(false);
+    };
+    xdr.onprogress = function() {
+        that.emit('chunk', 200, xdr.responseText);
+    };
+    xdr.onload = function() {
+        that.emit('finish', 200, xdr.responseText);
+        that._cleanup(false);
+    };
+    that.xdr = xdr;
+    that.unload_ref = utils.unload_add(function(){that._cleanup(true);});
+    try {
+        // Fails with AccessDenied if port number is bogus
+        that.xdr.open(method, url);
+        that.xdr.send(payload);
+    } catch(x) {
+        onerror();
+    }
+};
+
+XDRObject.prototype._cleanup = function(abort) {
+    var that = this;
+    if (!that.xdr) return;
+    utils.unload_del(that.unload_ref);
+
+    that.xdr.ontimeout = that.xdr.onerror = that.xdr.onprogress =
+        that.xdr.onload = null;
+    if (abort) {
+        try {
+            that.xdr.abort();
+        } catch(x) {};
+    }
+    that.unload_ref = that.xdr = null;
+};
+
+XDRObject.prototype.close = function() {
+    var that = this;
+    that.nuke();
+    that._cleanup(true);
+};
+
+// 1. Is natively via XHR
+// 2. Is natively via XDR
+// 3. Nope, but postMessage is there so it should work via the Iframe.
+// 4. Nope, sorry.
+utils.isXHRCorsCapable = function() {
+    if (_window.XMLHttpRequest && 'withCredentials' in new XMLHttpRequest()) {
+        return 1;
+    }
+    // XDomainRequest doesn't work if page is served from file://
+    if (_window.XDomainRequest && _document.domain) {
+        return 2;
+    }
+    if (IframeTransport.enabled()) {
+        return 3;
+    }
+    return 4;
+};
+//         [*] End of lib/dom2.js
+
+
+//         [*] Including lib/sockjs.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var SockJS = function(url, dep_protocols_whitelist, options) {
+    if (this === _window) {
+        // makes `new` optional
+        return new SockJS(url, dep_protocols_whitelist, options);
+    }
+    
+    var that = this, protocols_whitelist;
+    that._options = {devel: false, debug: false, protocols_whitelist: [],
+                     info: undefined, rtt: undefined};
+    if (options) {
+        utils.objectExtend(that._options, options);
+    }
+    that._base_url = utils.amendUrl(url);
+    that._server = that._options.server || utils.random_number_string(1000);
+    if (that._options.protocols_whitelist &&
+        that._options.protocols_whitelist.length) {
+        protocols_whitelist = that._options.protocols_whitelist;
+    } else {
+        // Deprecated API
+        if (typeof dep_protocols_whitelist === 'string' &&
+            dep_protocols_whitelist.length > 0) {
+            protocols_whitelist = [dep_protocols_whitelist];
+        } else if (utils.isArray(dep_protocols_whitelist)) {
+            protocols_whitelist = dep_protocols_whitelist
+        } else {
+            protocols_whitelist = null;
+        }
+        if (protocols_whitelist) {
+            that._debug('Deprecated API: Use "protocols_whitelist" option ' +
+                        'instead of supplying protocol list as a second ' +
+                        'parameter to SockJS constructor.');
+        }
+    }
+    that._protocols = [];
+    that.protocol = null;
+    that.readyState = SockJS.CONNECTING;
+    that._ir = createInfoReceiver(that._base_url);
+    that._ir.onfinish = function(info, rtt) {
+        that._ir = null;
+        if (info) {
+            if (that._options.info) {
+                // Override if user supplies the option
+                info = utils.objectExtend(info, that._options.info);
+            }
+            if (that._options.rtt) {
+                rtt = that._options.rtt;
+            }
+            that._applyInfo(info, rtt, protocols_whitelist);
+            that._didClose();
+        } else {
+            that._didClose(1002, 'Can\'t connect to server', true);
+        }
+    };
+};
+// Inheritance
+SockJS.prototype = new REventTarget();
+
+SockJS.version = "0.3.4";
+
+SockJS.CONNECTING = 0;
+SockJS.OPEN = 1;
+SockJS.CLOSING = 2;
+SockJS.CLOSED = 3;
+
+SockJS.prototype._debug = function() {
+    if (this._options.debug)
+        utils.log.apply(utils, arguments);
+};
+
+SockJS.prototype._dispatchOpen = function() {
+    var that = this;
+    if (that.readyState === SockJS.CONNECTING) {
+        if (that._transport_tref) {
+            clearTimeout(that._transport_tref);
+            that._transport_tref = null;
+        }
+        that.readyState = SockJS.OPEN;
+        that.dispatchEvent(new SimpleEvent("open"));
+    } else {
+        // The server might have been restarted, and lost track of our
+        // connection.
+        that._didClose(1006, "Server lost session");
+    }
+};
+
+SockJS.prototype._dispatchMessage = function(data) {
+    var that = this;
+    if (that.readyState !== SockJS.OPEN)
+            return;
+    that.dispatchEvent(new SimpleEvent("message", {data: data}));
+};
+
+SockJS.prototype._dispatchHeartbeat = function(data) {
+    var that = this;
+    if (that.readyState !== SockJS.OPEN)
+        return;
+    that.dispatchEvent(new SimpleEvent('heartbeat', {}));
+};
+
+SockJS.prototype._didClose = function(code, reason, force) {
+    var that = this;
+    if (that.readyState !== SockJS.CONNECTING &&
+        that.readyState !== SockJS.OPEN &&
+        that.readyState !== SockJS.CLOSING)
+            throw new Error('INVALID_STATE_ERR');
+    if (that._ir) {
+        that._ir.nuke();
+        that._ir = null;
+    }
+
+    if (that._transport) {
+        that._transport.doCleanup();
+        that._transport = null;
+    }
+
+    var close_event = new SimpleEvent("close", {
+        code: code,
+        reason: reason,
+        wasClean: utils.userSetCode(code)});
+
+    if (!utils.userSetCode(code) &&
+        that.readyState === SockJS.CONNECTING && !force) {
+        if (that._try_next_protocol(close_event)) {
+            return;
+        }
+        close_event = new SimpleEvent("close", {code: 2000,
+                                                reason: "All transports failed",
+                                                wasClean: false,
+                                                last_event: close_event});
+    }
+    that.readyState = SockJS.CLOSED;
+
+    utils.delay(function() {
+                   that.dispatchEvent(close_event);
+                });
+};
+
+SockJS.prototype._didMessage = function(data) {
+    var that = this;
+    var type = data.slice(0, 1);
+    switch(type) {
+    case 'o':
+        that._dispatchOpen();
+        break;
+    case 'a':
+        var payload = JSON.parse(data.slice(1) || '[]');
+        for(var i=0; i < payload.length; i++){
+            that._dispatchMessage(payload[i]);
+        }
+        break;
+    case 'm':
+        var payload = JSON.parse(data.slice(1) || 'null');
+        that._dispatchMessage(payload);
+        break;
+    case 'c':
+        var payload = JSON.parse(data.slice(1) || '[]');
+        that._didClose(payload[0], payload[1]);
+        break;
+    case 'h':
+        that._dispatchHeartbeat();
+        break;
+    }
+};
+
+SockJS.prototype._try_next_protocol = function(close_event) {
+    var that = this;
+    if (that.protocol) {
+        that._debug('Closed transport:', that.protocol, ''+close_event);
+        that.protocol = null;
+    }
+    if (that._transport_tref) {
+        clearTimeout(that._transport_tref);
+        that._transport_tref = null;
+    }
+
+    while(1) {
+        var protocol = that.protocol = that._protocols.shift();
+        if (!protocol) {
+            return false;
+        }
+        // Some protocols require access to `body`, what if were in
+        // the `head`?
+        if (SockJS[protocol] &&
+            SockJS[protocol].need_body === true &&
+            (!_document.body ||
+             (typeof _document.readyState !== 'undefined'
+              && _document.readyState !== 'complete'))) {
+            that._protocols.unshift(protocol);
+            that.protocol = 'waiting-for-load';
+            utils.attachEvent('load', function(){
+                that._try_next_protocol();
+            });
+            return true;
+        }
+
+        if (!SockJS[protocol] ||
+              !SockJS[protocol].enabled(that._options)) {
+            that._debug('Skipping transport:', protocol);
+        } else {
+            var roundTrips = SockJS[protocol].roundTrips || 1;
+            var to = ((that._options.rto || 0) * roundTrips) || 5000;
+            that._transport_tref = utils.delay(to, function() {
+                if (that.readyState === SockJS.CONNECTING) {
+                    // I can't understand how it is possible to run
+                    // this timer, when the state is CLOSED, but
+                    // apparently in IE everythin is possible.
+                    that._didClose(2007, "Transport timeouted");
+                }
+            });
+
+            var connid = utils.random_string(8);
+            var trans_url = that._base_url + '/' + that._server + '/' + connid;
+            that._debug('Opening transport:', protocol, ' url:'+trans_url,
+                        ' RTO:'+that._options.rto);
+            that._transport = new SockJS[protocol](that, trans_url,
+                                                   that._base_url);
+            return true;
+        }
+    }
+};
+
+SockJS.prototype.close = function(code, reason) {
+    var that = this;
+    if (code && !utils.userSetCode(code))
+        throw new Error("INVALID_ACCESS_ERR");
+    if(that.readyState !== SockJS.CONNECTING &&
+       that.readyState !== SockJS.OPEN) {
+        return false;
+    }
+    that.readyState = SockJS.CLOSING;
+    that._didClose(code || 1000, reason || "Normal closure");
+    return true;
+};
+
+SockJS.prototype.send = function(data) {
+    var that = this;
+    if (that.readyState === SockJS.CONNECTING)
+        throw new Error('INVALID_STATE_ERR');
+    if (that.readyState === SockJS.OPEN) {
+        that._transport.doSend(utils.quote('' + data));
+    }
+    return true;
+};
+
+SockJS.prototype._applyInfo = function(info, rtt, protocols_whitelist) {
+    var that = this;
+    that._options.info = info;
+    that._options.rtt = rtt;
+    that._options.rto = utils.countRTO(rtt);
+    that._options.info.null_origin = !_document.domain;
+    var probed = utils.probeProtocols();
+    that._protocols = utils.detectProtocols(probed, protocols_whitelist, info);
+};
+//         [*] End of lib/sockjs.js
+
+
+//         [*] Including lib/trans-websocket.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var WebSocketTransport = SockJS.websocket = function(ri, trans_url) {
+    var that = this;
+    var url = trans_url + '/websocket';
+    if (url.slice(0, 5) === 'https') {
+        url = 'wss' + url.slice(5);
+    } else {
+        url = 'ws' + url.slice(4);
+    }
+    that.ri = ri;
+    that.url = url;
+    var Constructor = _window.WebSocket || _window.MozWebSocket;
+
+    that.ws = new Constructor(that.url);
+    that.ws.onmessage = function(e) {
+        that.ri._didMessage(e.data);
+    };
+    // Firefox has an interesting bug. If a websocket connection is
+    // created after onunload, it stays alive even when user
+    // navigates away from the page. In such situation let's lie -
+    // let's not open the ws connection at all. See:
+    // https://github.com/sockjs/sockjs-client/issues/28
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=696085
+    that.unload_ref = utils.unload_add(function(){that.ws.close()});
+    that.ws.onclose = function() {
+        that.ri._didMessage(utils.closeFrame(1006, "WebSocket connection broken"));
+    };
+};
+
+WebSocketTransport.prototype.doSend = function(data) {
+    this.ws.send('[' + data + ']');
+};
+
+WebSocketTransport.prototype.doCleanup = function() {
+    var that = this;
+    var ws = that.ws;
+    if (ws) {
+        ws.onmessage = ws.onclose = null;
+        ws.close();
+        utils.unload_del(that.unload_ref);
+        that.unload_ref = that.ri = that.ws = null;
+    }
+};
+
+WebSocketTransport.enabled = function() {
+    return !!(_window.WebSocket || _window.MozWebSocket);
+};
+
+// In theory, ws should require 1 round trip. But in chrome, this is
+// not very stable over SSL. Most likely a ws connection requires a
+// separate SSL connection, in which case 2 round trips are an
+// absolute minumum.
+WebSocketTransport.roundTrips = 2;
+//         [*] End of lib/trans-websocket.js
+
+
+//         [*] Including lib/trans-sender.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var BufferedSender = function() {};
+BufferedSender.prototype.send_constructor = function(sender) {
+    var that = this;
+    that.send_buffer = [];
+    that.sender = sender;
+};
+BufferedSender.prototype.doSend = function(message) {
+    var that = this;
+    that.send_buffer.push(message);
+    if (!that.send_stop) {
+        that.send_schedule();
+    }
+};
+
+// For polling transports in a situation when in the message callback,
+// new message is being send. If the sending connection was started
+// before receiving one, it is possible to saturate the network and
+// timeout due to the lack of receiving socket. To avoid that we delay
+// sending messages by some small time, in order to let receiving
+// connection be started beforehand. This is only a halfmeasure and
+// does not fix the big problem, but it does make the tests go more
+// stable on slow networks.
+BufferedSender.prototype.send_schedule_wait = function() {
+    var that = this;
+    var tref;
+    that.send_stop = function() {
+        that.send_stop = null;
+        clearTimeout(tref);
+    };
+    tref = utils.delay(25, function() {
+        that.send_stop = null;
+        that.send_schedule();
+    });
+};
+
+BufferedSender.prototype.send_schedule = function() {
+    var that = this;
+    if (that.send_buffer.length > 0) {
+        var payload = '[' + that.send_buffer.join(',') + ']';
+        that.send_stop = that.sender(that.trans_url, payload, function(success, abort_reason) {
+            that.send_stop = null;
+            if (success === false) {
+                that.ri._didClose(1006, 'Sending error ' + abort_reason);
+            } else {
+                that.send_schedule_wait();
+            }
+        });
+        that.send_buffer = [];
+    }
+};
+
+BufferedSender.prototype.send_destructor = function() {
+    var that = this;
+    if (that._send_stop) {
+        that._send_stop();
+    }
+    that._send_stop = null;
+};
+
+var jsonPGenericSender = function(url, payload, callback) {
+    var that = this;
+
+    if (!('_send_form' in that)) {
+        var form = that._send_form = _document.createElement('form');
+        var area = that._send_area = _document.createElement('textarea');
+        area.name = 'd';
+        form.style.display = 'none';
+        form.style.position = 'absolute';
+        form.method = 'POST';
+        form.enctype = 'application/x-www-form-urlencoded';
+        form.acceptCharset = "UTF-8";
+        form.appendChild(area);
+        _document.body.appendChild(form);
+    }
+    var form = that._send_form;
+    var area = that._send_area;
+    var id = 'a' + utils.random_string(8);
+    form.target = id;
+    form.action = url + '/jsonp_send?i=' + id;
+
+    var iframe;
+    try {
+        // ie6 dynamic iframes with target="" support (thanks Chris Lambacher)
+        iframe = _document.createElement('<iframe name="'+ id +'">');
+    } catch(x) {
+        iframe = _document.createElement('iframe');
+        iframe.name = id;
+    }
+    iframe.id = id;
+    form.appendChild(iframe);
+    iframe.style.display = 'none';
+
+    try {
+        area.value = payload;
+    } catch(e) {
+        utils.log('Your browser is seriously broken. Go home! ' + e.message);
+    }
+    form.submit();
+
+    var completed = function(e) {
+        if (!iframe.onerror) return;
+        iframe.onreadystatechange = iframe.onerror = iframe.onload = null;
+        // Opera mini doesn't like if we GC iframe
+        // immediately, thus this timeout.
+        utils.delay(500, function() {
+                       iframe.parentNode.removeChild(iframe);
+                       iframe = null;
+                   });
+        area.value = '';
+        // It is not possible to detect if the iframe succeeded or
+        // failed to submit our form.
+        callback(true);
+    };
+    iframe.onerror = iframe.onload = completed;
+    iframe.onreadystatechange = function(e) {
+        if (iframe.readyState == 'complete') completed();
+    };
+    return completed;
+};
+
+var createAjaxSender = function(AjaxObject) {
+    return function(url, payload, callback) {
+        var xo = new AjaxObject('POST', url + '/xhr_send', payload);
+        xo.onfinish = function(status, text) {
+            callback(status === 200 || status === 204,
+                     'http status ' + status);
+        };
+        return function(abort_reason) {
+            callback(false, abort_reason);
+        };
+    };
+};
+//         [*] End of lib/trans-sender.js
+
+
+//         [*] Including lib/trans-jsonp-receiver.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+// Parts derived from Socket.io:
+//    https://github.com/LearnBoost/socket.io/blob/0.6.17/lib/socket.io/transports/jsonp-polling.js
+// and jQuery-JSONP:
+//    https://code.google.com/p/jquery-jsonp/source/browse/trunk/core/jquery.jsonp.js
+var jsonPGenericReceiver = function(url, callback) {
+    var tref;
+    var script = _document.createElement('script');
+    var script2;  // Opera synchronous load trick.
+    var close_script = function(frame) {
+        if (script2) {
+            script2.parentNode.removeChild(script2);
+            script2 = null;
+        }
+        if (script) {
+            clearTimeout(tref);
+            // Unfortunately, you can't really abort script loading of
+            // the script.
+            script.parentNode.removeChild(script);
+            script.onreadystatechange = script.onerror =
+                script.onload = script.onclick = null;
+            script = null;
+            callback(frame);
+            callback = null;
+        }
+    };
+
+    // IE9 fires 'error' event after orsc or before, in random order.
+    var loaded_okay = false;
+    var error_timer = null;
+
+    script.id = 'a' + utils.random_string(8);
+    script.src = url;
+    script.type = 'text/javascript';
+    script.charset = 'UTF-8';
+    script.onerror = function(e) {
+        if (!error_timer) {
+            // Delay firing close_script.
+            error_timer = setTimeout(function() {
+                if (!loaded_okay) {
+                    close_script(utils.closeFrame(
+                        1006,
+                        "JSONP script loaded abnormally (onerror)"));
+                }
+            }, 1000);
+        }
+    };
+    script.onload = function(e) {
+        close_script(utils.closeFrame(1006, "JSONP script loaded abnormally (onload)"));
+    };
+
+    script.onreadystatechange = function(e) {
+        if (/loaded|closed/.test(script.readyState)) {
+            if (script && script.htmlFor && script.onclick) {
+                loaded_okay = true;
+                try {
+                    // In IE, actually execute the script.
+                    script.onclick();
+                } catch (x) {}
+            }
+            if (script) {
+                close_script(utils.closeFrame(1006, "JSONP script loaded abnormally (onreadystatechange)"));
+            }
+        }
+    };
+    // IE: event/htmlFor/onclick trick.
+    // One can't rely on proper order for onreadystatechange. In order to
+    // make sure, set a 'htmlFor' and 'event' properties, so that
+    // script code will be installed as 'onclick' handler for the
+    // script object. Later, onreadystatechange, manually execute this
+    // code. FF and Chrome doesn't work with 'event' and 'htmlFor'
+    // set. For reference see:
+    //   http://jaubourg.net/2010/07/loading-script-as-onclick-handler-of.html
+    // Also, read on that about script ordering:
+    //   http://wiki.whatwg.org/wiki/Dynamic_Script_Execution_Order
+    if (typeof script.async === 'undefined' && _document.attachEvent) {
+        // According to mozilla docs, in recent browsers script.async defaults
+        // to 'true', so we may use it to detect a good browser:
+        // https://developer.mozilla.org/en/HTML/Element/script
+        if (!/opera/i.test(navigator.userAgent)) {
+            // Naively assume we're in IE
+            try {
+                script.htmlFor = script.id;
+                script.event = "onclick";
+            } catch (x) {}
+            script.async = true;
+        } else {
+            // Opera, second sync script hack
+            script2 = _document.createElement('script');
+            script2.text = "try{var a = document.getElementById('"+script.id+"'); if(a)a.onerror();}catch(x){};";
+            script.async = script2.async = false;
+        }
+    }
+    if (typeof script.async !== 'undefined') {
+        script.async = true;
+    }
+
+    // Fallback mostly for Konqueror - stupid timer, 35 seconds shall be plenty.
+    tref = setTimeout(function() {
+                          close_script(utils.closeFrame(1006, "JSONP script loaded abnormally (timeout)"));
+                      }, 35000);
+
+    var head = _document.getElementsByTagName('head')[0];
+    head.insertBefore(script, head.firstChild);
+    if (script2) {
+        head.insertBefore(script2, head.firstChild);
+    }
+    return close_script;
+};
+//         [*] End of lib/trans-jsonp-receiver.js
+
+
+//         [*] Including lib/trans-jsonp-polling.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+// The simplest and most robust transport, using the well-know cross
+// domain hack - JSONP. This transport is quite inefficient - one
+// mssage could use up to one http request. But at least it works almost
+// everywhere.
+// Known limitations:
+//   o you will get a spinning cursor
+//   o for Konqueror a dumb timer is needed to detect errors
+
+
+var JsonPTransport = SockJS['jsonp-polling'] = function(ri, trans_url) {
+    utils.polluteGlobalNamespace();
+    var that = this;
+    that.ri = ri;
+    that.trans_url = trans_url;
+    that.send_constructor(jsonPGenericSender);
+    that._schedule_recv();
+};
+
+// Inheritnace
+JsonPTransport.prototype = new BufferedSender();
+
+JsonPTransport.prototype._schedule_recv = function() {
+    var that = this;
+    var callback = function(data) {
+        that._recv_stop = null;
+        if (data) {
+            // no data - heartbeat;
+            if (!that._is_closing) {
+                that.ri._didMessage(data);
+            }
+        }
+        // The message can be a close message, and change is_closing state.
+        if (!that._is_closing) {
+            that._schedule_recv();
+        }
+    };
+    that._recv_stop = jsonPReceiverWrapper(that.trans_url + '/jsonp',
+                                           jsonPGenericReceiver, callback);
+};
+
+JsonPTransport.enabled = function() {
+    return true;
+};
+
+JsonPTransport.need_body = true;
+
+
+JsonPTransport.prototype.doCleanup = function() {
+    var that = this;
+    that._is_closing = true;
+    if (that._recv_stop) {
+        that._recv_stop();
+    }
+    that.ri = that._recv_stop = null;
+    that.send_destructor();
+};
+
+
+// Abstract away code that handles global namespace pollution.
+var jsonPReceiverWrapper = function(url, constructReceiver, user_callback) {
+    var id = 'a' + utils.random_string(6);
+    var url_id = url + '?c=' + escape(WPrefix + '.' + id);
+
+    // Unfortunately it is not possible to abort loading of the
+    // script. We need to keep track of frake close frames.
+    var aborting = 0;
+
+    // Callback will be called exactly once.
+    var callback = function(frame) {
+        switch(aborting) {
+        case 0:
+            // Normal behaviour - delete hook _and_ emit message.
+            delete _window[WPrefix][id];
+            user_callback(frame);
+            break;
+        case 1:
+            // Fake close frame - emit but don't delete hook.
+            user_callback(frame);
+            aborting = 2;
+            break;
+        case 2:
+            // Got frame after connection was closed, delete hook, don't emit.
+            delete _window[WPrefix][id];
+            break;
+        }
+    };
+
+    var close_script = constructReceiver(url_id, callback);
+    _window[WPrefix][id] = close_script;
+    var stop = function() {
+        if (_window[WPrefix][id]) {
+            aborting = 1;
+            _window[WPrefix][id](utils.closeFrame(1000, "JSONP user aborted read"));
+        }
+    };
+    return stop;
+};
+//         [*] End of lib/trans-jsonp-polling.js
+
+
+//         [*] Including lib/trans-xhr.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var AjaxBasedTransport = function() {};
+AjaxBasedTransport.prototype = new BufferedSender();
+
+AjaxBasedTransport.prototype.run = function(ri, trans_url,
+                                            url_suffix, Receiver, AjaxObject) {
+    var that = this;
+    that.ri = ri;
+    that.trans_url = trans_url;
+    that.send_constructor(createAjaxSender(AjaxObject));
+    that.poll = new Polling(ri, Receiver,
+                            trans_url + url_suffix, AjaxObject);
+};
+
+AjaxBasedTransport.prototype.doCleanup = function() {
+    var that = this;
+    if (that.poll) {
+        that.poll.abort();
+        that.poll = null;
+    }
+};
+
+// xhr-streaming
+var XhrStreamingTransport = SockJS['xhr-streaming'] = function(ri, trans_url) {
+    this.run(ri, trans_url, '/xhr_streaming', XhrReceiver, utils.XHRCorsObject);
+};
+
+XhrStreamingTransport.prototype = new AjaxBasedTransport();
+
+XhrStreamingTransport.enabled = function() {
+    // Support for CORS Ajax aka Ajax2? Opera 12 claims CORS but
+    // doesn't do streaming.
+    return (_window.XMLHttpRequest &&
+            'withCredentials' in new XMLHttpRequest() &&
+            (!/opera/i.test(navigator.userAgent)));
+};
+XhrStreamingTransport.roundTrips = 2; // preflight, ajax
+
+// Safari gets confused when a streaming ajax request is started
+// before onload. This causes the load indicator to spin indefinetely.
+XhrStreamingTransport.need_body = true;
+
+
+// According to:
+//   http://stackoverflow.com/questions/1641507/detect-browser-support-for-cross-domain-xmlhttprequests
+//   http://hacks.mozilla.org/2009/07/cross-site-xmlhttprequest-with-cors/
+
+
+// xdr-streaming
+var XdrStreamingTransport = SockJS['xdr-streaming'] = function(ri, trans_url) {
+    this.run(ri, trans_url, '/xhr_streaming', XhrReceiver, utils.XDRObject);
+};
+
+XdrStreamingTransport.prototype = new AjaxBasedTransport();
+
+XdrStreamingTransport.enabled = function() {
+    return !!_window.XDomainRequest;
+};
+XdrStreamingTransport.roundTrips = 2; // preflight, ajax
+
+
+
+// xhr-polling
+var XhrPollingTransport = SockJS['xhr-polling'] = function(ri, trans_url) {
+    this.run(ri, trans_url, '/xhr', XhrReceiver, utils.XHRCorsObject);
+};
+
+XhrPollingTransport.prototype = new AjaxBasedTransport();
+
+XhrPollingTransport.enabled = XhrStreamingTransport.enabled;
+XhrPollingTransport.roundTrips = 2; // preflight, ajax
+
+
+// xdr-polling
+var XdrPollingTransport = SockJS['xdr-polling'] = function(ri, trans_url) {
+    this.run(ri, trans_url, '/xhr', XhrReceiver, utils.XDRObject);
+};
+
+XdrPollingTransport.prototype = new AjaxBasedTransport();
+
+XdrPollingTransport.enabled = XdrStreamingTransport.enabled;
+XdrPollingTransport.roundTrips = 2; // preflight, ajax
+//         [*] End of lib/trans-xhr.js
+
+
+//         [*] Including lib/trans-iframe.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+// Few cool transports do work only for same-origin. In order to make
+// them working cross-domain we shall use iframe, served form the
+// remote domain. New browsers, have capabilities to communicate with
+// cross domain iframe, using postMessage(). In IE it was implemented
+// from IE 8+, but of course, IE got some details wrong:
+//    http://msdn.microsoft.com/en-us/library/cc197015(v=VS.85).aspx
+//    http://stevesouders.com/misc/test-postmessage.php
+
+var IframeTransport = function() {};
+
+IframeTransport.prototype.i_constructor = function(ri, trans_url, base_url) {
+    var that = this;
+    that.ri = ri;
+    that.origin = utils.getOrigin(base_url);
+    that.base_url = base_url;
+    that.trans_url = trans_url;
+
+    var iframe_url = base_url + '/iframe.html';
+    if (that.ri._options.devel) {
+        iframe_url += '?t=' + (+new Date);
+    }
+    that.window_id = utils.random_string(8);
+    iframe_url += '#' + that.window_id;
+
+    that.iframeObj = utils.createIframe(iframe_url, function(r) {
+                                            that.ri._didClose(1006, "Unable to load an iframe (" + r + ")");
+                                        });
+
+    that.onmessage_cb = utils.bind(that.onmessage, that);
+    utils.attachMessage(that.onmessage_cb);
+};
+
+IframeTransport.prototype.doCleanup = function() {
+    var that = this;
+    if (that.iframeObj) {
+        utils.detachMessage(that.onmessage_cb);
+        try {
+            // When the iframe is not loaded, IE raises an exception
+            // on 'contentWindow'.
+            if (that.iframeObj.iframe.contentWindow) {
+                that.postMessage('c');
+            }
+        } catch (x) {}
+        that.iframeObj.cleanup();
+        that.iframeObj = null;
+        that.onmessage_cb = that.iframeObj = null;
+    }
+};
+
+IframeTransport.prototype.onmessage = function(e) {
+    var that = this;
+    if (e.origin !== that.origin) return;
+    var window_id = e.data.slice(0, 8);
+    var type = e.data.slice(8, 9);
+    var data = e.data.slice(9);
+
+    if (window_id !== that.window_id) return;
+
+    switch(type) {
+    case 's':
+        that.iframeObj.loaded();
+        that.postMessage('s', JSON.stringify([SockJS.version, that.protocol, that.trans_url, that.base_url]));
+        break;
+    case 't':
+        that.ri._didMessage(data);
+        break;
+    }
+};
+
+IframeTransport.prototype.postMessage = function(type, data) {
+    var that = this;
+    that.iframeObj.post(that.window_id + type + (data || ''), that.origin);
+};
+
+IframeTransport.prototype.doSend = function (message) {
+    this.postMessage('m', message);
+};
+
+IframeTransport.enabled = function() {
+    // postMessage misbehaves in konqueror 4.6.5 - the messages are delivered with
+    // huge delay, or not at all.
+    var konqueror = navigator && navigator.userAgent && navigator.userAgent.indexOf('Konqueror') !== -1;
+    return ((typeof _window.postMessage === 'function' ||
+            typeof _window.postMessage === 'object') && (!konqueror));
+};
+//         [*] End of lib/trans-iframe.js
+
+
+//         [*] Including lib/trans-iframe-within.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var curr_window_id;
+
+var postMessage = function (type, data) {
+    if(parent !== _window) {
+        parent.postMessage(curr_window_id + type + (data || ''), '*');
+    } else {
+        utils.log("Can't postMessage, no parent window.", type, data);
+    }
+};
+
+var FacadeJS = function() {};
+FacadeJS.prototype._didClose = function (code, reason) {
+    postMessage('t', utils.closeFrame(code, reason));
+};
+FacadeJS.prototype._didMessage = function (frame) {
+    postMessage('t', frame);
+};
+FacadeJS.prototype._doSend = function (data) {
+    this._transport.doSend(data);
+};
+FacadeJS.prototype._doCleanup = function () {
+    this._transport.doCleanup();
+};
+
+utils.parent_origin = undefined;
+
+SockJS.bootstrap_iframe = function() {
+    var facade;
+    curr_window_id = _document.location.hash.slice(1);
+    var onMessage = function(e) {
+        if(e.source !== parent) return;
+        if(typeof utils.parent_origin === 'undefined')
+            utils.parent_origin = e.origin;
+        if (e.origin !== utils.parent_origin) return;
+
+        var window_id = e.data.slice(0, 8);
+        var type = e.data.slice(8, 9);
+        var data = e.data.slice(9);
+        if (window_id !== curr_window_id) return;
+        switch(type) {
+        case 's':
+            var p = JSON.parse(data);
+            var version = p[0];
+            var protocol = p[1];
+            var trans_url = p[2];
+            var base_url = p[3];
+            if (version !== SockJS.version) {
+                utils.log("Incompatibile SockJS! Main site uses:" +
+                          " \"" + version + "\", the iframe:" +
+                          " \"" + SockJS.version + "\".");
+            }
+            if (!utils.flatUrl(trans_url) || !utils.flatUrl(base_url)) {
+                utils.log("Only basic urls are supported in SockJS");
+                return;
+            }
+
+            if (!utils.isSameOriginUrl(trans_url) ||
+                !utils.isSameOriginUrl(base_url)) {
+                utils.log("Can't connect to different domain from within an " +
+                          "iframe. (" + JSON.stringify([_window.location.href, trans_url, base_url]) +
+                          ")");
+                return;
+            }
+            facade = new FacadeJS();
+            facade._transport = new FacadeJS[protocol](facade, trans_url, base_url);
+            break;
+        case 'm':
+            facade._doSend(data);
+            break;
+        case 'c':
+            if (facade)
+                facade._doCleanup();
+            facade = null;
+            break;
+        }
+    };
+
+    // alert('test ticker');
+    // facade = new FacadeJS();
+    // facade._transport = new FacadeJS['w-iframe-xhr-polling'](facade, 'http://host.com:9999/ticker/12/basd');
+
+    utils.attachMessage(onMessage);
+
+    // Start
+    postMessage('s');
+};
+//         [*] End of lib/trans-iframe-within.js
+
+
+//         [*] Including lib/info.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var InfoReceiver = function(base_url, AjaxObject) {
+    var that = this;
+    utils.delay(function(){that.doXhr(base_url, AjaxObject);});
+};
+
+InfoReceiver.prototype = new EventEmitter(['finish']);
+
+InfoReceiver.prototype.doXhr = function(base_url, AjaxObject) {
+    var that = this;
+    var t0 = (new Date()).getTime();
+    var xo = new AjaxObject('GET', base_url + '/info');
+
+    var tref = utils.delay(8000,
+                           function(){xo.ontimeout();});
+
+    xo.onfinish = function(status, text) {
+        clearTimeout(tref);
+        tref = null;
+        if (status === 200) {
+            var rtt = (new Date()).getTime() - t0;
+            var info = JSON.parse(text);
+            if (typeof info !== 'object') info = {};
+            that.emit('finish', info, rtt);
+        } else {
+            that.emit('finish');
+        }
+    };
+    xo.ontimeout = function() {
+        xo.close();
+        that.emit('finish');
+    };
+};
+
+var InfoReceiverIframe = function(base_url) {
+    var that = this;
+    var go = function() {
+        var ifr = new IframeTransport();
+        ifr.protocol = 'w-iframe-info-receiver';
+        var fun = function(r) {
+            if (typeof r === 'string' && r.substr(0,1) === 'm') {
+                var d = JSON.parse(r.substr(1));
+                var info = d[0], rtt = d[1];
+                that.emit('finish', info, rtt);
+            } else {
+                that.emit('finish');
+            }
+            ifr.doCleanup();
+            ifr = null;
+        };
+        var mock_ri = {
+            _options: {},
+            _didClose: fun,
+            _didMessage: fun
+        };
+        ifr.i_constructor(mock_ri, base_url, base_url);
+    }
+    if(!_document.body) {
+        utils.attachEvent('load', go);
+    } else {
+        go();
+    }
+};
+InfoReceiverIframe.prototype = new EventEmitter(['finish']);
+
+
+var InfoReceiverFake = function() {
+    // It may not be possible to do cross domain AJAX to get the info
+    // data, for example for IE7. But we want to run JSONP, so let's
+    // fake the response, with rtt=2s (rto=6s).
+    var that = this;
+    utils.delay(function() {
+        that.emit('finish', {}, 2000);
+    });
+};
+InfoReceiverFake.prototype = new EventEmitter(['finish']);
+
+var createInfoReceiver = function(base_url) {
+    if (utils.isSameOriginUrl(base_url)) {
+        // If, for some reason, we have SockJS locally - there's no
+        // need to start up the complex machinery. Just use ajax.
+        return new InfoReceiver(base_url, utils.XHRLocalObject);
+    }
+    switch (utils.isXHRCorsCapable()) {
+    case 1:
+        // XHRLocalObject -> no_credentials=true
+        return new InfoReceiver(base_url, utils.XHRLocalObject);
+    case 2:
+        return new InfoReceiver(base_url, utils.XDRObject);
+    case 3:
+        // Opera
+        return new InfoReceiverIframe(base_url);
+    default:
+        // IE 7
+        return new InfoReceiverFake();
+    };
+};
+
+
+var WInfoReceiverIframe = FacadeJS['w-iframe-info-receiver'] = function(ri, _trans_url, base_url) {
+    var ir = new InfoReceiver(base_url, utils.XHRLocalObject);
+    ir.onfinish = function(info, rtt) {
+        ri._didMessage('m'+JSON.stringify([info, rtt]));
+        ri._didClose();
+    }
+};
+WInfoReceiverIframe.prototype.doCleanup = function() {};
+//         [*] End of lib/info.js
+
+
+//         [*] Including lib/trans-iframe-eventsource.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var EventSourceIframeTransport = SockJS['iframe-eventsource'] = function () {
+    var that = this;
+    that.protocol = 'w-iframe-eventsource';
+    that.i_constructor.apply(that, arguments);
+};
+
+EventSourceIframeTransport.prototype = new IframeTransport();
+
+EventSourceIframeTransport.enabled = function () {
+    return ('EventSource' in _window) && IframeTransport.enabled();
+};
+
+EventSourceIframeTransport.need_body = true;
+EventSourceIframeTransport.roundTrips = 3; // html, javascript, eventsource
+
+
+// w-iframe-eventsource
+var EventSourceTransport = FacadeJS['w-iframe-eventsource'] = function(ri, trans_url) {
+    this.run(ri, trans_url, '/eventsource', EventSourceReceiver, utils.XHRLocalObject);
+}
+EventSourceTransport.prototype = new AjaxBasedTransport();
+//         [*] End of lib/trans-iframe-eventsource.js
+
+
+//         [*] Including lib/trans-iframe-xhr-polling.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var XhrPollingIframeTransport = SockJS['iframe-xhr-polling'] = function () {
+    var that = this;
+    that.protocol = 'w-iframe-xhr-polling';
+    that.i_constructor.apply(that, arguments);
+};
+
+XhrPollingIframeTransport.prototype = new IframeTransport();
+
+XhrPollingIframeTransport.enabled = function () {
+    return _window.XMLHttpRequest && IframeTransport.enabled();
+};
+
+XhrPollingIframeTransport.need_body = true;
+XhrPollingIframeTransport.roundTrips = 3; // html, javascript, xhr
+
+
+// w-iframe-xhr-polling
+var XhrPollingITransport = FacadeJS['w-iframe-xhr-polling'] = function(ri, trans_url) {
+    this.run(ri, trans_url, '/xhr', XhrReceiver, utils.XHRLocalObject);
+};
+
+XhrPollingITransport.prototype = new AjaxBasedTransport();
+//         [*] End of lib/trans-iframe-xhr-polling.js
+
+
+//         [*] Including lib/trans-iframe-htmlfile.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+// This transport generally works in any browser, but will cause a
+// spinning cursor to appear in any browser other than IE.
+// We may test this transport in all browsers - why not, but in
+// production it should be only run in IE.
+
+var HtmlFileIframeTransport = SockJS['iframe-htmlfile'] = function () {
+    var that = this;
+    that.protocol = 'w-iframe-htmlfile';
+    that.i_constructor.apply(that, arguments);
+};
+
+// Inheritance.
+HtmlFileIframeTransport.prototype = new IframeTransport();
+
+HtmlFileIframeTransport.enabled = function() {
+    return IframeTransport.enabled();
+};
+
+HtmlFileIframeTransport.need_body = true;
+HtmlFileIframeTransport.roundTrips = 3; // html, javascript, htmlfile
+
+
+// w-iframe-htmlfile
+var HtmlFileTransport = FacadeJS['w-iframe-htmlfile'] = function(ri, trans_url) {
+    this.run(ri, trans_url, '/htmlfile', HtmlfileReceiver, utils.XHRLocalObject);
+};
+HtmlFileTransport.prototype = new AjaxBasedTransport();
+//         [*] End of lib/trans-iframe-htmlfile.js
+
+
+//         [*] Including lib/trans-polling.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var Polling = function(ri, Receiver, recv_url, AjaxObject) {
+    var that = this;
+    that.ri = ri;
+    that.Receiver = Receiver;
+    that.recv_url = recv_url;
+    that.AjaxObject = AjaxObject;
+    that._scheduleRecv();
+};
+
+Polling.prototype._scheduleRecv = function() {
+    var that = this;
+    var poll = that.poll = new that.Receiver(that.recv_url, that.AjaxObject);
+    var msg_counter = 0;
+    poll.onmessage = function(e) {
+        msg_counter += 1;
+        that.ri._didMessage(e.data);
+    };
+    poll.onclose = function(e) {
+        that.poll = poll = poll.onmessage = poll.onclose = null;
+        if (!that.poll_is_closing) {
+            if (e.reason === 'permanent') {
+                that.ri._didClose(1006, 'Polling error (' + e.reason + ')');
+            } else {
+                that._scheduleRecv();
+            }
+        }
+    };
+};
+
+Polling.prototype.abort = function() {
+    var that = this;
+    that.poll_is_closing = true;
+    if (that.poll) {
+        that.poll.abort();
+    }
+};
+//         [*] End of lib/trans-polling.js
+
+
+//         [*] Including lib/trans-receiver-eventsource.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var EventSourceReceiver = function(url) {
+    var that = this;
+    var es = new EventSource(url);
+    es.onmessage = function(e) {
+        that.dispatchEvent(new SimpleEvent('message',
+                                           {'data': unescape(e.data)}));
+    };
+    that.es_close = es.onerror = function(e, abort_reason) {
+        // ES on reconnection has readyState = 0 or 1.
+        // on network error it's CLOSED = 2
+        var reason = abort_reason ? 'user' :
+            (es.readyState !== 2 ? 'network' : 'permanent');
+        that.es_close = es.onmessage = es.onerror = null;
+        // EventSource reconnects automatically.
+        es.close();
+        es = null;
+        // Safari and chrome < 15 crash if we close window before
+        // waiting for ES cleanup. See:
+        //   https://code.google.com/p/chromium/issues/detail?id=89155
+        utils.delay(200, function() {
+                        that.dispatchEvent(new SimpleEvent('close', {reason: reason}));
+                    });
+    };
+};
+
+EventSourceReceiver.prototype = new REventTarget();
+
+EventSourceReceiver.prototype.abort = function() {
+    var that = this;
+    if (that.es_close) {
+        that.es_close({}, true);
+    }
+};
+//         [*] End of lib/trans-receiver-eventsource.js
+
+
+//         [*] Including lib/trans-receiver-htmlfile.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var _is_ie_htmlfile_capable;
+var isIeHtmlfileCapable = function() {
+    if (_is_ie_htmlfile_capable === undefined) {
+        if ('ActiveXObject' in _window) {
+            try {
+                _is_ie_htmlfile_capable = !!new ActiveXObject('htmlfile');
+            } catch (x) {}
+        } else {
+            _is_ie_htmlfile_capable = false;
+        }
+    }
+    return _is_ie_htmlfile_capable;
+};
+
+
+var HtmlfileReceiver = function(url) {
+    var that = this;
+    utils.polluteGlobalNamespace();
+
+    that.id = 'a' + utils.random_string(6, 26);
+    url += ((url.indexOf('?') === -1) ? '?' : '&') +
+        'c=' + escape(WPrefix + '.' + that.id);
+
+    var constructor = isIeHtmlfileCapable() ?
+        utils.createHtmlfile : utils.createIframe;
+
+    var iframeObj;
+    _window[WPrefix][that.id] = {
+        start: function () {
+            iframeObj.loaded();
+        },
+        message: function (data) {
+            that.dispatchEvent(new SimpleEvent('message', {'data': data}));
+        },
+        stop: function () {
+            that.iframe_close({}, 'network');
+        }
+    };
+    that.iframe_close = function(e, abort_reason) {
+        iframeObj.cleanup();
+        that.iframe_close = iframeObj = null;
+        delete _window[WPrefix][that.id];
+        that.dispatchEvent(new SimpleEvent('close', {reason: abort_reason}));
+    };
+    iframeObj = constructor(url, function(e) {
+                                that.iframe_close({}, 'permanent');
+                            });
+};
+
+HtmlfileReceiver.prototype = new REventTarget();
+
+HtmlfileReceiver.prototype.abort = function() {
+    var that = this;
+    if (that.iframe_close) {
+        that.iframe_close({}, 'user');
+    }
+};
+//         [*] End of lib/trans-receiver-htmlfile.js
+
+
+//         [*] Including lib/trans-receiver-xhr.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+var XhrReceiver = function(url, AjaxObject) {
+    var that = this;
+    var buf_pos = 0;
+
+    that.xo = new AjaxObject('POST', url, null);
+    that.xo.onchunk = function(status, text) {
+        if (status !== 200) return;
+        while (1) {
+            var buf = text.slice(buf_pos);
+            var p = buf.indexOf('\n');
+            if (p === -1) break;
+            buf_pos += p+1;
+            var msg = buf.slice(0, p);
+            that.dispatchEvent(new SimpleEvent('message', {data: msg}));
+        }
+    };
+    that.xo.onfinish = function(status, text) {
+        that.xo.onchunk(status, text);
+        that.xo = null;
+        var reason = status === 200 ? 'network' : 'permanent';
+        that.dispatchEvent(new SimpleEvent('close', {reason: reason}));
+    }
+};
+
+XhrReceiver.prototype = new REventTarget();
+
+XhrReceiver.prototype.abort = function() {
+    var that = this;
+    if (that.xo) {
+        that.xo.close();
+        that.dispatchEvent(new SimpleEvent('close', {reason: 'user'}));
+        that.xo = null;
+    }
+};
+//         [*] End of lib/trans-receiver-xhr.js
+
+
+//         [*] Including lib/test-hooks.js
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Copyright (c) 2011-2012 VMware, Inc.
+ *
+ * For the license see COPYING.
+ * ***** END LICENSE BLOCK *****
+ */
+
+// For testing
+SockJS.getUtils = function(){
+    return utils;
+};
+
+SockJS.getIframeTransport = function(){
+    return IframeTransport;
+};
+//         [*] End of lib/test-hooks.js
+
+                  return SockJS;
+          })();
+if ('_sockjs_onload' in window) setTimeout(_sockjs_onload, 1);
+
+// AMD compliance
+if (typeof define === 'function' && define.amd) {
+    define('sockjs', [], function(){return SockJS;});
+}
+//     [*] End of lib/index.js
+
+// [*] End of lib/all.js
+
+
+// Generated by CoffeeScript 1.7.1
+
+/*
+   Stomp Over WebSocket http://www.jmesnil.net/stomp-websocket/doc/ | Apache License V2.0
+
+   Copyright (C) 2010-2013 [Jeff Mesnil](http://jmesnil.net/)
+   Copyright (C) 2012 [FuseSource, Inc.](http://fusesource.com)
+ */
+
+(function() {
+  var Byte, Client, Frame, Stomp,
+    __hasProp = {}.hasOwnProperty,
+    __slice = [].slice;
+
+  Byte = {
+    LF: '\x0A',
+    NULL: '\x00'
+  };
+
+  Frame = (function() {
+    var unmarshallSingle;
+
+    function Frame(command, headers, body) {
+      this.command = command;
+      this.headers = headers != null ? headers : {};
+      this.body = body != null ? body : '';
+    }
+
+    Frame.prototype.toString = function() {
+      var lines, name, skipContentLength, value, _ref;
+      lines = [this.command];
+      skipContentLength = this.headers['content-length'] === false ? true : false;
+      if (skipContentLength) {
+        delete this.headers['content-length'];
+      }
+      _ref = this.headers;
+      for (name in _ref) {
+        if (!__hasProp.call(_ref, name)) continue;
+        value = _ref[name];
+        lines.push("" + name + ":" + value);
+      }
+      if (this.body && !skipContentLength) {
+        lines.push("content-length:" + (Frame.sizeOfUTF8(this.body)));
+      }
+      lines.push(Byte.LF + this.body);
+      return lines.join(Byte.LF);
+    };
+
+    Frame.sizeOfUTF8 = function(s) {
+      if (s) {
+        return encodeURI(s).match(/%..|./g).length;
+      } else {
+        return 0;
+      }
+    };
+
+    unmarshallSingle = function(data) {
+      var body, chr, command, divider, headerLines, headers, i, idx, len, line, start, trim, _i, _j, _len, _ref, _ref1;
+      divider = data.search(RegExp("" + Byte.LF + Byte.LF));
+      headerLines = data.substring(0, divider).split(Byte.LF);
+      command = headerLines.shift();
+      headers = {};
+      trim = function(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+      };
+      _ref = headerLines.reverse();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        line = _ref[_i];
+        idx = line.indexOf(':');
+        headers[trim(line.substring(0, idx))] = trim(line.substring(idx + 1));
+      }
+      body = '';
+      start = divider + 2;
+      if (headers['content-length']) {
+        len = parseInt(headers['content-length']);
+        body = ('' + data).substring(start, start + len);
+      } else {
+        chr = null;
+        for (i = _j = start, _ref1 = data.length; start <= _ref1 ? _j < _ref1 : _j > _ref1; i = start <= _ref1 ? ++_j : --_j) {
+          chr = data.charAt(i);
+          if (chr === Byte.NULL) {
+            break;
+          }
+          body += chr;
+        }
+      }
+      return new Frame(command, headers, body);
+    };
+
+    Frame.unmarshall = function(datas) {
+      var frame, frames, last_frame, r;
+      frames = datas.split(RegExp("" + Byte.NULL + Byte.LF + "*"));
+      r = {
+        frames: [],
+        partial: ''
+      };
+      r.frames = (function() {
+        var _i, _len, _ref, _results;
+        _ref = frames.slice(0, -1);
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          frame = _ref[_i];
+          _results.push(unmarshallSingle(frame));
+        }
+        return _results;
+      })();
+      last_frame = frames.slice(-1)[0];
+      if (last_frame === Byte.LF || (last_frame.search(RegExp("" + Byte.NULL + Byte.LF + "*$"))) !== -1) {
+        r.frames.push(unmarshallSingle(last_frame));
+      } else {
+        r.partial = last_frame;
+      }
+      return r;
+    };
+
+    Frame.marshall = function(command, headers, body) {
+      var frame;
+      frame = new Frame(command, headers, body);
+      return frame.toString() + Byte.NULL;
+    };
+
+    return Frame;
+
+  })();
+
+  Client = (function() {
+    var now;
+
+    function Client(ws) {
+      this.ws = ws;
+      this.ws.binaryType = "arraybuffer";
+      this.counter = 0;
+      this.connected = false;
+      this.heartbeat = {
+        outgoing: 10000,
+        incoming: 10000
+      };
+      this.maxWebSocketFrameSize = 16 * 1024;
+      this.subscriptions = {};
+      this.partialData = '';
+    }
+
+    Client.prototype.debug = function(message) {
+      var _ref;
+      return typeof window !== "undefined" && window !== null ? (_ref = window.console) != null ? _ref.log(message) : void 0 : void 0;
+    };
+
+    now = function() {
+      if (Date.now) {
+        return Date.now();
+      } else {
+        return new Date().valueOf;
+      }
+    };
+
+    Client.prototype._transmit = function(command, headers, body) {
+      var out;
+      out = Frame.marshall(command, headers, body);
+      if (typeof this.debug === "function") {
+        this.debug(">>> " + out);
+      }
+      while (true) {
+        if (out.length > this.maxWebSocketFrameSize) {
+          this.ws.send(out.substring(0, this.maxWebSocketFrameSize));
+          out = out.substring(this.maxWebSocketFrameSize);
+          if (typeof this.debug === "function") {
+            this.debug("remaining = " + out.length);
+          }
+        } else {
+          return this.ws.send(out);
+        }
+      }
+    };
+
+    Client.prototype._setupHeartbeat = function(headers) {
+      var serverIncoming, serverOutgoing, ttl, v, _ref, _ref1;
+      if ((_ref = headers.version) !== Stomp.VERSIONS.V1_1 && _ref !== Stomp.VERSIONS.V1_2) {
+        return;
+      }
+      _ref1 = (function() {
+        var _i, _len, _ref1, _results;
+        _ref1 = headers['heart-beat'].split(",");
+        _results = [];
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          v = _ref1[_i];
+          _results.push(parseInt(v));
+        }
+        return _results;
+      })(), serverOutgoing = _ref1[0], serverIncoming = _ref1[1];
+      if (!(this.heartbeat.outgoing === 0 || serverIncoming === 0)) {
+        ttl = Math.max(this.heartbeat.outgoing, serverIncoming);
+        if (typeof this.debug === "function") {
+          this.debug("send PING every " + ttl + "ms");
+        }
+        this.pinger = Stomp.setInterval(ttl, (function(_this) {
+          return function() {
+            _this.ws.send(Byte.LF);
+            return typeof _this.debug === "function" ? _this.debug(">>> PING") : void 0;
+          };
+        })(this));
+      }
+      if (!(this.heartbeat.incoming === 0 || serverOutgoing === 0)) {
+        ttl = Math.max(this.heartbeat.incoming, serverOutgoing);
+        if (typeof this.debug === "function") {
+          this.debug("check PONG every " + ttl + "ms");
+        }
+        return this.ponger = Stomp.setInterval(ttl, (function(_this) {
+          return function() {
+            var delta;
+            delta = now() - _this.serverActivity;
+            if (delta > ttl * 2) {
+              if (typeof _this.debug === "function") {
+                _this.debug("did not receive server activity for the last " + delta + "ms");
+              }
+              return _this.ws.close();
+            }
+          };
+        })(this));
+      }
+    };
+
+    Client.prototype._parseConnect = function() {
+      var args, connectCallback, errorCallback, headers;
+      args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      headers = {};
+      switch (args.length) {
+        case 2:
+          headers = args[0], connectCallback = args[1];
+          break;
+        case 3:
+          if (args[1] instanceof Function) {
+            headers = args[0], connectCallback = args[1], errorCallback = args[2];
+          } else {
+            headers.login = args[0], headers.passcode = args[1], connectCallback = args[2];
+          }
+          break;
+        case 4:
+          headers.login = args[0], headers.passcode = args[1], connectCallback = args[2], errorCallback = args[3];
+          break;
+        default:
+          headers.login = args[0], headers.passcode = args[1], connectCallback = args[2], errorCallback = args[3], headers.host = args[4];
+      }
+      return [headers, connectCallback, errorCallback];
+    };
+
+    Client.prototype.connect = function() {
+      var args, errorCallback, headers, out;
+      args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      out = this._parseConnect.apply(this, args);
+      headers = out[0], this.connectCallback = out[1], errorCallback = out[2];
+      if (typeof this.debug === "function") {
+        this.debug("Opening Web Socket...");
+      }
+      this.ws.onmessage = (function(_this) {
+        return function(evt) {
+          var arr, c, client, data, frame, messageID, onreceive, subscription, unmarshalledData, _i, _len, _ref, _results;
+          data = typeof ArrayBuffer !== 'undefined' && evt.data instanceof ArrayBuffer ? (arr = new Uint8Array(evt.data), typeof _this.debug === "function" ? _this.debug("--- got data length: " + arr.length) : void 0, ((function() {
+            var _i, _len, _results;
+            _results = [];
+            for (_i = 0, _len = arr.length; _i < _len; _i++) {
+              c = arr[_i];
+              _results.push(String.fromCharCode(c));
+            }
+            return _results;
+          })()).join('')) : evt.data;
+          _this.serverActivity = now();
+          if (data === Byte.LF) {
+            if (typeof _this.debug === "function") {
+              _this.debug("<<< PONG");
+            }
+            return;
+          }
+          if (typeof _this.debug === "function") {
+            _this.debug("<<< " + data);
+          }
+          unmarshalledData = Frame.unmarshall(_this.partialData + data);
+          _this.partialData = unmarshalledData.partial;
+          _ref = unmarshalledData.frames;
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            frame = _ref[_i];
+            switch (frame.command) {
+              case "CONNECTED":
+                if (typeof _this.debug === "function") {
+                  _this.debug("connected to server " + frame.headers.server);
+                }
+                _this.connected = true;
+                _this._setupHeartbeat(frame.headers);
+                _results.push(typeof _this.connectCallback === "function" ? _this.connectCallback(frame) : void 0);
+                break;
+              case "MESSAGE":
+                subscription = frame.headers.subscription;
+                onreceive = _this.subscriptions[subscription] || _this.onreceive;
+                if (onreceive) {
+                  client = _this;
+                  messageID = frame.headers["message-id"];
+                  frame.ack = function(headers) {
+                    if (headers == null) {
+                      headers = {};
+                    }
+                    return client.ack(messageID, subscription, headers);
+                  };
+                  frame.nack = function(headers) {
+                    if (headers == null) {
+                      headers = {};
+                    }
+                    return client.nack(messageID, subscription, headers);
+                  };
+                  _results.push(onreceive(frame));
+                } else {
+                  _results.push(typeof _this.debug === "function" ? _this.debug("Unhandled received MESSAGE: " + frame) : void 0);
+                }
+                break;
+              case "RECEIPT":
+                _results.push(typeof _this.onreceipt === "function" ? _this.onreceipt(frame) : void 0);
+                break;
+              case "ERROR":
+                _results.push(typeof errorCallback === "function" ? errorCallback(frame) : void 0);
+                break;
+              default:
+                _results.push(typeof _this.debug === "function" ? _this.debug("Unhandled frame: " + frame) : void 0);
+            }
+          }
+          return _results;
+        };
+      })(this);
+      this.ws.onclose = (function(_this) {
+        return function() {
+          var msg;
+          msg = "Whoops! Lost connection to " + _this.ws.url;
+          if (typeof _this.debug === "function") {
+            _this.debug(msg);
+          }
+          _this._cleanUp();
+          return typeof errorCallback === "function" ? errorCallback(msg) : void 0;
+        };
+      })(this);
+      return this.ws.onopen = (function(_this) {
+        return function() {
+          if (typeof _this.debug === "function") {
+            _this.debug('Web Socket Opened...');
+          }
+          headers["accept-version"] = Stomp.VERSIONS.supportedVersions();
+          headers["heart-beat"] = [_this.heartbeat.outgoing, _this.heartbeat.incoming].join(',');
+          return _this._transmit("CONNECT", headers);
+        };
+      })(this);
+    };
+
+    Client.prototype.disconnect = function(disconnectCallback, headers) {
+      if (headers == null) {
+        headers = {};
+      }
+      this._transmit("DISCONNECT", headers);
+      this.ws.onclose = null;
+      this.ws.close();
+      this._cleanUp();
+      return typeof disconnectCallback === "function" ? disconnectCallback() : void 0;
+    };
+
+    Client.prototype._cleanUp = function() {
+      this.connected = false;
+      if (this.pinger) {
+        Stomp.clearInterval(this.pinger);
+      }
+      if (this.ponger) {
+        return Stomp.clearInterval(this.ponger);
+      }
+    };
+
+    Client.prototype.send = function(destination, headers, body) {
+      if (headers == null) {
+        headers = {};
+      }
+      if (body == null) {
+        body = '';
+      }
+      headers.destination = destination;
+      return this._transmit("SEND", headers, body);
+    };
+
+    Client.prototype.subscribe = function(destination, callback, headers) {
+      var client;
+      if (headers == null) {
+        headers = {};
+      }
+      if (!headers.id) {
+        headers.id = "sub-" + this.counter++;
+      }
+      headers.destination = destination;
+      this.subscriptions[headers.id] = callback;
+      this._transmit("SUBSCRIBE", headers);
+      client = this;
+      return {
+        id: headers.id,
+        unsubscribe: function() {
+          return client.unsubscribe(headers.id);
+        }
+      };
+    };
+
+    Client.prototype.unsubscribe = function(id) {
+      delete this.subscriptions[id];
+      return this._transmit("UNSUBSCRIBE", {
+        id: id
+      });
+    };
+
+    Client.prototype.begin = function(transaction) {
+      var client, txid;
+      txid = transaction || "tx-" + this.counter++;
+      this._transmit("BEGIN", {
+        transaction: txid
+      });
+      client = this;
+      return {
+        id: txid,
+        commit: function() {
+          return client.commit(txid);
+        },
+        abort: function() {
+          return client.abort(txid);
+        }
+      };
+    };
+
+    Client.prototype.commit = function(transaction) {
+      return this._transmit("COMMIT", {
+        transaction: transaction
+      });
+    };
+
+    Client.prototype.abort = function(transaction) {
+      return this._transmit("ABORT", {
+        transaction: transaction
+      });
+    };
+
+    Client.prototype.ack = function(messageID, subscription, headers) {
+      if (headers == null) {
+        headers = {};
+      }
+      headers["message-id"] = messageID;
+      headers.subscription = subscription;
+      return this._transmit("ACK", headers);
+    };
+
+    Client.prototype.nack = function(messageID, subscription, headers) {
+      if (headers == null) {
+        headers = {};
+      }
+      headers["message-id"] = messageID;
+      headers.subscription = subscription;
+      return this._transmit("NACK", headers);
+    };
+
+    return Client;
+
+  })();
+
+  Stomp = {
+    VERSIONS: {
+      V1_0: '1.0',
+      V1_1: '1.1',
+      V1_2: '1.2',
+      supportedVersions: function() {
+        return '1.1,1.0';
+      }
+    },
+    client: function(url, protocols) {
+      var klass, ws;
+      if (protocols == null) {
+        protocols = ['v10.stomp', 'v11.stomp'];
+      }
+      klass = Stomp.WebSocketClass || WebSocket;
+      ws = new klass(url, protocols);
+      return new Client(ws);
+    },
+    over: function(ws) {
+      return new Client(ws);
+    },
+    Frame: Frame
+  };
+
+  if (typeof exports !== "undefined" && exports !== null) {
+    exports.Stomp = Stomp;
+  }
+
+  if (typeof window !== "undefined" && window !== null) {
+    Stomp.setInterval = function(interval, f) {
+      return window.setInterval(f, interval);
+    };
+    Stomp.clearInterval = function(id) {
+      return window.clearInterval(id);
+    };
+    window.Stomp = Stomp;
+  } else if (!exports) {
+    self.Stomp = Stomp;
+  }
+
+}).call(this);
+
+//=require sockjs
+//=require stomp

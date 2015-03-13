@@ -1,15 +1,502 @@
-(function(){var m,r,f,w={}.hasOwnProperty,p=[].slice;r=function(){function d(a,c,b){this.command=a;this.headers=null!=c?c:{};this.body=null!=b?b:""}var f;d.prototype.toString=function(){var a,c,b,e,g;a=[this.command];(b=!1===this.headers["content-length"]?!0:!1)&&delete this.headers["content-length"];g=this.headers;for(c in g)w.call(g,c)&&(e=g[c],a.push(""+c+":"+e));this.body&&!b&&a.push("content-length:"+d.sizeOfUTF8(this.body));a.push("\n"+this.body);return a.join("\n")};d.sizeOfUTF8=function(a){return a?
-encodeURI(a).match(/%..|./g).length:0};f=function(a){var c,b,e,g,h,q,f,n,k;g=a.search(/\n\n/);h=a.substring(0,g).split("\n");e=h.shift();q={};c=function(a){return a.replace(/^\s+|\s+$/g,"")};k=h.reverse();b=0;for(n=k.length;b<n;b++)f=k[b],h=f.indexOf(":"),q[c(f.substring(0,h))]=c(f.substring(h+1));c="";g+=2;if(q["content-length"])c=parseInt(q["content-length"]),c=(""+a).substring(g,g+c);else for(b=null,b=h=g,f=a.length;g<=f?h<f:h>f;b=g<=f?++h:--h){b=a.charAt(b);if("\x00"===b)break;c+=b}return new d(e,
-q,c)};d.unmarshall=function(a){var c,b;b=a.split(/\x00\n*/);a={frames:[],partial:""};var e,g,h,d;h=b.slice(0,-1);d=[];e=0;for(g=h.length;e<g;e++)c=h[e],d.push(f(c));a.frames=d;c=b.slice(-1)[0];"\n"===c||-1!==c.search(/\x00\n*$/)?a.frames.push(f(c)):a.partial=c;return a};d.marshall=function(a,c,b){return(new d(a,c,b)).toString()+"\x00"};return d}();m=function(){function d(a){this.ws=a;this.ws.binaryType="arraybuffer";this.counter=0;this.connected=!1;this.heartbeat={outgoing:1E4,incoming:1E4};this.maxWebSocketFrameSize=
-16384;this.subscriptions={};this.partialData=""}var k;d.prototype.debug=function(a){var c;return"undefined"!==typeof window&&null!==window?null!=(c=window.console)?c.log(a):void 0:void 0};k=function(){return Date.now?Date.now():(new Date).valueOf};d.prototype._transmit=function(a,c,b){a=r.marshall(a,c,b);for("function"===typeof this.debug&&this.debug(">>> "+a);;)if(a.length>this.maxWebSocketFrameSize)this.ws.send(a.substring(0,this.maxWebSocketFrameSize)),a=a.substring(this.maxWebSocketFrameSize),
-"function"===typeof this.debug&&this.debug("remaining = "+a.length);else return this.ws.send(a)};d.prototype._setupHeartbeat=function(a){var c,b,e,g;if((b=a.version)===f.VERSIONS.V1_1||b===f.VERSIONS.V1_2)if(c=function(){var b,c,e,d;e=a["heart-beat"].split(",");d=[];b=0;for(c=e.length;b<c;b++)g=e[b],d.push(parseInt(g));return d}(),b=c[0],c=c[1],0!==this.heartbeat.outgoing&&0!==c&&(e=Math.max(this.heartbeat.outgoing,c),"function"===typeof this.debug&&this.debug("send PING every "+e+"ms"),this.pinger=
-f.setInterval(e,function(a){return function(){a.ws.send("\n");return"function"===typeof a.debug?a.debug(">>> PING"):void 0}}(this))),0!==this.heartbeat.incoming&&0!==b)return e=Math.max(this.heartbeat.incoming,b),"function"===typeof this.debug&&this.debug("check PONG every "+e+"ms"),this.ponger=f.setInterval(e,function(a){return function(){var b;b=k()-a.serverActivity;if(b>2*e)return"function"===typeof a.debug&&a.debug("did not receive server activity for the last "+b+"ms"),a.ws.close()}}(this))};
-d.prototype._parseConnect=function(){var a,c,b,e;a=1<=arguments.length?p.call(arguments,0):[];e={};switch(a.length){case 2:e=a[0];c=a[1];break;case 3:a[1]instanceof Function?(e=a[0],c=a[1],b=a[2]):(e.login=a[0],e.passcode=a[1],c=a[2]);break;case 4:e.login=a[0];e.passcode=a[1];c=a[2];b=a[3];break;default:e.login=a[0],e.passcode=a[1],c=a[2],b=a[3],e.host=a[4]}return[e,c,b]};d.prototype.connect=function(){var a,c,b;a=1<=arguments.length?p.call(arguments,0):[];a=this._parseConnect.apply(this,a);b=a[0];
-this.connectCallback=a[1];c=a[2];"function"===typeof this.debug&&this.debug("Opening Web Socket...");this.ws.onmessage=function(a){return function(b){var d,f,m,n,p,s,t,v,u,l;b="undefined"!==typeof ArrayBuffer&&b.data instanceof ArrayBuffer?(d=new Uint8Array(b.data),"function"===typeof a.debug?a.debug("--- got data length: "+d.length):void 0,function(){var a,b,c;c=[];a=0;for(b=d.length;a<b;a++)f=d[a],c.push(String.fromCharCode(f));return c}().join("")):b.data;a.serverActivity=k();if("\n"===b)"function"===
-typeof a.debug&&a.debug("<<< PONG");else{"function"===typeof a.debug&&a.debug("<<< "+b);b=r.unmarshall(a.partialData+b);a.partialData=b.partial;u=b.frames;l=[];t=0;for(v=u.length;t<v;t++)switch(b=u[t],b.command){case "CONNECTED":"function"===typeof a.debug&&a.debug("connected to server "+b.headers.server);a.connected=!0;a._setupHeartbeat(b.headers);l.push("function"===typeof a.connectCallback?a.connectCallback(b):void 0);break;case "MESSAGE":s=b.headers.subscription;(p=a.subscriptions[s]||a.onreceive)?
-(m=a,n=b.headers["message-id"],b.ack=function(a){null==a&&(a={});return m.ack(n,s,a)},b.nack=function(a){null==a&&(a={});return m.nack(n,s,a)},l.push(p(b))):l.push("function"===typeof a.debug?a.debug("Unhandled received MESSAGE: "+b):void 0);break;case "RECEIPT":l.push("function"===typeof a.onreceipt?a.onreceipt(b):void 0);break;case "ERROR":l.push("function"===typeof c?c(b):void 0);break;default:l.push("function"===typeof a.debug?a.debug("Unhandled frame: "+b):void 0)}return l}}}(this);this.ws.onclose=
-function(a){return function(){var b;b="Whoops! Lost connection to "+a.ws.url;"function"===typeof a.debug&&a.debug(b);a._cleanUp();return"function"===typeof c?c(b):void 0}}(this);return this.ws.onopen=function(a){return function(){"function"===typeof a.debug&&a.debug("Web Socket Opened...");b["accept-version"]=f.VERSIONS.supportedVersions();b["heart-beat"]=[a.heartbeat.outgoing,a.heartbeat.incoming].join();return a._transmit("CONNECT",b)}}(this)};d.prototype.disconnect=function(a,c){null==c&&(c={});
-this._transmit("DISCONNECT",c);this.ws.onclose=null;this.ws.close();this._cleanUp();return"function"===typeof a?a():void 0};d.prototype._cleanUp=function(){this.connected=!1;this.pinger&&f.clearInterval(this.pinger);if(this.ponger)return f.clearInterval(this.ponger)};d.prototype.send=function(a,c,b){null==c&&(c={});null==b&&(b="");c.destination=a;return this._transmit("SEND",c,b)};d.prototype.subscribe=function(a,c,b){var d;null==b&&(b={});b.id||(b.id="sub-"+this.counter++);b.destination=a;this.subscriptions[b.id]=
-c;this._transmit("SUBSCRIBE",b);d=this;return{id:b.id,unsubscribe:function(){return d.unsubscribe(b.id)}}};d.prototype.unsubscribe=function(a){delete this.subscriptions[a];return this._transmit("UNSUBSCRIBE",{id:a})};d.prototype.begin=function(a){var c,b;b=a||"tx-"+this.counter++;this._transmit("BEGIN",{transaction:b});c=this;return{id:b,commit:function(){return c.commit(b)},abort:function(){return c.abort(b)}}};d.prototype.commit=function(a){return this._transmit("COMMIT",{transaction:a})};d.prototype.abort=
-function(a){return this._transmit("ABORT",{transaction:a})};d.prototype.ack=function(a,c,b){null==b&&(b={});b["message-id"]=a;b.subscription=c;return this._transmit("ACK",b)};d.prototype.nack=function(a,c,b){null==b&&(b={});b["message-id"]=a;b.subscription=c;return this._transmit("NACK",b)};return d}();f={VERSIONS:{V1_0:"1.0",V1_1:"1.1",V1_2:"1.2",supportedVersions:function(){return"1.1,1.0"}},client:function(d,k){var a;null==k&&(k=["v10.stomp","v11.stomp"]);a=new (f.WebSocketClass||WebSocket)(d,
-k);return new m(a)},over:function(d){return new m(d)},Frame:r};"undefined"!==typeof exports&&null!==exports&&(exports.Stomp=f);"undefined"!==typeof window&&null!==window?(f.setInterval=function(d,f){return window.setInterval(f,d)},f.clearInterval=function(d){return window.clearInterval(d)},window.Stomp=f):exports||(self.Stomp=f)}).call(this);
+// Generated by CoffeeScript 1.7.1
+
+/*
+   Stomp Over WebSocket http://www.jmesnil.net/stomp-websocket/doc/ | Apache License V2.0
+
+   Copyright (C) 2010-2013 [Jeff Mesnil](http://jmesnil.net/)
+   Copyright (C) 2012 [FuseSource, Inc.](http://fusesource.com)
+ */
+
+(function() {
+  var Byte, Client, Frame, Stomp,
+    __hasProp = {}.hasOwnProperty,
+    __slice = [].slice;
+
+  Byte = {
+    LF: '\x0A',
+    NULL: '\x00'
+  };
+
+  Frame = (function() {
+    var unmarshallSingle;
+
+    function Frame(command, headers, body) {
+      this.command = command;
+      this.headers = headers != null ? headers : {};
+      this.body = body != null ? body : '';
+    }
+
+    Frame.prototype.toString = function() {
+      var lines, name, skipContentLength, value, _ref;
+      lines = [this.command];
+      skipContentLength = this.headers['content-length'] === false ? true : false;
+      if (skipContentLength) {
+        delete this.headers['content-length'];
+      }
+      _ref = this.headers;
+      for (name in _ref) {
+        if (!__hasProp.call(_ref, name)) continue;
+        value = _ref[name];
+        lines.push("" + name + ":" + value);
+      }
+      if (this.body && !skipContentLength) {
+        lines.push("content-length:" + (Frame.sizeOfUTF8(this.body)));
+      }
+      lines.push(Byte.LF + this.body);
+      return lines.join(Byte.LF);
+    };
+
+    Frame.sizeOfUTF8 = function(s) {
+      if (s) {
+        return encodeURI(s).match(/%..|./g).length;
+      } else {
+        return 0;
+      }
+    };
+
+    unmarshallSingle = function(data) {
+      var body, chr, command, divider, headerLines, headers, i, idx, len, line, start, trim, _i, _j, _len, _ref, _ref1;
+      divider = data.search(RegExp("" + Byte.LF + Byte.LF));
+      headerLines = data.substring(0, divider).split(Byte.LF);
+      command = headerLines.shift();
+      headers = {};
+      trim = function(str) {
+        return str.replace(/^\s+|\s+$/g, '');
+      };
+      _ref = headerLines.reverse();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        line = _ref[_i];
+        idx = line.indexOf(':');
+        headers[trim(line.substring(0, idx))] = trim(line.substring(idx + 1));
+      }
+      body = '';
+      start = divider + 2;
+      if (headers['content-length']) {
+        len = parseInt(headers['content-length']);
+        body = ('' + data).substring(start, start + len);
+      } else {
+        chr = null;
+        for (i = _j = start, _ref1 = data.length; start <= _ref1 ? _j < _ref1 : _j > _ref1; i = start <= _ref1 ? ++_j : --_j) {
+          chr = data.charAt(i);
+          if (chr === Byte.NULL) {
+            break;
+          }
+          body += chr;
+        }
+      }
+      return new Frame(command, headers, body);
+    };
+
+    Frame.unmarshall = function(datas) {
+      var frame, frames, last_frame, r;
+      frames = datas.split(RegExp("" + Byte.NULL + Byte.LF + "*"));
+      r = {
+        frames: [],
+        partial: ''
+      };
+      r.frames = (function() {
+        var _i, _len, _ref, _results;
+        _ref = frames.slice(0, -1);
+        _results = [];
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          frame = _ref[_i];
+          _results.push(unmarshallSingle(frame));
+        }
+        return _results;
+      })();
+      last_frame = frames.slice(-1)[0];
+      if (last_frame === Byte.LF || (last_frame.search(RegExp("" + Byte.NULL + Byte.LF + "*$"))) !== -1) {
+        r.frames.push(unmarshallSingle(last_frame));
+      } else {
+        r.partial = last_frame;
+      }
+      return r;
+    };
+
+    Frame.marshall = function(command, headers, body) {
+      var frame;
+      frame = new Frame(command, headers, body);
+      return frame.toString() + Byte.NULL;
+    };
+
+    return Frame;
+
+  })();
+
+  Client = (function() {
+    var now;
+
+    function Client(ws) {
+      this.ws = ws;
+      this.ws.binaryType = "arraybuffer";
+      this.counter = 0;
+      this.connected = false;
+      this.heartbeat = {
+        outgoing: 10000,
+        incoming: 10000
+      };
+      this.maxWebSocketFrameSize = 16 * 1024;
+      this.subscriptions = {};
+      this.partialData = '';
+    }
+
+    Client.prototype.debug = function(message) {
+      var _ref;
+      return typeof window !== "undefined" && window !== null ? (_ref = window.console) != null ? _ref.log(message) : void 0 : void 0;
+    };
+
+    now = function() {
+      if (Date.now) {
+        return Date.now();
+      } else {
+        return new Date().valueOf;
+      }
+    };
+
+    Client.prototype._transmit = function(command, headers, body) {
+      var out;
+      out = Frame.marshall(command, headers, body);
+      if (typeof this.debug === "function") {
+        this.debug(">>> " + out);
+      }
+      while (true) {
+        if (out.length > this.maxWebSocketFrameSize) {
+          this.ws.send(out.substring(0, this.maxWebSocketFrameSize));
+          out = out.substring(this.maxWebSocketFrameSize);
+          if (typeof this.debug === "function") {
+            this.debug("remaining = " + out.length);
+          }
+        } else {
+          return this.ws.send(out);
+        }
+      }
+    };
+
+    Client.prototype._setupHeartbeat = function(headers) {
+      var serverIncoming, serverOutgoing, ttl, v, _ref, _ref1;
+      if ((_ref = headers.version) !== Stomp.VERSIONS.V1_1 && _ref !== Stomp.VERSIONS.V1_2) {
+        return;
+      }
+      _ref1 = (function() {
+        var _i, _len, _ref1, _results;
+        _ref1 = headers['heart-beat'].split(",");
+        _results = [];
+        for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
+          v = _ref1[_i];
+          _results.push(parseInt(v));
+        }
+        return _results;
+      })(), serverOutgoing = _ref1[0], serverIncoming = _ref1[1];
+      if (!(this.heartbeat.outgoing === 0 || serverIncoming === 0)) {
+        ttl = Math.max(this.heartbeat.outgoing, serverIncoming);
+        if (typeof this.debug === "function") {
+          this.debug("send PING every " + ttl + "ms");
+        }
+        this.pinger = Stomp.setInterval(ttl, (function(_this) {
+          return function() {
+            _this.ws.send(Byte.LF);
+            return typeof _this.debug === "function" ? _this.debug(">>> PING") : void 0;
+          };
+        })(this));
+      }
+      if (!(this.heartbeat.incoming === 0 || serverOutgoing === 0)) {
+        ttl = Math.max(this.heartbeat.incoming, serverOutgoing);
+        if (typeof this.debug === "function") {
+          this.debug("check PONG every " + ttl + "ms");
+        }
+        return this.ponger = Stomp.setInterval(ttl, (function(_this) {
+          return function() {
+            var delta;
+            delta = now() - _this.serverActivity;
+            if (delta > ttl * 2) {
+              if (typeof _this.debug === "function") {
+                _this.debug("did not receive server activity for the last " + delta + "ms");
+              }
+              return _this.ws.close();
+            }
+          };
+        })(this));
+      }
+    };
+
+    Client.prototype._parseConnect = function() {
+      var args, connectCallback, errorCallback, headers;
+      args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      headers = {};
+      switch (args.length) {
+        case 2:
+          headers = args[0], connectCallback = args[1];
+          break;
+        case 3:
+          if (args[1] instanceof Function) {
+            headers = args[0], connectCallback = args[1], errorCallback = args[2];
+          } else {
+            headers.login = args[0], headers.passcode = args[1], connectCallback = args[2];
+          }
+          break;
+        case 4:
+          headers.login = args[0], headers.passcode = args[1], connectCallback = args[2], errorCallback = args[3];
+          break;
+        default:
+          headers.login = args[0], headers.passcode = args[1], connectCallback = args[2], errorCallback = args[3], headers.host = args[4];
+      }
+      return [headers, connectCallback, errorCallback];
+    };
+
+    Client.prototype.connect = function() {
+      var args, errorCallback, headers, out;
+      args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
+      out = this._parseConnect.apply(this, args);
+      headers = out[0], this.connectCallback = out[1], errorCallback = out[2];
+      if (typeof this.debug === "function") {
+        this.debug("Opening Web Socket...");
+      }
+      this.ws.onmessage = (function(_this) {
+        return function(evt) {
+          var arr, c, client, data, frame, messageID, onreceive, subscription, unmarshalledData, _i, _len, _ref, _results;
+          data = typeof ArrayBuffer !== 'undefined' && evt.data instanceof ArrayBuffer ? (arr = new Uint8Array(evt.data), typeof _this.debug === "function" ? _this.debug("--- got data length: " + arr.length) : void 0, ((function() {
+            var _i, _len, _results;
+            _results = [];
+            for (_i = 0, _len = arr.length; _i < _len; _i++) {
+              c = arr[_i];
+              _results.push(String.fromCharCode(c));
+            }
+            return _results;
+          })()).join('')) : evt.data;
+          _this.serverActivity = now();
+          if (data === Byte.LF) {
+            if (typeof _this.debug === "function") {
+              _this.debug("<<< PONG");
+            }
+            return;
+          }
+          if (typeof _this.debug === "function") {
+            _this.debug("<<< " + data);
+          }
+          unmarshalledData = Frame.unmarshall(_this.partialData + data);
+          _this.partialData = unmarshalledData.partial;
+          _ref = unmarshalledData.frames;
+          _results = [];
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            frame = _ref[_i];
+            switch (frame.command) {
+              case "CONNECTED":
+                if (typeof _this.debug === "function") {
+                  _this.debug("connected to server " + frame.headers.server);
+                }
+                _this.connected = true;
+                _this._setupHeartbeat(frame.headers);
+                _results.push(typeof _this.connectCallback === "function" ? _this.connectCallback(frame) : void 0);
+                break;
+              case "MESSAGE":
+                subscription = frame.headers.subscription;
+                onreceive = _this.subscriptions[subscription] || _this.onreceive;
+                if (onreceive) {
+                  client = _this;
+                  messageID = frame.headers["message-id"];
+                  frame.ack = function(headers) {
+                    if (headers == null) {
+                      headers = {};
+                    }
+                    return client.ack(messageID, subscription, headers);
+                  };
+                  frame.nack = function(headers) {
+                    if (headers == null) {
+                      headers = {};
+                    }
+                    return client.nack(messageID, subscription, headers);
+                  };
+                  _results.push(onreceive(frame));
+                } else {
+                  _results.push(typeof _this.debug === "function" ? _this.debug("Unhandled received MESSAGE: " + frame) : void 0);
+                }
+                break;
+              case "RECEIPT":
+                _results.push(typeof _this.onreceipt === "function" ? _this.onreceipt(frame) : void 0);
+                break;
+              case "ERROR":
+                _results.push(typeof errorCallback === "function" ? errorCallback(frame) : void 0);
+                break;
+              default:
+                _results.push(typeof _this.debug === "function" ? _this.debug("Unhandled frame: " + frame) : void 0);
+            }
+          }
+          return _results;
+        };
+      })(this);
+      this.ws.onclose = (function(_this) {
+        return function() {
+          var msg;
+          msg = "Whoops! Lost connection to " + _this.ws.url;
+          if (typeof _this.debug === "function") {
+            _this.debug(msg);
+          }
+          _this._cleanUp();
+          return typeof errorCallback === "function" ? errorCallback(msg) : void 0;
+        };
+      })(this);
+      return this.ws.onopen = (function(_this) {
+        return function() {
+          if (typeof _this.debug === "function") {
+            _this.debug('Web Socket Opened...');
+          }
+          headers["accept-version"] = Stomp.VERSIONS.supportedVersions();
+          headers["heart-beat"] = [_this.heartbeat.outgoing, _this.heartbeat.incoming].join(',');
+          return _this._transmit("CONNECT", headers);
+        };
+      })(this);
+    };
+
+    Client.prototype.disconnect = function(disconnectCallback, headers) {
+      if (headers == null) {
+        headers = {};
+      }
+      this._transmit("DISCONNECT", headers);
+      this.ws.onclose = null;
+      this.ws.close();
+      this._cleanUp();
+      return typeof disconnectCallback === "function" ? disconnectCallback() : void 0;
+    };
+
+    Client.prototype._cleanUp = function() {
+      this.connected = false;
+      if (this.pinger) {
+        Stomp.clearInterval(this.pinger);
+      }
+      if (this.ponger) {
+        return Stomp.clearInterval(this.ponger);
+      }
+    };
+
+    Client.prototype.send = function(destination, headers, body) {
+      if (headers == null) {
+        headers = {};
+      }
+      if (body == null) {
+        body = '';
+      }
+      headers.destination = destination;
+      return this._transmit("SEND", headers, body);
+    };
+
+    Client.prototype.subscribe = function(destination, callback, headers) {
+      var client;
+      if (headers == null) {
+        headers = {};
+      }
+      if (!headers.id) {
+        headers.id = "sub-" + this.counter++;
+      }
+      headers.destination = destination;
+      this.subscriptions[headers.id] = callback;
+      this._transmit("SUBSCRIBE", headers);
+      client = this;
+      return {
+        id: headers.id,
+        unsubscribe: function() {
+          return client.unsubscribe(headers.id);
+        }
+      };
+    };
+
+    Client.prototype.unsubscribe = function(id) {
+      delete this.subscriptions[id];
+      return this._transmit("UNSUBSCRIBE", {
+        id: id
+      });
+    };
+
+    Client.prototype.begin = function(transaction) {
+      var client, txid;
+      txid = transaction || "tx-" + this.counter++;
+      this._transmit("BEGIN", {
+        transaction: txid
+      });
+      client = this;
+      return {
+        id: txid,
+        commit: function() {
+          return client.commit(txid);
+        },
+        abort: function() {
+          return client.abort(txid);
+        }
+      };
+    };
+
+    Client.prototype.commit = function(transaction) {
+      return this._transmit("COMMIT", {
+        transaction: transaction
+      });
+    };
+
+    Client.prototype.abort = function(transaction) {
+      return this._transmit("ABORT", {
+        transaction: transaction
+      });
+    };
+
+    Client.prototype.ack = function(messageID, subscription, headers) {
+      if (headers == null) {
+        headers = {};
+      }
+      headers["message-id"] = messageID;
+      headers.subscription = subscription;
+      return this._transmit("ACK", headers);
+    };
+
+    Client.prototype.nack = function(messageID, subscription, headers) {
+      if (headers == null) {
+        headers = {};
+      }
+      headers["message-id"] = messageID;
+      headers.subscription = subscription;
+      return this._transmit("NACK", headers);
+    };
+
+    return Client;
+
+  })();
+
+  Stomp = {
+    VERSIONS: {
+      V1_0: '1.0',
+      V1_1: '1.1',
+      V1_2: '1.2',
+      supportedVersions: function() {
+        return '1.1,1.0';
+      }
+    },
+    client: function(url, protocols) {
+      var klass, ws;
+      if (protocols == null) {
+        protocols = ['v10.stomp', 'v11.stomp'];
+      }
+      klass = Stomp.WebSocketClass || WebSocket;
+      ws = new klass(url, protocols);
+      return new Client(ws);
+    },
+    over: function(ws) {
+      return new Client(ws);
+    },
+    Frame: Frame
+  };
+
+  if (typeof exports !== "undefined" && exports !== null) {
+    exports.Stomp = Stomp;
+  }
+
+  if (typeof window !== "undefined" && window !== null) {
+    Stomp.setInterval = function(interval, f) {
+      return window.setInterval(f, interval);
+    };
+    Stomp.clearInterval = function(id) {
+      return window.clearInterval(id);
+    };
+    window.Stomp = Stomp;
+  } else if (!exports) {
+    self.Stomp = Stomp;
+  }
+
+}).call(this);
+

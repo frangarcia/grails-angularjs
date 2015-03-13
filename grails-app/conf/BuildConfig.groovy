@@ -80,6 +80,7 @@ grails.project.dependency.resolution = {
         runtime ":database-migration:1.3.8"
         runtime ":jquery:1.11.1"
         runtime ':twitter-bootstrap:3.3.2.1'
+        runtime ":angular-annotate-asset-pipeline:2.1.0"
 
     }
 }

@@ -1,1 +1,12 @@
-grailsAngularApp.controller("TodoCreateController",["$scope","$http","$location","$routeParams","TodoService",function(a,d,b,e,c){a.saveTodo=function(a){c.create(a,function(a){b.path("todo")})}}]);
+'use strict';
+
+/* Controllers */
+
+grailsAngularApp.controller('TodoCreateController', ['$scope', '$http', '$location', '$routeParams', 'TodoService',
+    function ($scope, $http, $location, $routeParams, TodoService) {
+        $scope.saveTodo = function(todo) {
+            TodoService.create(todo, function (data) {
+                $location.path('todo');
+            });
+        }
+    }]);
