@@ -4,6 +4,7 @@
 
 grailsAngularApp.controller('TodoListController', ['$scope', '$location', '$http', 'TodoListService',
     function ($scope, $location, $http, TodoListService) {
+        $scope.query = '';
         $scope.todoLists = TodoListService.query();
 
         $scope.createTodoList = function() {

@@ -27,7 +27,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#">Grails-AngularJS TODO App</a>
+                    <span class="navbar-brand">Grails-AngularJS TODO App</span>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
