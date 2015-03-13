@@ -1,0 +1,1 @@
+grailsAngularApp.controller("NavBarController",function(a,b){a.routeIs=function(a){return 0==b.path().indexOf(a)}});

@@ -1,0 +1,1 @@
+grailsAngularApp.controller("TodoDetailsController",["$scope","$http","$location","$routeParams","TodoDetailsService","TodoService",function(a,e,c,d,b,f){a.todo=b.query({todoId:d.todoId});a.updateTodo=function(a){b.update(a,function(a){c.path("todo")})}}]);

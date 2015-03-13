@@ -1,0 +1,1 @@
+grailsAngularApp.controller("TodoController",["$scope","$location","$http","TodoService",function(a,c,d,e){a.query="";a.todos=e.query();a.createTodo=function(){a.path=c.path("todo/create")};a.editTodo=function(b){a.path=c.path("todo/"+b)};a.deleteTodo=function(b){d.delete("api/todo/"+b).success(function(b){a.path=c.path("todo")})}}]);

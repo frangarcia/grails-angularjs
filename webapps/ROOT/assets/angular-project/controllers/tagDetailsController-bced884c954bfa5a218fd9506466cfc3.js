@@ -1,0 +1,1 @@
+grailsAngularApp.controller("TagDetailsController",["$scope","$http","$location","$routeParams","TagDetailsService",function(a,e,c,d,b){a.tag=b.query({tagId:d.tagId});a.updateTag=function(a){b.update(a,function(a){c.path("tag")})}}]);

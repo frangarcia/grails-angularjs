@@ -1,0 +1,1 @@
+grailsAngularApp.controller("TagCreateController",["$scope","$http","$location","$routeParams","TagService",function(a,d,b,e,c){a.saveTag=function(a){c.create(a,function(a){b.path("tag")})}}]);

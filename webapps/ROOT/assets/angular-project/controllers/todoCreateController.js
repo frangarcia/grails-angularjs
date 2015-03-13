@@ -1,0 +1,1 @@
+grailsAngularApp.controller("TodoCreateController",["$scope","$http","$location","$routeParams","TodoService",function(a,d,b,e,c){a.saveTodo=function(a){c.create(a,function(a){b.path("todo")})}}]);

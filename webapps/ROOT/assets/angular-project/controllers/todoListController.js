@@ -1,0 +1,1 @@
+grailsAngularApp.controller("TodoListController",["$scope","$location","$http","TodoListService",function(a,c,d,e){a.query="";a.todoLists=e.query();a.createTodoList=function(){a.path=c.path("todoList/create")};a.editTodoList=function(b){a.path=c.path("todoList/"+b)};a.deleteTodoList=function(b){d.delete("api/todoList/"+b).success(function(b){a.path=c.path("todoList")})}}]);

@@ -24,6 +24,8 @@ grails.server.port.http = 8081
 
 grails.tomcat.nio = true
 grails.tomcat.scan.enabled = true
+grails.project.war.exploded.dir = "/Users/franciscojosegarciarico/Documents/Projects/grails-angularjs/webapps/ROOT"
+grails.war.exploded=true
 
 grails.project.dependency.resolver = "maven" // or ivy
 grails.project.dependency.resolution = {
