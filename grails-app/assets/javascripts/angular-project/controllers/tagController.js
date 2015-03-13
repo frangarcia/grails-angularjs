@@ -4,6 +4,7 @@
 
 grailsAngularApp.controller('TagController', ['$scope', '$location', '$http', 'TagService',
     function ($scope, $location, $http, TagService) {
+        $scope.query = '';
         $scope.tags = TagService.query();
 
         $scope.createTag = function() {

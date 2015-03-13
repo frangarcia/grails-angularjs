@@ -6,7 +6,14 @@
 // to create separate JavaScript files as needed.
 //
 //= require jquery
-//= require_tree .
+//= require angular/angular
+//= require angular/angular-loader
+//= require angular/angular-mocks
+//= require angular/angular-resource
+//= require angular/angular-route
+//= require angular/angular-scenario
+//= require angular/angular-touch
+//= require_tree angular-project/
 //= require_self
 //= require bootstrap
 

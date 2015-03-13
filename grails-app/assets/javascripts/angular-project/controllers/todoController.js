@@ -4,6 +4,7 @@
 
 grailsAngularApp.controller('TodoController', ['$scope', '$location', '$http', 'TodoService',
     function ($scope, $location, $http, TodoService) {
+        $scope.query = '';
         $scope.todos = TodoService.query();
 
         $scope.createTodo = function() {
