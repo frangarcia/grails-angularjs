@@ -6,11 +6,18 @@
     </div>
     <div class="form-group">
         <label for="content">Content</label>
-        <input ng-model="todo.content" class="form-control"/>
+        <textarea ng-model="todo.content" class="form-control" rows="6"></textarea>
     </div>
     <div class="form-group">
         <label for="url">Url</label>
         <input ng-model="todo.url" class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label for="todoList">List</label>
+        <select ng-model="todo.todoList.id" class="form-control">
+            <option value="">Choose list</option>
+            <option ng-repeat="todoList in todoLists" value="{{todoList.id}}">{{todoList.name}}</option>
+        </select>
     </div>
     <button type="submit" ng-click="saveTodo(todo)" class="btn btn-small btn-primary">Create</button>
 </form>

@@ -7,7 +7,6 @@ class TodoList {
     Date lastUpdated
 
     static hasMany = [todos:Todo]
-    static belongsTo = [Todo]
 
     static constraints = {
         name(blank:false, unique: true)
