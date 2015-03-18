@@ -5,7 +5,7 @@ var todoServices = angular.module('todoServices', ['ngResource']);
 todoServices.factory('TodoService', ['$resource',
     function ($resource) {
         return $resource('api/todo', {}, {
-            query: {method:'GET', params:{}, isArray:true},
+            query: {method:'GET', params:{max:"@max"}, isArray:true},
             create: {method:'POST'}
         });
     }]);

@@ -2,10 +2,10 @@
 
 /* Controllers */
 
-grailsAngularApp.controller('TodoController', ['$scope', '$location', '$http', 'TodoService',
-    function ($scope, $location, $http, TodoService) {
+grailsAngularApp.controller('TodoController', ['$scope', '$location', '$http', 'TodoService', '$routeParams',
+    function ($scope, $location, $http, TodoService, $routeParams) {
         $scope.query = '';
-        $scope.todos = TodoService.query();
+        $scope.todos = TodoService.query({max:$routeParams.max});
 
         $scope.createTodo = function() {
             $scope.path = $location.path('todo/create');
