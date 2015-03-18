@@ -8,6 +8,8 @@ grailsAngularApp.controller('TodoCreateController', ['$scope', '$http', '$locati
         $scope.tags = TagService.query();
         $scope.todoLists = TodoListService.query();
 
+        $scope.tagsSelected = {};
+
         $scope.saveTodo = function(todo) {
             TodoService.create(todo, function (data) {
                 $location.path('todo');
