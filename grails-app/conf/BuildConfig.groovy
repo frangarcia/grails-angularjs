@@ -20,7 +20,7 @@ grails.project.fork = [
     // configure settings for the Console UI JVM
     console: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256]
 ]
-grails.server.port.http = 8081
+grails.server.port.http = 8080
 
 grails.tomcat.nio = true
 grails.tomcat.scan.enabled = true
@@ -64,7 +64,7 @@ grails.project.dependency.resolution = {
 
         // plugins for the compile step
         compile ":scaffolding:2.1.2"
-        compile ':cache:1.1.1'
+        compile ':cache:1.1.8'
         compile ":asset-pipeline:2.1.4"
         compile ":spring-websocket:1.2.0"
         compile ":console:1.5.4"
