@@ -10,3 +10,5 @@ If you want to run this application using docker, please follow run the next com
 
 * docker build -t grails-angularjs .
 * docker run -i -t -p 8080:8080 grails-angularjs
+
+You can then access the application at http://192.168.99.100:8080/grails-angularjs/
