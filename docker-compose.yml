@@ -1,0 +1,18 @@
+grails-angularjs:
+  build: .
+  ports:
+   - "8080:8080"
+  volumes:
+   - .:/app
+  links:
+   - mysql
+mysql:
+  image: mysql
+  environment:
+    - MYSQL_ROOT_PASSWORD=secret
+    - MYSQL_DATABASE=grailsangularjs
+    - MYSQL_USER=user
+    - MYSQL_PASSWORD=password
+  ports:
+    - "3306:3306"
+

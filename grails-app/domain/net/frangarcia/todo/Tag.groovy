@@ -12,4 +12,13 @@ class Tag {
     static constraints = {
         name(blank:false, unique: true)
     }
+
+    def beforeDelete() {
+        Todo.withNewSession {
+            this.todos.each {
+                it.removeFromTags(this)
+            }
+            this.save()
+        }
+    }
 }

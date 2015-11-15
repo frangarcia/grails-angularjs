@@ -6,9 +6,8 @@ Interesting links:
 * http://keyboarddays.blogspot.co.uk/2014/03/grails-on-openshift.html
 * http://grailsangularjs-frangarcia.rhcloud.com/
 
-If you want to run this application using docker, please follow run the next commands:
+If you want to run this application using docker-compose, please run:
 
-* docker build -t grails-angularjs .
-* docker run -i -t -p 8080:8080 grails-angularjs
+* docker-compose up
 
 You can then access the application at http://192.168.99.100:8080/grails-angularjs/
